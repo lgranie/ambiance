@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="urn:yahoo:srchmi"
+  xmlns="urn:yahoo:srchmi"
+  elementFormDefault="qualified">
+
+	<xs:element name="ResultSet">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Result" type="ResultType" minOccurs="0" maxOccurs="50" />
+			</xs:sequence>
+			<xs:attribute name="totalResultsAvailable" type="xs:integer" />
+			<xs:attribute name="totalResultsReturned" type="xs:integer" />
+			<xs:attribute name="firstResultPosition" type="xs:integer" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="ResultType">
+		<xs:sequence>
+			<xs:element name="Title" type="xs:string" />
+			<xs:element name="Summary" type="xs:string" />
+			<xs:element name="Url" type="xs:string" />
+			<xs:element name="ClickUrl" type="xs:string" />
+			<xs:element name="RefererUrl" type="xs:string" />
+			<xs:element name="FileSize" type="xs:integer" />
+			<xs:element name="FileFormat" type="xs:string" />
+			<xs:element name="Height" type="xs:integer" minOccurs="0" />
+			<xs:element name="Width" type="xs:integer" minOccurs="0" />
+			<xs:element name="Thumbnail" type="ThumbnailType" />
+			<xs:element name="Publisher" type="xs:string" minOccurs="0" />
+			<xs:element name="Restrictions" type="xs:string" minOccurs="0" />
+			<xs:element name="Copyright" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="ThumbnailType">
+		<xs:sequence>
+			<xs:element name="Url" type="xs:string" />
+			<xs:element name="Height" type="xs:integer" minOccurs="0" />
+			<xs:element name="Width" type="xs:integer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	
+</xs:schema>
+<!-- ws01.search.scd.yahoo.com compressed/chunked Tue Jan 16 06:19:08 PST 2007 -->
