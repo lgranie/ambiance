@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>ambiance</groupId>
+  <artifactId>ambiance-site-skin</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>Ambiance Site Skin</name>
+  <description>Plexus Site Skin</description>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ftp-repository</id>
+      <name>Ambiance SNAPSHOT Repository</name>
+      <url>
+        ftp://ftpperso.free.fr/ambiance/ambiance-snapshot-repository
+      </url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ftp</artifactId>
+      </extension>
+    </extensions>
+  </build>
+</project>
