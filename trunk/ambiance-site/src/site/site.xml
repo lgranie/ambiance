@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Ambiance">
+	<skin>
+		<groupId>ambiance</groupId>
+		<artifactId>ambiance-site-skin</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</skin>
+
+	<bannerLeft>
+		<name>Ambiance</name>
+		<src>images/logoAmbiance.gif</src>
+		<href>http://laurent.granie.free.fr/ambiance/</href>
+	</bannerLeft>
+	<body>
+		<menu name="Ambiance">
+			<item name="Overview" href="/index.html" />
+			<item name="Summary" href="/project-summary.html" />
+			<item name="Team" href="/team-list.html" />
+		</menu>
+		
+		<menu name="Documentation">
+			<item name="Contribute" href="/contribute.html" />
+		</menu>
+	</body>
+</project>

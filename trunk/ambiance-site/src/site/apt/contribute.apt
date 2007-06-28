@@ -1,0 +1,20 @@
+Contribute
+
+* Installing Maven2
+
+  If you want to contribute to Ambiance project, the first thing to do is to install Maven2.
+
+* Using Ambiance Archetype
+
+  Maven2 provides a mechanism to generate a project using an archetype (i.e. model or pattern).
+  To create a new component to Ambiance just run the following command :
+  
++---+
+mvn archetype:create \
+    -DarchetypeVersion=1.0-SNAPSHOT \
+    -DarchetypeGroupId=ambiance \
+    -DarchetypeArtifactId=ambiance-components-archetype \
+    -DgroupId=YourGroup -DartifactId=Your \
+    -DremoteRepositories=http://laurent.granie.free.fr/ambiance/ambiance-snapshot-repository
++---+
+  
