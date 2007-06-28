@@ -8,5 +8,5 @@
 
 = Sub projects =
 
-  * [ambiancecomponents reindeer ambiance-components]  : the parent project for ambiance componant.
-  * [ambiance-transporter] : this component provide file transfert in two methods.
+  * [ambiancecomponents ambiance-components]  : the parent project for ambiance componant.
+  * [ambiancetransporter ambiance-transporter] : this component provide file transfert in two methods.
