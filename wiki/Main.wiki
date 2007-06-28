@@ -1,4 +1,5 @@
 #summary One-sentence summary of this page.
+#labels Featured
 
 = Introduction =
 
@@ -7,4 +8,5 @@
 
 = Sub projects =
 
-*ambiance-components : the parent project for ambiance componant
+  * ambiance-components  : the parent project for ambiance componant.
+  * ambiance-transporter : this component provide file transfert in two methods.
