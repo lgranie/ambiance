@@ -1,0 +1,20 @@
+<component-set>
+  <components>
+    <component>
+      <role>org.ambiance.yahoo.AmbianceYahooService</role>
+      <role-hint>image</role-hint>
+      <implementation>org.ambiance.yahoo.image.AmbianceYahooImage</implementation>
+      <description></description>
+      <requirements>
+        <requirement>
+          <role>org.ambiance.transport.Transporter</role>
+          <role-hint>default</role-hint>
+          <field-name>transporter</field-name>
+        </requirement>
+      </requirements>
+      <configuration>
+        <yahoo-id>YlZQRVbV34EDWg2ehW37uu8fqT7tDKltGWpXlbxDOBOxQGaTGQPxh5Qnk1omvSac72UZDlQ-</yahoo-id>
+      </configuration>
+    </component>
+  </components>
+</component-set>
