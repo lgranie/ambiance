@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>ambiance</groupId>
+  <artifactId>ambiance-site</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>Ambiance</name>
+  <url>http://laurent.granie.free.fr/ambiance/</url>
+  <description>
+    Ambiance is a HTPC components base application. It is based on
+    Plexus.
+  </description>
+
+  <developers>
+    <developer>
+      <id>lgranie</id>
+      <name>Laurent GRANIE</name>
+      <email>laurentDOTgranieATgmailDOTcom</email>
+      <url>http://laurent.granie.free.fr</url>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <timezone>GMT+1</timezone>
+    </developer>
+  </developers>
+
+  <contributors>
+    <contributor>
+      <name>Thomas PEGASE</name>
+      <email>tpegaseATtelemarketDOTfr</email>
+      <url>http://thomas.pegase.free.fr</url>
+      <roles>
+        <role>Designer</role>
+      </roles>
+      <timezone>GMT+1</timezone>
+    </contributor>
+  </contributors>
+
+  <!-- Enabling the use of FTP -->
+  <distributionManagement>
+    <site>
+      <id>ftp-repository</id>
+      <url>ftp://ftpperso.free.fr/ambiance</url>
+    </site>
+    <snapshotRepository>
+      <id>ftp-repository</id>
+      <name>Ambiance SNAPSHOT Repository</name>
+      <url>
+        ftp://ftpperso.free.fr/ambiance/ambiance-snapshot-repository
+      </url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ftp</artifactId>
+      </extension>
+    </extensions>
+  </build>
+
+</project>

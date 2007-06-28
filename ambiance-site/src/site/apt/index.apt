@@ -1,0 +1,22 @@
+Ambiance 
+
+ Litteris C. Caesaris consulibus redditis aegre ab his impetratum est summa tribunorum plebis contentione, ut in senatu recitarentur; ut vero ex litteris ad senatum referretur, impetrari non potuit. Referunt consules de re publica in civitate. . Incitat. L. Lentulus consul senatu rei publicae se non defuturum pollicetur, si audacter ac fortiter sententias dicere velint; sin Caesarem respiciant atque ejus gratiam sequantur, ut superioribus fecerint temporibus, se sibi consilium capturum neque senatus auctoritati obtemperaturum: habere se quoque ad Caesaris gratiam atque amicitiam receptum. In eandem sententiam loquitur Scipio: Pompeio esse in animo rei publicae non deesse, si senatus sequatur; si cunctetur atque agat lenius, nequiquam ejus auxilium, si postea velit, senatum imploraturum. Notes. 
+ 
+* Goals overview
+ 
+ ** Music
+  Haec Scipionis oratio, quod senatus in urbe habebatur Pompeiusque aberat, ex ipsius ore Pompei mitti videbatur. Dixerat aliquis leniorem sententiam, ut primo M. Marcellus, ingressus in eam orationem, non oportere ante de ea re ad senatum referri, quam dilectus tota Italia habiti et exercitus conscripti essent, quo praesidio tuto et libere senatus, quae vellet, decernere auderet; ut M. Calidius, qui censebat, ut Pompeius in suas provincias proficisceretur, ne qua esset armorum causa: timere Caesarem ereptis ab eo duabus legionibus, ne ad ejus periculum reservare et retinere eas ad urbem Pompeius videretur; ut M. Rufus, qui sententiam Calidii paucis fere mutatis rebus sequebatur. Hi omnes convicio L. Lentuli consulis correpti exagitabantur. Lentulus sententiam Calidii pronuntiaturum se omnina negavit. Marcellus perterritus conviciis a sua sententia discessit. Sic vocibus consulis, terrore praesentis exercitus, minis amicorum Pompei plerique compulsi inviti et coacti Scipionis sententiam sequuntur: uti ante certam diem Caesar exercitum dimittat; si non faciat, eum adversus rem publicam facturum videri. Intercedit M. Antonius, Q. Cassius, tribuni plebis. Refertur confestim de intersessione tribunorum. Dicuntur sententiae graves; ut quisque acerbissime crudelissimeque dixit, ita quam maxime ab inimicis Caesaris collaudatur.
+ 
+ ** Movie
+  Misso ad vesperum senatu omnes, qui sunt ejus ordinis, a Pompeio evocantur. Laudat promptos Pompeius atque in posterum confirmat, segniores castigat atque incitat. Multi undique ex veteribus Pompei exercitibus spe praemiorum atque ordinum evocantur, multi ex duabus legionibus, quae sunt traditae a Caesare, arcessuntur. Completur urbs et ipsum comitium tribunis, centurionibus, evocatis. Omnes amici consulum, necessarii Pompei atque eorum, qui veteres inimicitias cum Caesare gerebant, in senatum coguntur; quorum vocibus et concursu terrentur infirmiores, dubii confirmantur, plerisque vero libere decernendi potestas eripitur. Pollicetur L. Piso censor sese iturum ad Caesarem, item L. Roscius praetor, qui de his rebus eum doceant: sex dies ad eam rem conficiendam spatii postulant. Dicuntur etiam ab nonnullis sententiae, ut legati ad Caesarem mittantur, qui voluntatem senatus ei proponant. Notes.
+
+  Omnibus his resistitur, omnibusque oratio consulis, Scipionis, Catonis opponitur. Catonem veteres inimicitiae Caesaris incitant et dolor repulsae. Lentulus aeris alieni magnitudine et spe exercitus ac provinciarum et regum appellandorum largitionibus movetur, seque alterum fore Sullam inter suos gloriatur, ad quem summa imperii redeat. Scipionem eadem spes provinciae atque exercituum impellit, quos se pro necessitudine partiturum cum Pompeio arbitratur, simul judiciorum metus, adulatio atque ostentatio sui et potentium, qui in re publica judiciisque tum plurimum pollebant. Ipse Pompeius, ab inimicis Caesaris incitatus, et quod neminem dignitate secum exaequari volebat, totum se ab ejus amicitia averterat et cum communibus inimicis in gratiam redierat, quorum ipse maximam partem illo affinitatis tempore injunxerat Caesari; simul infamia duarum legionum permotus, quas ab itinere Asiae Syriaeque ad suam potentiam dominatumque converterat, rem ad arma deduci studebat.
+  
+ 
+* Contribute
+
+  ** Maven 2 repositories
+    {{{http://laurent.granie.free.fr/ambiance/ambiance-repository}ambiance-repository}}
+    
+    {{{http://laurent.granie.free.fr/ambiance/ambiance-snapshot-repository}ambiance-snapshot-repository}}
+ 
