@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>ambiance</groupId>
+    <artifactId>ambiance-components</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>ambiance</groupId>
+  <artifactId>ambiance-musicbrainz</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <description></description>
+
+  <repositories>
+    <repository>
+      <id>Ambiance Snapshots</id>
+      <url>http://laurent.granie.free.fr/ambiance/ambiance-snapshot-repository</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+    
+    <repository>
+      <id>Ambiance Third Part</id>
+      <url>
+        http://laurent.granie.free.fr/ambiance/ambiance-thirdpart-repository
+      </url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>ambiance</groupId>
+      <artifactId>ambiance-transporter</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.musicbrainz</groupId>
+      <artifactId>jmb-wsc</artifactId>
+      <version>beta1</version>
+    </dependency>
+  </dependencies>
+
+</project>
