@@ -16,7 +16,6 @@
   
   <scm>
     <connection>scm:svn:http://ambiance.googlecode.com/svn/trunk/ambiance-components</connection>
-    <developerConnection>scm:svn:https://ambiance.googlecode.com/svn/trunk/ambiance-components</developerConnection>
     <url>http://ambiance.googlecode.com/svn/trunk/ambiance-components/</url>
   </scm>
   
