@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+
+  <parent>
+    <artifactId>maven-archetypes</artifactId>
+    <groupId>org.apache.maven.archetypes</groupId>
+    <version>1.0-alpha-4</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ambiance</groupId>
+  <artifactId>ambiance-components-archetype</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>maven-plugin</packaging>
+
+  <distributionManagement>
+	<snapshotRepository>
+      <id>ftp-repository</id>
+	  <name>Ambiance SNAPSHOT Repository</name>
+	  <url>ftp://ftpperso.free.fr/ambiance/ambiance-snapshot-repository</url>
+	</snapshotRepository>
+  </distributionManagement>
+
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ftp</artifactId>
+      </extension>
+    </extensions>
+  </build>
+
+</project>
