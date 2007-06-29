@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>ambiance</groupId>
+    <artifactId>ambiance-components</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  
+  <groupId>${groupId}</groupId>
+  <artifactId>${artifactId}</artifactId>
+  <packaging>jar</packaging>
+  <version>${version}</version>
+  <description></description>
+
+  <scm>
+    <connection>scm:svn:http://ambiance.googlecode.com/svn/trunk/${artifactId}</connection>
+    <developerConnection>scm:svn:https://ambiance.googlecode.com/svn/trunk/${artifactId}</developerConnection>
+    <url>http://ambiance.googlecode.com/svn/trunk/${artifactId}/</url>
+  <scm>
+
+</project>
