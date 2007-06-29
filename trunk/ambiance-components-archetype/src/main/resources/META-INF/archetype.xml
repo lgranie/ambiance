@@ -1,0 +1,10 @@
+<archetype>
+  <id>ambiance-components-archetype</id>
+  <resources>
+	<resource>src/main/java/org/ambiance/README.txt</resource>
+	<resource>src/test/java/org/ambiance/README.txt</resource>
+	<resource>src/test/resources/org/ambiance/README.txt</resource>
+    <resource>src/site/site.xml</resource>
+    <resource>src/site/apt/index.apt</resource>
+  </resources>
+</archetype>

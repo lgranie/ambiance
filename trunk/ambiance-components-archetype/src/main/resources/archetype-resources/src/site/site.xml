@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="${artifactId}">
+  <skin>
+    <groupId>ambiance</groupId>
+    <artifactId>ambiance-site-skin</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </skin>
+
+  <body>
+    <menu name="${artifactId}">
+      <item name="Overview" href="/index.html" />
+      <item name="Summary" href="/project-summary.html" />
+      <item name="Team" href="/team-list.html" />
+    </menu>
+  </body>
+</project>
