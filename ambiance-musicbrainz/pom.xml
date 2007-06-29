@@ -14,6 +14,11 @@
   <version>1.0-SNAPSHOT</version>
   <description></description>
 
+  <scm>
+    <connection>scm:svn:http://ambiance.googlecode.com/svn/trunk/ambiance-musicbrainz</connection>
+    <url>http://ambiance.googlecode.com/svn/trunk/ambiance-musicbrainz/</url>
+  </scm>
+
   <repositories>
     <repository>
       <id>Ambiance Snapshots</id>
