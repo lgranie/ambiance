@@ -14,6 +14,12 @@
   <version>1.0-SNAPSHOT</version>
   <name>Ambiance Components Parent Project</name>
   
+  <scm>
+    <connection>scm:svn:http://ambiance.googlecode.com/svn/trunk/ambiance-components</connection>
+    <developerConnection>scm:svn:https://ambiance.googlecode.com/svn/trunk/ambiance-components</developerConnection>
+    <url>http://ambiance.googlecode.com/svn/trunk/ambiance-components/</url>
+  </scm>
+  
   <distributionManagement>
     <repository>
       <id>ftp-repository</id>
@@ -88,6 +94,13 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+
+      <!-- SCM plugin declaration (SVN) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>1.0</version>
       </plugin>
 
       <!-- All Ambiance components are compiled with 1.5 -->
