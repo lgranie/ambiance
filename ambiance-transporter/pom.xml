@@ -13,11 +13,16 @@
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
   <description></description>
-
+  
+  <scm>
+    <connection>scm:svn:http://ambiance.googlecode.com/svn/trunk/ambiance-transporter</connection>
+    <url>http://ambiance.googlecode.com/svn/trunk/ambiance-transporter/</url>
+  </scm>
+  
   <repositories>
-    <repository>
-      <id>Codehaus Snapshots</id>
-      <url>http://snapshots.repository.codehaus.org/</url>
+     <repository>
+      <id>Ambiance Snapshots</id>
+      <url>http://laurent.granie.free.fr/ambiance/ambiance-snapshot-repository</url>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
@@ -26,7 +31,7 @@
       </releases>
     </repository>
   </repositories>
-
+  
   <properties>
     <wagon.version>1.0-beta-2</wagon.version>
   </properties>
