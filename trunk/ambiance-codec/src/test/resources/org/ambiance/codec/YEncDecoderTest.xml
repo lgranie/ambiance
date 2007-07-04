@@ -1,0 +1,13 @@
+<component-set>
+  <components>
+    <component>
+      <role>org.ambiance.codec.Decoder</role>
+      <role-hint>yenc</role-hint>
+      <implementation>org.ambiance.codec.YEncDecoder</implementation>
+      <description></description>
+      <configuration>
+        <output-dir-name>C:/temp</output-dir-name>
+      </configuration>
+    </component>
+  </components>
+</component-set>
