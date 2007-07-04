@@ -17,6 +17,11 @@
     and implements yEnc (http://www.yenc.org).
   </description>
   
+  <scm>
+    <connection>scm:svn:http://ambiance.googlecode.com/svn/trunk/ambiance-codec</connection>
+    <url>http://ambiance.googlecode.com/svn/trunk/ambiance-codec/</url>
+  </scm>
+
   <dependencies>
     <dependency>
       <groupId>commons-codec</groupId>
