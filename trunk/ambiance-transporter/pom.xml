@@ -20,7 +20,7 @@
   </scm>
   
   <repositories>
-     <repository>
+    <repository>
       <id>Ambiance Snapshots</id>
       <url>http://laurent.granie.free.fr/ambiance/ambiance-snapshot-repository</url>
       <snapshots>
