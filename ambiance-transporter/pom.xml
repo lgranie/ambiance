@@ -67,10 +67,5 @@
       <artifactId>wagon-http-lightweight</artifactId>
       <version>${wagon.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.apache.maven.wagon</groupId>
-      <artifactId>wagon-webdav</artifactId>
-      <version>${wagon.version}</version>
-    </dependency>
   </dependencies>
 </project>
