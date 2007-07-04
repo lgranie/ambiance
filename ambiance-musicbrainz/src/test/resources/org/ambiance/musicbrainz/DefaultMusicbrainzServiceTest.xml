@@ -1,0 +1,17 @@
+<component-set>
+  <components>
+    <component>
+      <role>org.ambiance.musicbrainz.AmbianceMusicbrainzService</role>
+      <role-hint>default</role-hint>
+      <implementation>org.ambiance.musicbrainz.DefaultMusicbrainzService</implementation>
+      <description></description>
+      <requirements>
+        <requirement>
+          <role>org.ambiance.transport.Transporter</role>
+          <role-hint>default</role-hint>
+          <field-name>transporter</field-name>
+        </requirement>
+      </requirements>
+    </component>
+  </components>
+</component-set>
