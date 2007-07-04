@@ -6,19 +6,20 @@ import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.FileUtils;
 
 public class DefaultTransportTest extends PlexusTestCase {
-
-	public void testLookup() {
+	
+	private Transporter transporter = null;
+	
+	public void setUp() {
 		Exception e = null;
-		Transporter transport = null;
-		try {
-			transport = (Transporter) lookup(
-					"org.ambiance.transport.Transporter", "default");
+	    try {        
+			super.setUp();
+			transporter = (Transporter)  lookup("org.ambiance.transport.Transporter", "default");
 		} catch (Exception e1) {
 			System.out.println(e1.getMessage());
 			e = e1;
-		}
+		}    
 		assertNull(e);
-		assertNotNull(transport);
+		assertNotNull(transporter);    
 	}
 
 	public void testHttpWagon() {
@@ -26,11 +27,7 @@ public class DefaultTransportTest extends PlexusTestCase {
 		Exception e = null;
 		File tmp = null;
 		
-		try {
-			
-			Transporter transporter = (Transporter) lookup(
-					"org.ambiance.transport.Transporter", "default");
-			
+		try {			
 			tmp = FileUtils.createTempFile("ambiance-transporter-", ".test", null);
 			FileUtils.forceDelete(tmp);
 			
@@ -59,9 +56,6 @@ public class DefaultTransportTest extends PlexusTestCase {
 			if (FileUtils.fileExists(tmpdir+"test1.html")) {
 				FileUtils.forceDelete(tmpdir+"test1.html");
 			}
-			
-			Transporter transporter = (Transporter) lookup(
-					"org.ambiance.transport.Transporter", "default");
 			
 			tmp = FileUtils.createTempFile("ambiance-transporter-", ".test", null);
 			
