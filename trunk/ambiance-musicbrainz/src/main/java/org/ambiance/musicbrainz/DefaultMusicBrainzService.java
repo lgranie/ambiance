@@ -1,6 +1,7 @@
 package org.ambiance.musicbrainz;
 
 import org.ambiance.transport.Transporter;
+import org.codehaus.plexus.logging.AbstractLogEnabled;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
 import org.musicbrainz.JMBWSException;
@@ -22,7 +23,7 @@ import org.musicbrainz.wsxml.element.TrackSearchResults;
 /**
  * @plexus.component role="org.ambiance.musicbrainz.DefaultMusicBrainzService" role-hint="default"
  */
-public abstract class DefaultMusicBrainzService extends AmbianceMusicbrainzService implements Initializable {
+public class DefaultMusicBrainzService extends AbstractLogEnabled implements AmbianceMusicbrainzService, Initializable {
 
 	/**
 	 * @plexus.requirement role="org.ambiance.transport.Transporter" role-hint="default"
