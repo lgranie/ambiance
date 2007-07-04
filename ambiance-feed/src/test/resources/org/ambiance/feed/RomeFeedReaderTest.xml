@@ -1,0 +1,22 @@
+<component-set>
+  <components>
+    <component>
+      <role>org.ambiance.feed.AmbianceFeedReader</role>
+      <role-hint>laurent.granie</role-hint>
+      <implementation>org.ambiance.feed.RomeFeedReader</implementation>
+      <requirements>
+        <requirement>
+          <role>org.ambiance.transport.Transporter</role>
+          <role-hint>default</role-hint>
+          <field-name>transporter</field-name>
+        </requirement>
+      </requirements>
+      <configuration>
+        <input-urls>
+          <input-url>http://laurent.granie.free.fr/rss.php</input-url>
+        </input-urls>
+      </configuration>
+    </component>
+  </components>
+</component-set>
+
