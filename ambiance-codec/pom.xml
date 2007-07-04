@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>ambiance</groupId>
+    <artifactId>ambiance-components</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  
+  <groupId>ambiance</groupId>
+  <artifactId>ambiance-codec</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <description>
+    Ambiance codec is a component for encoding and decoding binary.
+  	It uses commons-codec Binary interfaces from apache (http://jakarta.apache.org/commons/codec/)
+    and implements yEnc (http://www.yenc.org).
+  </description>
+  
+  <dependencies>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.3</version>
+    </dependency>
+  </dependencies>
+</project>
