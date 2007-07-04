@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary In this page, you will find a entry for all the sub projects.
 #labels Featured
 
 = Introduction =
