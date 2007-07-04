@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>ambiance</groupId>
+    <artifactId>ambiance-components</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>ambiance</groupId>
+  <artifactId>ambiance-audio-player</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <description>Ambiance audio player is a component for Ambiance using BasicPlayer 3.0 from javazoom.</description>
+
+  <scm>
+    <connection>scm:svn:http://ambiance.googlecode.com/svn/trunk/ambiance-audio-player</connection>
+    <url>http://ambiance.googlecode.com/svn/trunk/ambiance-audio-player/</url>
+  </scm>
+
+  <repositories>
+    <repository>
+      <id>Ambiance Snapshots</id>
+      <url>
+        http://laurent.granie.free.fr/ambiance/ambiance-snapshot-repository
+      </url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+    
+    <repository>
+      <id>Ambiance Third Part</id>
+      <url>
+        http://laurent.granie.free.fr/ambiance/ambiance-thirdpart-repository
+      </url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+  </repositories>
+
+  <dependencies> 
+    <dependency>
+      <groupId>com.javazoom</groupId>
+      <artifactId>basicplayer</artifactId>
+      <version>3.0</version>
+    </dependency>
+  </dependencies>
+</project>
