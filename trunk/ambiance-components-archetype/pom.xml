@@ -15,7 +15,7 @@
   <scm>
     <connection>scm:svn:http://ambiance.googlecode.com/svn/trunk/ambiance-components-archetype</connection>
     <url>http://ambiance.googlecode.com/svn/trunk/ambiance-components-archetype/</url>
-  <scm>
+  </scm>
 
   <distributionManagement>
 	<snapshotRepository>
