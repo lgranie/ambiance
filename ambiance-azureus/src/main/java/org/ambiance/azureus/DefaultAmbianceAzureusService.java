@@ -73,12 +73,14 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 			@SuppressWarnings("unchecked")
 			public void run() {
 				try {
-					List<DownloadManager> managers = globalManager.getDownloadManagers();						
-					for (DownloadManager manager : managers) {
-						getLogger().info("Download is " + (manager.getStats().getCompleted() / 10.0) + " % complete");
+					while(true) {
+						List<DownloadManager> managers = globalManager.getDownloadManagers();						
+						for (DownloadManager manager : managers) {
+							getLogger().info(manager.getDisplayName() + " : Download is " + (manager.getStats().getCompleted() / 10.0) + " % complete");
+						}
+						// Check every 10 seconds on the progress
+						Thread.sleep(10000);
 					}
-					// Check every 10 seconds on the progress
-					Thread.sleep(1000);
 
 				} catch (Exception e) {
 					throw new RuntimeException(e);
