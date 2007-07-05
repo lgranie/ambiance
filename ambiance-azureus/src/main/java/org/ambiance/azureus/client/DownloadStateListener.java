@@ -18,7 +18,7 @@ public class DownloadStateListener implements DownloadManagerListener {
 	}
 
 	public void stateChanged(DownloadManager manager, int state) {
-		String torrentName = manager.getAbsoluteSaveLocation().getAbsolutePath() + " : ";
+		String torrentName = manager.getDisplayName() + " : ";
 		
 		switch (state) {
 		case DownloadManager.STATE_CHECKING:
@@ -40,7 +40,7 @@ public class DownloadStateListener implements DownloadManagerListener {
 	}
 
 	public void downloadComplete(DownloadManager manager) {
-		String torrentName = manager.getAbsoluteSaveLocation().getAbsolutePath() + " : ";
+		String torrentName = manager.getDisplayName() + " : ";
 		logger.info(torrentName + "Download Completed");
 	}
 
