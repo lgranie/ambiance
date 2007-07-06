@@ -41,9 +41,9 @@ public class DefaultAmbianceAzureusServiceTest extends PlexusTestCase {
 			while(!stop) {
 				List<DownloadManager> managers = aas.getDownloadManagers();						
 				for (DownloadManager manager : managers) {
-					System.out.println(manager.getState());
-					if(manager.getState() == DownloadManager.STATE_SEEDING)
+					if(manager.getState() == DownloadManager.STATE_STOPPED) {
 						stop = true;
+					}
 				}
 				// Check every 10 seconds on the progress
 				Thread.sleep(10000);

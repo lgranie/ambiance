@@ -14,6 +14,7 @@
       </requirements>
       <configuration>
         <torrent-home>C:\temp\ambiance-azureus</torrent-home>
+        <shareRatioLimit>100</shareRatioLimit>
       </configuration>
     </component>
   </components>
