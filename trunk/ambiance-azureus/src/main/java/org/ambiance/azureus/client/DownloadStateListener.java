@@ -1,10 +1,6 @@
 package org.ambiance.azureus.client;
 
-import java.io.File;
-import java.util.Calendar;
-
 import org.codehaus.plexus.logging.Logger;
-import org.codehaus.plexus.util.FileUtils;
 import org.gudy.azureus2.core3.disk.DiskManagerFileInfo;
 import org.gudy.azureus2.core3.download.DownloadManager;
 import org.gudy.azureus2.core3.download.DownloadManagerListener;
@@ -16,11 +12,9 @@ import org.gudy.azureus2.core3.download.DownloadManagerListener;
 public class DownloadStateListener implements DownloadManagerListener {
 
 	private Logger logger = null;
-	private int shareRatioLimit;
 
-	public DownloadStateListener(Logger logger, int shareRatioLimit) {
+	public DownloadStateListener(Logger logger) {
 		this.logger = logger;
-		this.shareRatioLimit = shareRatioLimit;
 	}
 
 	public void stateChanged(DownloadManager manager, int state) {
