@@ -22,7 +22,7 @@ public class AmbianceYahooImageTest extends PlexusTestCase {
 		Exception e = null;
 		Object result = null;
 		try {
-			result = yahoo.query("Take me to your leader");
+			result = yahoo.query("MF Doom");
 		} catch (Exception e1) {
 			System.out.println(e1.getMessage());
 			e = e1;
@@ -32,5 +32,4 @@ public class AmbianceYahooImageTest extends PlexusTestCase {
 		assertNotNull(result);
 	}
 
-	
 }
