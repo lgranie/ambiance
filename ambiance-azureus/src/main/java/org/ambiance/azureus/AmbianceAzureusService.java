@@ -10,7 +10,7 @@ public interface AmbianceAzureusService {
 	/** The Plexus role identifier. */
 	String ROLE = AmbianceAzureusService.class.getName();
 	
-	public void downloadFile(String url) throws AmbianceAzureusException;
+	public void addDownload(String url) throws AmbianceAzureusException;
 	
 	public List<DownloadManager> getDownloadManagers();
 }

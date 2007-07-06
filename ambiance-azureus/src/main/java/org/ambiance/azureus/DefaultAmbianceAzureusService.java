@@ -5,17 +5,14 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 
-import org.ambiance.azureus.client.DownloadStateListener;
 import org.ambiance.transport.Transporter;
 import org.ambiance.transport.TransporterException;
 import org.codehaus.plexus.logging.AbstractLogEnabled;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Startable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StartingException;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StoppingException;
 import org.codehaus.plexus.util.FileUtils;
 import org.gudy.azureus2.core3.download.DownloadManager;
-import org.gudy.azureus2.core3.download.DownloadManagerListener;
 import org.gudy.azureus2.core3.global.GlobalManager;
 
 import com.aelitis.azureus.core.AzureusCore;
@@ -92,11 +89,24 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 							case DownloadManager.STATE_DOWNLOADING:
 								getLogger().debug(manager.getStats().getCompleted() + " " + new Long(Calendar.getInstance().getTimeInMillis()-manager.getCreationTime()));
 								getLogger().info(torrentName + "Download is " + (manager.getStats().getCompleted() / 10.0) + " % complete");
+								
+								boolean ko = false;
+								
+								// Test - Too long to start
 								if(manager.getStats().getCompleted() < 1 
 										&& (Calendar.getInstance().getTimeInMillis()-manager.getCreationTime()) > 120000) {
 									getLogger().info(torrentName + "Download is too long : stop it");
-									manager.stopIt(DownloadManager.STATE_STOPPED, false, false);
+									ko = true;
 								}
+								
+								// Test - Incomplete file, not enough seeders
+								if(manager.getStats().getAvailability() <= manager.getStats().getCompleted()) {
+									getLogger().info(torrentName + "Incomplete file : not enough seeders");
+									ko = true;
+								}
+								
+								if(ko)
+									manager.stopIt(DownloadManager.STATE_STOPPED, false, false);
 									
 								break;
 							case DownloadManager.STATE_FINISHING:
@@ -104,7 +114,8 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 								break;
 							case DownloadManager.STATE_SEEDING:
 								getLogger().info(torrentName + "Download Complete - Seeding for other users - Share Ratio = " + manager.getStats().getShareRatio());
-								if(manager.getStats().getShareRatio() > shareRatioLimit)
+								getLogger().debug("Nb Seeds = "+manager.getNbPeers());
+								if(manager.getStats().getShareRatio() > shareRatioLimit || (manager.getNbPeers() == 0 && Calendar.getInstance().getTimeInMillis()-manager.getCreationTime() > 1200000))
 									manager.stopIt(DownloadManager.STATE_STOPPED, true, false);
 								break;
 							case DownloadManager.STATE_STOPPED:
@@ -145,7 +156,7 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 		getLogger().info("Azureus stoped.");
 	}
 	
-	public void downloadFile(String url) throws AmbianceAzureusException {
+	public void addDownload(String url) throws AmbianceAzureusException {
 		// Initialize torrent file into downloadedTorrentDir
 		File downloadedTorrentFile = FileUtils.createTempFile("ambiance-azureus-", ".torrent", downloadedTorrentDir);
 
@@ -156,11 +167,8 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 			throw new AmbianceAzureusException("Could not download torrent file", e);
 		}
 
-		DownloadManager manager = globalManager.addDownloadManager(downloadedTorrentFile.getAbsolutePath(),
-				downloadDirectory.getAbsolutePath());
+		globalManager.addDownloadManager(downloadedTorrentFile.getAbsolutePath(), downloadDirectory.getAbsolutePath());
 
-		DownloadManagerListener listener = new DownloadStateListener(getLogger(), shareRatioLimit);
-		manager.addListener(listener);
 	}
 
 	
