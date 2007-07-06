@@ -42,9 +42,6 @@ public class DownloadStateListener implements DownloadManagerListener {
 		case DownloadManager.STATE_STOPPED:
 			logger.info(torrentName + "Download Stopped.");
 			break;
-		case DownloadManager.STATE_CLOSED:
-			FileUtils.removePath(manager.getTorrentFileName());
-			break;
 		}
 	}
 
