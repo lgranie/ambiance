@@ -56,5 +56,4 @@
       <artifactId>azureus</artifactId>
       <version>3.0.1.6</version>
     </dependency>
-  </dependencies>
 </project>
