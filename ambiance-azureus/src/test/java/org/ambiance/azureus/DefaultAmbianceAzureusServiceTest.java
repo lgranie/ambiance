@@ -1,6 +1,5 @@
 package org.ambiance.azureus;
 
-import java.net.URL;
 import java.util.List;
 
 import org.codehaus.plexus.PlexusTestCase;
@@ -35,7 +34,7 @@ public class DefaultAmbianceAzureusServiceTest extends PlexusTestCase {
 	public void testDistantTorrent() {
 		Exception e = null;
 		
-		String torrentUrl = "http://www.mininova.org/get/778085";
+		String torrentUrl = "http://www.mininova.org/get/503959";
 		try {
 			aas.downloadFile(torrentUrl);
 			boolean stop = false;

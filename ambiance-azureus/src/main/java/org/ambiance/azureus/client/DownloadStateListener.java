@@ -1,6 +1,9 @@
 package org.ambiance.azureus.client;
 
+import java.io.File;
+
 import org.codehaus.plexus.logging.Logger;
+import org.codehaus.plexus.util.FileUtils;
 import org.gudy.azureus2.core3.disk.DiskManagerFileInfo;
 import org.gudy.azureus2.core3.download.DownloadManager;
 import org.gudy.azureus2.core3.download.DownloadManagerListener;
@@ -35,6 +38,9 @@ public class DownloadStateListener implements DownloadManagerListener {
 			break;
 		case DownloadManager.STATE_STOPPED:
 			logger.info(torrentName + "Download Stopped.");
+			break;
+		case DownloadManager.STATE_CLOSED:
+			FileUtils.removePath(manager.getTorrentFileName());
 			break;
 		}
 	}

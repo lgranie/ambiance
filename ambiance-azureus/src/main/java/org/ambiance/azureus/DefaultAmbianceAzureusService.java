@@ -103,9 +103,11 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 	}
 
 	public void stop() throws StoppingException {
+		getLogger().info("Stopping Azureus...");
 		globalManager.stopAllDownloads();
 		globalManager.stopGlobalManager();
 		AzureusCoreFactory.getSingleton().stop();
+		getLogger().info("Azureus stoped.");
 	}
 	
 	public void downloadFile(String url) throws AmbianceAzureusException {
