@@ -8,8 +8,10 @@ import org.ambiance.azureus.client.DownloadStateListener;
 import org.ambiance.transport.Transporter;
 import org.ambiance.transport.TransporterException;
 import org.codehaus.plexus.logging.AbstractLogEnabled;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.Startable;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.StartingException;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.StoppingException;
 import org.codehaus.plexus.util.FileUtils;
 import org.gudy.azureus2.core3.download.DownloadManager;
 import org.gudy.azureus2.core3.download.DownloadManagerListener;
@@ -21,7 +23,7 @@ import com.aelitis.azureus.core.AzureusCoreFactory;
 /**
  * @plexus.component role="org.ambiance.azureus.AmbianceAzureusService" role-hint="default"
  */
-public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements AmbianceAzureusService, Initializable {
+public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements AmbianceAzureusService, Startable {
 
 	private GlobalManager globalManager;
 
@@ -39,7 +41,7 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 
 	private File downloadDirectory = null;
 
-	public void initialize() throws InitializationException {
+	public void start() throws StartingException {
 		
 		// Initialze torrent client directories
 		String downloadedTorrentDirName = torrentHome + File.separatorChar + "torrents";
@@ -48,7 +50,7 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 			FileUtils.forceMkdir(downloadedTorrentDir);
 		} catch (IOException e) {
 			getLogger().error("Could not create downloadedTorrentDir : " + downloadedTorrentDirName, e);
-			throw new InitializationException("Could not create downloadedTorrentDir : " + downloadedTorrentDirName, e);
+			throw new StartingException("Could not create downloadedTorrentDir : " + downloadedTorrentDirName, e);
 		}
 
 		String downloadsDirName = torrentHome + File.separatorChar + "downloads";
@@ -57,7 +59,7 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 			FileUtils.forceMkdir(downloadDirectory);
 		} catch (IOException e) {
 			getLogger().error("Could not create downloadDirectory : " + downloadsDirName, e);
-			throw new InitializationException("Could not create downloadDirectory : " + downloadsDirName, e);
+			throw new StartingException("Could not create downloadDirectory : " + downloadsDirName, e);
 		}
 
 		// Start Azureus Core API
@@ -95,6 +97,17 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 		
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<DownloadManager> getDownloadManagers() {
+		return globalManager.getDownloadManagers();
+	}
+
+	public void stop() throws StoppingException {
+		globalManager.stopAllDownloads();
+		globalManager.stopGlobalManager();
+		AzureusCoreFactory.getSingleton().stop();
+	}
+	
 	public void downloadFile(String url) throws AmbianceAzureusException {
 		// Initialize torrent file into downloadedTorrentDir
 		File downloadedTorrentFile = FileUtils.createTempFile("ambiance-azureus-", ".torrent", downloadedTorrentDir);
@@ -112,5 +125,6 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 		DownloadManagerListener listener = new DownloadStateListener(getLogger());
 		manager.addListener(listener);
 	}
+
 	
 }

@@ -1,8 +1,10 @@
 package org.ambiance.azureus;
 
 import java.net.URL;
+import java.util.List;
 
 import org.codehaus.plexus.PlexusTestCase;
+import org.gudy.azureus2.core3.download.DownloadManager;
 
 public class DefaultAmbianceAzureusServiceTest extends PlexusTestCase {
 
@@ -21,7 +23,7 @@ public class DefaultAmbianceAzureusServiceTest extends PlexusTestCase {
 //	public void testLocalTorrent() {
 //		Exception e = null;
 //		
-//		URL torrentFileName = this.getClass().getResource("/KNOPPIX_V5.0.1CD-2006-06-01-DE.torrent");
+//		URL torrentFileName = this.getClass().getResource("/Spirituality___Osho___This_is_a_test_torrent_to_see_if_this_torrent_thing_works.torrent");
 //		try {
 //			aas.downloadFile(torrentFileName.toString());
 //		} catch (AmbianceAzureusException e1) {
@@ -33,10 +35,21 @@ public class DefaultAmbianceAzureusServiceTest extends PlexusTestCase {
 	public void testDistantTorrent() {
 		Exception e = null;
 		
-		String torrentUrl = "http://torrent.unix-ag.uni-kl.de/torrents/KNOPPIX_V5.0.1CD-2006-06-01-DE.torrent";
+		String torrentUrl = "http://www.mininova.org/get/778085";
 		try {
 			aas.downloadFile(torrentUrl);
-		} catch (AmbianceAzureusException e1) {
+			boolean stop = false;
+			while(!stop) {
+				List<DownloadManager> managers = aas.getDownloadManagers();						
+				for (DownloadManager manager : managers) {
+					System.out.println(manager.getState());
+					if(manager.getState() == DownloadManager.STATE_SEEDING)
+						stop = true;
+				}
+				// Check every 10 seconds on the progress
+				Thread.sleep(10000);
+			}
+		} catch (Exception e1) {
 			e = e1;
 		}
 		assertNull(e);

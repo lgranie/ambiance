@@ -25,7 +25,7 @@ public class DownloadStateListener implements DownloadManagerListener {
 			logger.info(torrentName + "Checking....");
 			break;
 		case DownloadManager.STATE_DOWNLOADING:
-			logger.info(torrentName + "Downloading....");
+			logger.info(torrentName + "Download is " + (manager.getStats().getCompleted() / 10.0) + " % complete");
 			break;
 		case DownloadManager.STATE_FINISHING:
 			logger.info(torrentName + "Finishing Download....");
