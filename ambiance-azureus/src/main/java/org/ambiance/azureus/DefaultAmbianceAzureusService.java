@@ -2,6 +2,7 @@ package org.ambiance.azureus;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 import org.ambiance.azureus.client.DownloadStateListener;
@@ -36,6 +37,11 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 	 * @plexus.configuration default-value="C:\temp\ambiance-azureus"
 	 */
 	private String torrentHome;
+	
+	/**
+	 * @plexus.configuration default-value="100"
+	 */
+	private int shareRatioLimit;
 
 	private File downloadedTorrentDir = null;
 
@@ -78,7 +84,36 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 					while(true) {
 						List<DownloadManager> managers = globalManager.getDownloadManagers();						
 						for (DownloadManager manager : managers) {
-							getLogger().info(manager.getDisplayName() + " : Download is " + (manager.getStats().getCompleted() / 10.0) + " % complete");
+							String torrentName = manager.getDisplayName() + " : ";
+							switch (manager.getState()) {
+							case DownloadManager.STATE_CHECKING:
+								getLogger().info(torrentName + "Checking....");
+								break;
+							case DownloadManager.STATE_DOWNLOADING:
+								getLogger().debug(manager.getStats().getCompleted() + " " + new Long(Calendar.getInstance().getTimeInMillis()-manager.getCreationTime()));
+								getLogger().info(torrentName + "Download is " + (manager.getStats().getCompleted() / 10.0) + " % complete");
+								if(manager.getStats().getCompleted() < 1 
+										&& (Calendar.getInstance().getTimeInMillis()-manager.getCreationTime()) > 120000) {
+									getLogger().info(torrentName + "Download is too long : stop it");
+									manager.stopIt(DownloadManager.STATE_STOPPED, false, false);
+								}
+									
+								break;
+							case DownloadManager.STATE_FINISHING:
+								getLogger().info(torrentName + "Finishing Download....");
+								break;
+							case DownloadManager.STATE_SEEDING:
+								getLogger().info(torrentName + "Download Complete - Seeding for other users - Share Ratio = " + manager.getStats().getShareRatio());
+								if(manager.getStats().getShareRatio() > shareRatioLimit)
+									manager.stopIt(DownloadManager.STATE_STOPPED, true, false);
+								break;
+							case DownloadManager.STATE_STOPPED:
+								getLogger().info(torrentName + "Download Stopped.");
+								break;
+							case DownloadManager.STATE_CLOSED:
+								FileUtils.removePath(manager.getTorrentFileName());
+								break;
+							}
 						}
 						// Check every 10 seconds on the progress
 						Thread.sleep(10000);
@@ -124,7 +159,7 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 		DownloadManager manager = globalManager.addDownloadManager(downloadedTorrentFile.getAbsolutePath(),
 				downloadDirectory.getAbsolutePath());
 
-		DownloadManagerListener listener = new DownloadStateListener(getLogger());
+		DownloadManagerListener listener = new DownloadStateListener(getLogger(), shareRatioLimit);
 		manager.addListener(listener);
 	}
 
