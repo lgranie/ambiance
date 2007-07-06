@@ -87,21 +87,20 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 								getLogger().info(torrentName + "Checking....");
 								break;
 							case DownloadManager.STATE_DOWNLOADING:
-								getLogger().debug(manager.getStats().getCompleted() + " " + new Long(Calendar.getInstance().getTimeInMillis()-manager.getCreationTime()));
 								getLogger().info(torrentName + "Download is " + (manager.getStats().getCompleted() / 10.0) + " % complete");
 								
 								boolean ko = false;
 								
 								// Test - Too long to start
-								if(manager.getStats().getCompleted() < 1 
+								if(manager.getNbSeeds() == 0 && manager.getStats().getCompleted() < 1 
 										&& (Calendar.getInstance().getTimeInMillis()-manager.getCreationTime()) > 120000) {
 									getLogger().info(torrentName + "Download is too long : stop it");
 									ko = true;
 								}
 								
 								// Test - Incomplete file, not enough seeders
-								if(manager.getStats().getAvailability() <= manager.getStats().getCompleted()) {
-									getLogger().info(torrentName + "Incomplete file : not enough seeders");
+								if(manager.getNbSeeds() > 0 && manager.getStats().getAvailability() <= manager.getStats().getCompleted() / 1000.0) {
+									getLogger().info(torrentName + "Incompleted file, not enough seeders");
 									ko = true;
 								}
 								
@@ -114,7 +113,6 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 								break;
 							case DownloadManager.STATE_SEEDING:
 								getLogger().info(torrentName + "Download Complete - Seeding for other users - Share Ratio = " + manager.getStats().getShareRatio());
-								getLogger().debug("Nb Seeds = "+manager.getNbPeers());
 								if(manager.getStats().getShareRatio() > shareRatioLimit || (manager.getNbPeers() == 0 && Calendar.getInstance().getTimeInMillis()-manager.getCreationTime() > 1200000))
 									manager.stopIt(DownloadManager.STATE_STOPPED, true, false);
 								break;
