@@ -36,7 +36,7 @@ public class DefaultAmbianceAzureusServiceTest extends PlexusTestCase {
 		
 		String torrentUrl = "http://www.mininova.org/get/503959";
 		try {
-			aas.downloadFile(torrentUrl);
+			aas.addDownload(torrentUrl);
 			boolean stop = false;
 			while(!stop) {
 				List<DownloadManager> managers = aas.getDownloadManagers();						
