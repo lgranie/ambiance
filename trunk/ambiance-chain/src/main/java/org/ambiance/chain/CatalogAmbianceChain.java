@@ -1,7 +1,5 @@
 package org.ambiance.chain;
 
-import java.net.URL;
-
 import org.apache.commons.chain.config.ConfigParser;
 import org.apache.commons.chain.impl.CatalogFactoryBase;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;

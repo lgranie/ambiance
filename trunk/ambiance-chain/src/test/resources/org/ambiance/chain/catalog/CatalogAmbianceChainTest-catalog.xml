@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<catalog>
+  <chain name="chain1">
+    <command 
+      name="false" 
+      className="org.ambiance.chain.FalseCommand" />
+    <command 
+      name="true" 
+      className="org.ambiance.chain.TrueCommand" />
+  </chain>
+  
+  <chain name="chain2">
+    <command 
+      name="true" 
+      className="org.ambiance.chain.TrueCommand" />
+    <command 
+      name="false" 
+      className="org.ambiance.chain.FalseCommand" />
+  </chain> 
+</catalog>

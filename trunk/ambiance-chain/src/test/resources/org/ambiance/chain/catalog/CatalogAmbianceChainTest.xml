@@ -1,0 +1,13 @@
+<component-set>
+  <components>
+    <component>
+      <role>org.ambiance.chain.AmbianceChain</role>
+      <role-hint>catalog</role-hint>
+      <implementation>org.ambiance.chain.CatalogAmbianceChain</implementation>
+      <description></description>
+      <configuration>
+        <catalog-file-name>/org/ambiance/chain/catalog/CatalogAmbianceChainTest-catalog.xml</catalog-file-name>
+      </configuration>
+    </component>
+  </components>
+</component-set>
