@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<catalog>
+  <chain name="downloading">
+    <command 
+      name="TooLongToStart" 
+      className="org.ambiance.azureus.ruler.commands.TooLongToStartCommand" />
+    <command 
+      name="Incomplete" 
+      className="org.ambiance.azureus.ruler.commands.IncompleteCommand" />
+  </chain>  
+</catalog>

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.ambiance.chain.AmbianceChain;
 import org.ambiance.transport.Transporter;
 import org.ambiance.transport.TransporterException;
 import org.codehaus.plexus.logging.AbstractLogEnabled;
@@ -30,9 +31,9 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 	private Transporter transporter;
 
 	/**
-	 * @plexus.requirement role="org.ambiance.azureus.AmbianceAzureusRuler" role-hint="default"
+	 * @plexus.requirement role="org.ambiance.chain.AmbianceChain" role-hint="catalog"
 	 */
-	private AmbianceAzureusRuler aar;
+	private AmbianceChain ac;
 	
 	/**
 	 * @plexus.configuration default-value="C:\\temp\\ambiance-azureus"
@@ -74,7 +75,7 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 		// the progress of the upload and print it out
 		// to the command line
 		try {
-			DownloadRulers dr = new DownloadRulers(aar);
+			DownloadRulers dr = new DownloadRulers(ac);
 			Thread progressChecker = new Thread(dr);
 			progressChecker.setDaemon(true);
 			progressChecker.start();
