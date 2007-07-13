@@ -9,7 +9,7 @@ import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
 
 /**
- * @plexus.component role="org.ambiance.azureus.AmbianceAzureusService" role-hint="default"
+ * @plexus.component role="org.ambiance.azureus.AmbianceAzureusRuler" role-hint="default"
  */
 public class DefaultAmbianceAzureusRuler extends AbstractLogEnabled implements AmbianceAzureusRuler, Initializable {
 
