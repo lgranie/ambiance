@@ -11,9 +11,9 @@ public class IncompleteCommand implements Command {
 		
 		if (manager.getNbSeeds() > 0
 				&& manager.getStats().getAvailability() <= manager.getStats().getCompleted() / 1000.0)
-			return false;
+			return true;
 		
-		return true;
+		return false;
 	}
 
 }
