@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<catalog>
+  <command 
+    name="LocaleChange" 
+    className="org.apache.commons.chain.mailreader.commands.LocaleChange"/>
+  <command 
+    name="LogonUser" 
+    className="org.apache.commons.chain.mailreader.commands.LogonUser"/>
+</catalog>
