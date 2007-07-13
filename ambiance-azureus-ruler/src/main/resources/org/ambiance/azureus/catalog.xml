@@ -1,9 +1,10 @@
 <?xml version="1.0" ?>
 <catalog>
   <command 
-    name="LocaleChange" 
-    className="org.apache.commons.chain.mailreader.commands.LocaleChange"/>
+    name="TooLongToStart" 
+    className="org.ambiance.azureus.ruler.commands.TooLongToStartCommand" />
   <command 
-    name="LogonUser" 
-    className="org.apache.commons.chain.mailreader.commands.LogonUser"/>
+    name="Incomplete" 
+    className="org.ambiance.azureus.ruler.commands.IncompleteCommand" />
+  
 </catalog>

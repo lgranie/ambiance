@@ -1,4 +1,4 @@
-package org.ambiance.azureus;
+package org.ambiance.azureus.ruler;
 
 public class AmbianceAzureusRulerException extends Exception {
 

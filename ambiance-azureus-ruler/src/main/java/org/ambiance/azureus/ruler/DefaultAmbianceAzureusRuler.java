@@ -1,7 +1,8 @@
-package org.ambiance.azureus;
+package org.ambiance.azureus.ruler;
 
 import org.apache.commons.chain.Catalog;
-import org.apache.commons.chain.Chain;
+import org.apache.commons.chain.Command;
+import org.apache.commons.chain.Context;
 import org.apache.commons.chain.config.ConfigParser;
 import org.apache.commons.chain.impl.CatalogFactoryBase;
 import org.codehaus.plexus.logging.AbstractLogEnabled;
@@ -26,8 +27,15 @@ public class DefaultAmbianceAzureusRuler extends AbstractLogEnabled implements A
 		
 	}
 
-	public Chain getChain(String chainName) throws AmbianceAzureusRulerException {
-		return (Chain) catalog.getCommand(chainName);
+	public boolean execute(String name, Context ctx) throws AmbianceAzureusRulerException {
+		Command cmd = catalog.getCommand(name);
+
+		try {
+			return cmd.execute(ctx);
+		} catch (Exception e) {
+			throw new AmbianceAzureusRulerException("Error while executing command : " + name, e);
+		}
+		
 	}
 
 }
