@@ -1,12 +1,14 @@
 package org.ambiance.azureus;
 
+import org.ambiance.chain.AmbianceChain;
+
 
 public class DownloadRulers implements Runnable {
 
-	private AmbianceAzureusRuler aar;
+	private AmbianceChain ac;
 	
-	public DownloadRulers(AmbianceAzureusRuler aar) throws AmbianceAzureusException {
-		this.aar = aar;
+	public DownloadRulers(AmbianceChain ac) throws AmbianceAzureusException {
+		this.ac = ac;
 	}
 
 	public void run() {
