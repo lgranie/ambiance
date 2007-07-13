@@ -1,13 +1,12 @@
 package org.ambiance.azureus;
 
-import org.apache.commons.chain.Catalog;
 
 public class DownloadRulers implements Runnable {
 
-	private Catalog catalog;
+	private AmbianceAzureusRuler aar;
 	
-	public DownloadRulers(Catalog catalog) throws AmbianceAzureusException {
-		this.catalog = catalog;
+	public DownloadRulers(AmbianceAzureusRuler aar) throws AmbianceAzureusException {
+		this.aar = aar;
 	}
 
 	public void run() {
