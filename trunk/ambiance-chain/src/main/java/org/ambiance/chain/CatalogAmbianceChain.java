@@ -19,7 +19,7 @@ public class CatalogAmbianceChain extends AbstractAmbianceChain {
 	public void initialize() throws InitializationException {
 		ConfigParser parser = new ConfigParser();
 		try {
-			parser.parse(new URL(catalogFileName));
+			parser.parse(this.getClass().getResource(catalogFileName));
 			catalog = CatalogFactoryBase.getInstance().getCatalog();
 		} catch (Exception e) {
 			throw new InitializationException("Unable to load rules catalog", e);
