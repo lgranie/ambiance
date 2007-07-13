@@ -8,4 +8,10 @@
       name="Incomplete" 
       className="org.ambiance.azureus.ruler.commands.IncompleteCommand" />
   </chain>  
+  
+  <chain name="seeding">
+    <command 
+      name="ShareLimit" 
+      className="org.ambiance.azureus.ruler.commands.ShareLimitCommand" />
+  </chain> 
 </catalog>
