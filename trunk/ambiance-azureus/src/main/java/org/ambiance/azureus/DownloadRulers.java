@@ -1,21 +1,13 @@
 package org.ambiance.azureus;
 
 import org.apache.commons.chain.Catalog;
-import org.apache.commons.chain.config.ConfigParser;
-import org.apache.commons.chain.impl.CatalogFactoryBase;
 
 public class DownloadRulers implements Runnable {
 
 	private Catalog catalog;
 	
-	public DownloadRulers() throws AmbianceAzureusException {
-		ConfigParser parser = new ConfigParser();
-		try {
-			parser.parse(this.getClass().getResource("/org/ambiance/azureus/catalog.xml"));
-			catalog = CatalogFactoryBase.getInstance().getCatalog();
-		} catch (Exception e) {
-			throw new AmbianceAzureusException("Unable to load rules catalog", e);
-		}
+	public DownloadRulers(Catalog catalog) throws AmbianceAzureusException {
+		this.catalog = catalog;
 	}
 
 	public void run() {
