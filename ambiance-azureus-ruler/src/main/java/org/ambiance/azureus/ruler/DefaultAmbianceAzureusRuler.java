@@ -16,6 +16,8 @@ public class DefaultAmbianceAzureusRuler extends AbstractLogEnabled implements A
 
 	private Catalog catalog;
 
+	private String catalogFileName;
+	
 	public void initialize() throws InitializationException {
 		ConfigParser parser = new ConfigParser();
 		try {
