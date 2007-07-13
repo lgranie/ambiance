@@ -2,7 +2,6 @@ package org.ambiance.azureus;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.List;
 
 import org.ambiance.transport.Transporter;
@@ -75,7 +74,7 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 		// the progress of the upload and print it out
 		// to the command line
 		try {
-			DownloadRulers dr = new DownloadRulers();
+			DownloadRulers dr = new DownloadRulers(aar);
 			Thread progressChecker = new Thread(dr);
 			progressChecker.setDaemon(true);
 			progressChecker.start();
