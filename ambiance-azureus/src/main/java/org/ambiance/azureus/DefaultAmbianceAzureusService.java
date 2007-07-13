@@ -31,14 +31,14 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 	private Transporter transporter;
 
 	/**
-	 * @plexus.configuration default-value="C:\temp\ambiance-azureus"
+	 * @plexus.requirement role="org.ambiance.azureus.AmbianceAzureusRuler" role-hint="default"
 	 */
-	private String torrentHome;
+	private AmbianceAzureusRuler aar;
 	
 	/**
-	 * @plexus.configuration default-value="100"
+	 * @plexus.configuration default-value="C:\\temp\\ambiance-azureus"
 	 */
-	private int shareRatioLimit;
+	private String torrentHome;
 
 	private File downloadedTorrentDir = null;
 
@@ -74,70 +74,14 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 		// Start a new daemon thread periodically check
 		// the progress of the upload and print it out
 		// to the command line
-		Runnable checkAndPrintProgress = new Runnable() {
-			@SuppressWarnings("unchecked")
-			public void run() {
-				try {
-					while(true) {
-						List<DownloadManager> managers = globalManager.getDownloadManagers();						
-						for (DownloadManager manager : managers) {
-							String torrentName = manager.getDisplayName() + " : ";
-							switch (manager.getState()) {
-							case DownloadManager.STATE_CHECKING:
-								getLogger().info(torrentName + "Checking....");
-								break;
-							case DownloadManager.STATE_DOWNLOADING:
-								getLogger().info(torrentName + "Download is " + (manager.getStats().getCompleted() / 10.0) + " % complete");
-								
-								boolean ko = false;
-								
-								// Test - Too long to start
-								if(manager.getNbSeeds() == 0 && manager.getStats().getCompleted() < 1 
-										&& (Calendar.getInstance().getTimeInMillis()-manager.getCreationTime()) > 120000) {
-									getLogger().info(torrentName + "Download is too long : stop it");
-									ko = true;
-								}
-								
-								// Test - Incomplete file, not enough seeders
-								if(manager.getNbSeeds() > 0 && manager.getStats().getAvailability() <= manager.getStats().getCompleted() / 1000.0) {
-									getLogger().info(torrentName + "Incompleted file, not enough seeders");
-									ko = true;
-								}
-								
-								if(ko)
-									manager.stopIt(DownloadManager.STATE_STOPPED, false, false);
-									
-								break;
-							case DownloadManager.STATE_FINISHING:
-								getLogger().info(torrentName + "Finishing Download....");
-								break;
-							case DownloadManager.STATE_SEEDING:
-								getLogger().info(torrentName + "Download Complete - Seeding for other users - Share Ratio = " + manager.getStats().getShareRatio());
-								if(manager.getStats().getShareRatio() > shareRatioLimit || (manager.getNbPeers() == 0 && Calendar.getInstance().getTimeInMillis()-manager.getCreationTime() > 1200000))
-									manager.stopIt(DownloadManager.STATE_STOPPED, true, false);
-								break;
-							case DownloadManager.STATE_STOPPED:
-								getLogger().info(torrentName + "Download Stopped.");
-								break;
-							case DownloadManager.STATE_CLOSED:
-								FileUtils.removePath(manager.getTorrentFileName());
-								break;
-							}
-						}
-						// Check every 10 seconds on the progress
-						Thread.sleep(10000);
-					}
-
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-
-			}
-		};
-
-		Thread progressChecker = new Thread(checkAndPrintProgress);
-		progressChecker.setDaemon(true);
-		progressChecker.start();
+		try {
+			DownloadRulers dr = new DownloadRulers();
+			Thread progressChecker = new Thread(dr);
+			progressChecker.setDaemon(true);
+			progressChecker.start();
+		} catch (AmbianceAzureusException e) {
+			getLogger().error(e.getMessage());
+		}
 		
 	}
 
