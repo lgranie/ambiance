@@ -75,7 +75,7 @@ public class DefaultAmbianceAzureusService extends AbstractLogEnabled implements
 		// the progress of the upload and print it out
 		// to the command line
 		try {
-			DownloadChecker dr = new DownloadChecker(ac, globalManager);
+			DownloadNotifier dr = new DownloadNotifier(ac, globalManager);
 			Thread progressChecker = new Thread(dr);
 			progressChecker.setDaemon(true);
 			progressChecker.start();

@@ -1,8 +1,6 @@
 package org.ambiance.azureus;
 
-import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.ambiance.chain.AmbianceChain;
 import org.apache.commons.chain.Context;
@@ -12,13 +10,13 @@ import org.gudy.azureus2.core3.download.DownloadManager;
 import org.gudy.azureus2.core3.global.GlobalManager;
 
 
-public class DownloadChecker implements Runnable {
+public class DownloadNotifier implements Runnable {
 
 	private AmbianceChain ac;
 	
 	private GlobalManager globalManager;
 	
-	public DownloadChecker(AmbianceChain ac, GlobalManager globalManager) throws AmbianceAzureusException {
+	public DownloadNotifier(AmbianceChain ac, GlobalManager globalManager) throws AmbianceAzureusException {
 		this.ac = ac;
 		this.globalManager = globalManager;
 	}
