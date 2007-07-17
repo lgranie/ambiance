@@ -1,0 +1,10 @@
+<component-set>
+  <components>
+    <component>
+      <role>org.ambiance.audio.player.AmbianceAudioPlayer</role>
+      <role-hint>javazoom</role-hint>
+      <implementation>org.ambiance.audio.player.JavaZoomAudioPlayer</implementation>
+      <description></description>
+    </component>
+  </components>
+</component-set>
