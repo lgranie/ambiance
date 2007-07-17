@@ -2,11 +2,11 @@ package org.ambiance.azureus.commands.downloading;
 
 import java.util.Calendar;
 
-import org.ambiance.azureus.commands.AbstractCommand;
+import org.ambiance.chain.AmbianceCommand;
 import org.apache.commons.chain.Context;
 import org.gudy.azureus2.core3.download.DownloadManager;
 
-public class TooLongToStartCommand extends AbstractCommand {
+public class TooLongToStartCommand extends AmbianceCommand {
 
 	public boolean execute(Context ctx) throws Exception {
 		DownloadManager manager = (DownloadManager) ctx.get("manager");
