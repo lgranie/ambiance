@@ -46,6 +46,7 @@ public class RomeFeedReader extends AbstractLogEnabled implements AmbianceFeedRe
 		feedInput  = new SyndFeedInput();;	
 	}
 
+	@SuppressWarnings("unchecked")
 	public void retrieve() throws AmbianceFeedException {
 		
 		try {
