@@ -1,6 +1,8 @@
 package org.ambiance.azureus.notifier;
 
+import java.util.Enumeration;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.ambiance.azureus.AmbianceAzureusException;
 import org.ambiance.chain.AmbianceChain;
@@ -17,9 +19,21 @@ public class DownloadNotifier implements Runnable {
 	
 	private GlobalManager globalManager;
 	
+	private Context ctx = null;
+	
+	@SuppressWarnings("unchecked")
 	public DownloadNotifier(AmbianceChain ac, GlobalManager globalManager) throws AmbianceAzureusException {
 		this.ac = ac;
 		this.globalManager = globalManager;
+		
+		// Context initialization
+		this.ctx = new ContextBase();
+		ResourceBundle props = ResourceBundle.getBundle("notifier");
+		Enumeration keys = props.getKeys();
+		while(keys.hasMoreElements()) {
+			String key = (String) keys.nextElement();
+			ctx.put(key, props.getString(key));
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -30,7 +44,6 @@ public class DownloadNotifier implements Runnable {
 				for (DownloadManager manager : managers) {
 					
 					// Context Initialization
-					Context ctx = new ContextBase();
 					String torrentName = manager.getDisplayName() + " : ";
 					ctx.put("torrentName", torrentName);
 					ctx.put("manager", manager);
