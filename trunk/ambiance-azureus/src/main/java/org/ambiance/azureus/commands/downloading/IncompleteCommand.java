@@ -11,9 +11,9 @@ public class IncompleteCommand extends AbstractCommand {
 		
 		if (manager.getNbSeeds() > 0
 				&& manager.getStats().getAvailability() <= manager.getStats().getCompleted() / 1000.0)
-			return true;
+			return CHAIN_STOP;
 		
-		return false;
+		return CHAIN_CONTINUE;
 	}
 
 }
