@@ -28,7 +28,7 @@ public class DownloadNotifier implements Runnable {
 		
 		// Context initialization
 		this.ctx = new ContextBase();
-		ResourceBundle props = ResourceBundle.getBundle("notifier");
+		ResourceBundle props = ResourceBundle.getBundle("org.ambiance.azureus.notifier.notifier");
 		Enumeration keys = props.getKeys();
 		while(keys.hasMoreElements()) {
 			String key = (String) keys.nextElement();
