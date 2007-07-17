@@ -1,12 +1,12 @@
-package org.ambiance.azureus.notifier.commands.seeding;
+package org.ambiance.azureus.commands.seeding;
 
 import java.util.Calendar;
 
-import org.apache.commons.chain.Command;
+import org.ambiance.azureus.commands.AbstractCommand;
 import org.apache.commons.chain.Context;
 import org.gudy.azureus2.core3.download.DownloadManager;
 
-public class ShareLimitCommand implements Command {
+public class ShareLimitCommand extends AbstractCommand {
 		
 	public boolean execute(Context ctx) throws Exception {
 		DownloadManager manager = (DownloadManager) ctx.get("manager");

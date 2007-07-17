@@ -22,6 +22,7 @@ public class DownloadNotifier implements Runnable {
 		this.globalManager = globalManager;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void run() {
 		try {
 			while (true) {
