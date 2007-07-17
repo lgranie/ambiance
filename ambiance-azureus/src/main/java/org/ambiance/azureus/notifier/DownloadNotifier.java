@@ -8,6 +8,8 @@ import org.ambiance.azureus.AmbianceAzureusException;
 import org.ambiance.chain.AmbianceChain;
 import org.apache.commons.chain.Context;
 import org.apache.commons.chain.impl.ContextBase;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.codehaus.plexus.util.FileUtils;
 import org.gudy.azureus2.core3.download.DownloadManager;
 import org.gudy.azureus2.core3.global.GlobalManager;
@@ -21,14 +23,20 @@ public class DownloadNotifier implements Runnable {
 	
 	private Context ctx = null;
 	
+	private long refreshTime;
+	
+	private static final Log LOGGER = LogFactory.getLog(DownloadNotifier.class);
+	
 	@SuppressWarnings("unchecked")
 	public DownloadNotifier(AmbianceChain ac, GlobalManager globalManager) throws AmbianceAzureusException {
 		this.ac = ac;
 		this.globalManager = globalManager;
 		
+		ResourceBundle props = ResourceBundle.getBundle("org.ambiance.azureus.notifier.notifier");
+		refreshTime = Long.parseLong((String) ctx.get("refresh.time"));
+		
 		// Context initialization
 		this.ctx = new ContextBase();
-		ResourceBundle props = ResourceBundle.getBundle("org.ambiance.azureus.notifier.notifier");
 		Enumeration keys = props.getKeys();
 		while(keys.hasMoreElements()) {
 			String key = (String) keys.nextElement();
@@ -51,7 +59,7 @@ public class DownloadNotifier implements Runnable {
 					switch (manager.getState()) {
 						
 						case DownloadManager.STATE_DOWNLOADING:
-							System.out.println(
+							LOGGER.info(
 									torrentName + "Download is " + (manager.getStats().getCompleted() / 10.0)
 											+ " % complete");
 	
@@ -61,18 +69,18 @@ public class DownloadNotifier implements Runnable {
 							break;
 							
 						case DownloadManager.STATE_FINISHING:
-							System.out.println(torrentName + "Finishing Download....");
+							LOGGER.info(torrentName + "Finishing Download....");
 							break;
 							
 						case DownloadManager.STATE_SEEDING:
-							System.out.println(torrentName + "Download Complete - Seeding for other users - Share Ratio = "	+ manager.getStats().getShareRatio());
+							LOGGER.info(torrentName + "Download Complete - Seeding for other users - Share Ratio = "	+ manager.getStats().getShareRatio());
 							if (ac.execute("seeding", ctx))
 								manager.stopIt(DownloadManager.STATE_STOPPED, true, false);
 							
 							break;
 							
 						case DownloadManager.STATE_STOPPED:
-							System.out.println(torrentName + "Download Stopped.");
+							LOGGER.info(torrentName + "Download Stopped.");
 							break;
 							
 						case DownloadManager.STATE_CLOSED:
@@ -81,8 +89,8 @@ public class DownloadNotifier implements Runnable {
 							
 					}
 				}
-				// Check every 10 seconds on the progress
-				Thread.sleep(10000);
+				// Refresh every n milliseconds this progress
+				Thread.sleep(refreshTime);
 			}
 
 		} catch (Exception e) {
