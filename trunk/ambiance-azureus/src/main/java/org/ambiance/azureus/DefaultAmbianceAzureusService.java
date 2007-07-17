@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.ambiance.azureus.notifier.DownloadNotifier;
 import org.ambiance.chain.AmbianceChain;
 import org.ambiance.transport.Transporter;
 import org.ambiance.transport.TransporterException;
