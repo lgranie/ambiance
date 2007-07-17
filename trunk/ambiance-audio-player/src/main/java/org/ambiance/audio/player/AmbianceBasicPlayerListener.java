@@ -10,7 +10,7 @@ public class AmbianceBasicPlayerListener implements BasicPlayerListener {
 		
 	}
 
-	public void progress(int  bytesread, long microseconds, byte[] pcmdata, java.util.Map properties) {
+	public void progress(int bytesread, long microseconds, byte[] pcmdata, java.util.Map properties) {
 		
 	}
 

@@ -20,6 +20,7 @@ public class JavaZoomAudioPlayer extends AbstractLogEnabled implements AmbianceA
 
 	public void initialize() throws InitializationException {
 		player = new BasicPlayer();
+	    
 		player.addBasicPlayerListener(new AmbianceBasicPlayerListener());
 	}
 
@@ -41,7 +42,11 @@ public class JavaZoomAudioPlayer extends AbstractLogEnabled implements AmbianceA
 	 * @see org.ambiance.audio.player.AmbianceAudioPlayer2#open(java.net.URL)
 	 */
 	public void open(URL url) throws BasicPlayerException {
-		player.open(url);
+		try {
+			player.open(url);
+		} catch(IllegalArgumentException iae) {
+			throw new BasicPlayerException(iae);
+		}
 	}
 
 	/* (non-Javadoc)
