@@ -20,7 +20,7 @@ public class JavazoomAudioPlayerTest extends PlexusTestCase {
 	public void testPlay() {
 		Exception e = null;
 		try {
-			aap.open(this.getClass().getResource("/01 Intro.mp3"));
+			aap.open(this.getClass().getResource("/I Like to Move it.ogg"));
 			aap.play();
 		} catch (BasicPlayerException e1) {
 			e = e1;
