@@ -1,4 +1,4 @@
-package org.ambiance.azureus.ruler.commands.seeding;
+package org.ambiance.azureus.notifier.commands.seeding;
 
 import java.util.Calendar;
 

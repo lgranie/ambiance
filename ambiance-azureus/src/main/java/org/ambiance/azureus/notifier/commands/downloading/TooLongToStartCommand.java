@@ -1,4 +1,4 @@
-package org.ambiance.azureus.ruler.commands.downloading;
+package org.ambiance.azureus.notifier.commands.downloading;
 
 import java.util.Calendar;
 

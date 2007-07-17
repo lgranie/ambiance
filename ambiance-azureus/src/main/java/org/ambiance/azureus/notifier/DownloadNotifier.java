@@ -1,7 +1,8 @@
-package org.ambiance.azureus;
+package org.ambiance.azureus.notifier;
 
 import java.util.List;
 
+import org.ambiance.azureus.AmbianceAzureusException;
 import org.ambiance.chain.AmbianceChain;
 import org.apache.commons.chain.Context;
 import org.apache.commons.chain.impl.ContextBase;
@@ -53,6 +54,7 @@ public class DownloadNotifier implements Runnable {
 							System.out.println(torrentName + "Download Complete - Seeding for other users - Share Ratio = "	+ manager.getStats().getShareRatio());
 							if (ac.execute("seeding", ctx))
 								manager.stopIt(DownloadManager.STATE_STOPPED, true, false);
+							
 							break;
 							
 						case DownloadManager.STATE_STOPPED:
