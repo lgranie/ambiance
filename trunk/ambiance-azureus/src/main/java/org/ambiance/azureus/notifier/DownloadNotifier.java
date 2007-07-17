@@ -33,7 +33,7 @@ public class DownloadNotifier implements Runnable {
 		this.globalManager = globalManager;
 		
 		ResourceBundle props = ResourceBundle.getBundle("org.ambiance.azureus.notifier.notifier");
-		refreshTime = Long.parseLong((String) ctx.get("refresh.time"));
+		refreshTime = Long.parseLong(props.getString("refresh.time"));
 		
 		// Context initialization
 		this.ctx = new ContextBase();
