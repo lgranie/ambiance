@@ -1,6 +1,5 @@
 package org.ambiance.feed.aggregator;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -38,7 +37,7 @@ public class RomeFeedAggregator extends AbstractLogEnabled implements AmbianceFe
 	private String title;
 
 	/**
-	 * @plexus.configuration default-value="rss_2.0"
+	 * @plexus.configuration default-value="rss_1.0"
 	 */
 	private String outputType;
 
@@ -57,6 +56,7 @@ public class RomeFeedAggregator extends AbstractLogEnabled implements AmbianceFe
 
 		feed = new SyndFeedImpl();
 		feed.setFeedType(outputType);
+		feed.setTitle(title);
 
 		feed.setEntries(new ArrayList());
 		feed.setAuthors(new ArrayList());
