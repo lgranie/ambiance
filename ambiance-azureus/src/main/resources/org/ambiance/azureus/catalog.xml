@@ -3,15 +3,15 @@
   <chain name="downloading">
     <command 
       name="TooLongToStart" 
-      className="org.ambiance.azureus.ruler.commands.downloading.TooLongToStartCommand" />
+      className="org.ambiance.azureus.commands.downloading.TooLongToStartCommand" />
     <command 
       name="Incomplete" 
-      className="org.ambiance.azureus.ruler.commands.downloading.IncompleteCommand" />
+      className="org.ambiance.azureus.commands.downloading.IncompleteCommand" />
   </chain>  
   
   <chain name="seeding">
     <command 
       name="ShareLimit" 
-      className="org.ambiance.azureus.ruler.commands.seeding.ShareLimitCommand" />
+      className="org.ambiance.azureus.commands.seeding.ShareLimitCommand" />
   </chain> 
 </catalog>
