@@ -20,6 +20,7 @@ public class JavaZoomAudioPlayer extends AbstractLogEnabled implements AmbianceA
 
 	public void initialize() throws InitializationException {
 		player = new BasicPlayer();
+		player.addBasicPlayerListener(new AmbianceBasicPlayerListener());
 	}
 
 	/* (non-Javadoc)
