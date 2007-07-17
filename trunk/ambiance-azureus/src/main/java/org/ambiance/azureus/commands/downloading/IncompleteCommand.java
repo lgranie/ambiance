@@ -1,10 +1,10 @@
-package org.ambiance.azureus.notifier.commands.downloading;
+package org.ambiance.azureus.commands.downloading;
 
-import org.apache.commons.chain.Command;
+import org.ambiance.azureus.commands.AbstractCommand;
 import org.apache.commons.chain.Context;
 import org.gudy.azureus2.core3.download.DownloadManager;
 
-public class IncompleteCommand implements Command {
+public class IncompleteCommand extends AbstractCommand {
 		
 	public boolean execute(Context ctx) throws Exception {
 		DownloadManager manager = (DownloadManager) ctx.get("manager");
