@@ -1,9 +1,5 @@
 package org.ambiance.audio.player;
 
-import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
-
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 
 public interface AmbianceAudioPlayer {
@@ -11,11 +7,7 @@ public interface AmbianceAudioPlayer {
 	/** The Plexus role identifier. */
 	String ROLE = AmbianceAudioPlayer.class.getName();
 
-	public void open(InputStream is) throws BasicPlayerException;
-
-	public void open(File f) throws BasicPlayerException;
-
-	public void open(URL url) throws BasicPlayerException;
+	public void open(String url) throws BasicPlayerException;
 
 	public long seek(long l) throws BasicPlayerException;
 

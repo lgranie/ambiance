@@ -1,7 +1,5 @@
 package org.ambiance.audio.player;
 
-import javazoom.jlgui.basicplayer.BasicPlayerException;
-
 import org.codehaus.plexus.PlexusTestCase;
 
 public class JavazoomAudioPlayerTest extends PlexusTestCase {
@@ -21,15 +19,28 @@ public class JavazoomAudioPlayerTest extends PlexusTestCase {
 		System.out.println("Are you listening 10 secondes music?");
 		Exception e = null;
 		try {
-			aap.open(this.getClass().getResource("/01 Intro.mp3"));
+			aap.open(this.getClass().getResource("/01 Intro.mp3").toString());
 			aap.play();
 			Thread.sleep(10000);
 			aap.stop();
-		} catch (BasicPlayerException e1) {
+		} catch (Exception e1) {
 			e = e1;
 			e.printStackTrace();
-		} catch (InterruptedException e2) {
-			e = e2;
+		}
+		
+		assertNull(e);
+	}
+	
+	public void testPlayOggFromTheWeb() {
+		System.out.println("Are you listening 10 secondes music?");
+		Exception e = null;
+		try {
+			aap.open("http://live.urn1350.net:8080/urn_high.ogg");
+			aap.play();
+			Thread.sleep(10000);
+			aap.stop();
+		} catch (Exception e1) {
+			e = e1;
 			e.printStackTrace();
 		}
 		
@@ -40,19 +51,15 @@ public class JavazoomAudioPlayerTest extends PlexusTestCase {
 		System.out.println("Are you listening 10 secondes music?");
 		Exception e = null;
 		try {
-			aap.open(this.getClass().getResource("/I Like to Move it.ogg"));
+			aap.open(this.getClass().getResource("/I Like to Move it.ogg").toString());
 			aap.play();
 			Thread.sleep(10000);
 			aap.stop();
-		} catch (BasicPlayerException e1) {
+		} catch (Exception e1) {
 			e = e1;
-			e.printStackTrace();
-		} catch (InterruptedException e2) {
-			e = e2;
 			e.printStackTrace();
 		}
 		
 		assertNull(e);
 	}
-	
 }
