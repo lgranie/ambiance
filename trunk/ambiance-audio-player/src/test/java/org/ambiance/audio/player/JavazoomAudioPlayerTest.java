@@ -17,13 +17,38 @@ public class JavazoomAudioPlayerTest extends PlexusTestCase {
 		}
 	}
 	
-	public void testPlay() {
+	public void testPlayMP3() {
+		System.out.println("Are you listening 10 secondes music?");
+		Exception e = null;
+		try {
+			aap.open(this.getClass().getResource("/01 Intro.mp3"));
+			aap.play();
+			Thread.sleep(10000);
+			aap.stop();
+		} catch (BasicPlayerException e1) {
+			e = e1;
+			e.printStackTrace();
+		} catch (InterruptedException e2) {
+			e = e2;
+			e.printStackTrace();
+		}
+		
+		assertNull(e);
+	}
+	
+	public void testPlayOgg() {
+		System.out.println("Are you listening 10 secondes music?");
 		Exception e = null;
 		try {
 			aap.open(this.getClass().getResource("/I Like to Move it.ogg"));
 			aap.play();
+			Thread.sleep(10000);
+			aap.stop();
 		} catch (BasicPlayerException e1) {
 			e = e1;
+			e.printStackTrace();
+		} catch (InterruptedException e2) {
+			e = e2;
 			e.printStackTrace();
 		}
 		
