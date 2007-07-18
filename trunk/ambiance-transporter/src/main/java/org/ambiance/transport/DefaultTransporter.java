@@ -43,10 +43,16 @@ public class DefaultTransporter extends AbstractLogEnabled implements Transporte
 	 * @see org.ambiance.transport.Transporter#get(java.lang.String, java.io.File)
 	 */
 	public void get(String url, File file) throws TransporterException {
-		StreamWagon wagon = wagons.get(PathUtils.protocol(url));
-		Repository repo = getRepository(url);
-
+		String protocol = PathUtils.protocol(url);
+		
 		try {
+			// Wagon-file does not supprot url string format (with %20 for ex.)
+			if("file".equals(protocol))
+				url = URLDecoder.decode(url, "UTF-8");
+			
+			StreamWagon wagon = wagons.get(protocol);
+			Repository repo = getRepository(url);
+			
 			wagon.connect(repo, getAuthentificationInfo(url), proxyInfo);
 			wagon.get(PathUtils.filename(url), file);
 			wagon.disconnect();
@@ -67,6 +73,7 @@ public class DefaultTransporter extends AbstractLogEnabled implements Transporte
 		String protocol = PathUtils.protocol(url);
 		
 		try {
+			// Wagon-file does not supprot url string format (with %20 for ex.)
 			if("file".equals(protocol))
 				url = URLDecoder.decode(url, "UTF-8");
 			
