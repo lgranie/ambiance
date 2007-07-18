@@ -1,5 +1,7 @@
 package org.ambiance.audio.player;
 
+import java.net.URL;
+
 import org.codehaus.plexus.PlexusTestCase;
 
 public class JavazoomAudioPlayerTest extends PlexusTestCase {
@@ -15,7 +17,7 @@ public class JavazoomAudioPlayerTest extends PlexusTestCase {
 		}
 	}
 	
-	public void testPlayMP3() {
+	public void testPlayMp3() {
 		System.out.println("Are you listening 10 secondes music?");
 		Exception e = null;
 		try {
@@ -62,4 +64,21 @@ public class JavazoomAudioPlayerTest extends PlexusTestCase {
 		
 		assertNull(e);
 	}
+	
+	public void testPlayMp3FromTheWeb() {
+		System.out.println("Are you listening 10 secondes music?");
+		Exception e = null;
+		try {
+			aap.open(new URL("http://yakz1337.free.fr/Mp3/News%20!/Daft%20Punk%20-%20Digital%20Love.mp3").toString());
+			aap.play();
+			Thread.sleep(10000);
+			aap.stop();
+		} catch (Exception e1) {
+			e = e1;
+			e.printStackTrace();
+		}
+		
+		assertNull(e);
+	}
+	
 }
