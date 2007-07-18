@@ -2,7 +2,6 @@ package org.ambiance.transport;
 
 import java.io.File;
 import java.io.InputStream;
-import java.net.URLDecoder;
 
 import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.FileUtils;
@@ -33,7 +32,7 @@ public class DefaultTransportFileTest extends PlexusTestCase {
 		
 		try {
 			tmp = FileUtils.createTempFile("ambiance-transporter-", ".test", null);
-			transporter.get(URLDecoder.decode(this.getClass().getResource("/name with space.txt").toString(), "UTF-8"), tmp);
+			transporter.get(this.getClass().getResource("/name with space.txt").toString(), tmp);
 		} catch (Exception e1) {
 			e = e1;
 			e1.printStackTrace();
@@ -66,7 +65,7 @@ public class DefaultTransportFileTest extends PlexusTestCase {
 		InputStream is = null;
 		int read = 0;
 		try {
-			String url = URLDecoder.decode(this.getClass().getResource("/name with space.txt").toString(), "UTF-8");
+			String url = this.getClass().getResource("/name with space.txt").toString();
 			is = transporter.getAsStream(url);
 			while(is.read() != -1) {
 				read++;
@@ -87,7 +86,7 @@ public class DefaultTransportFileTest extends PlexusTestCase {
 		InputStream is = null;
 		int read = 0;
 		try {
-			String url = URLDecoder.decode(this.getClass().getResource("/name_without_space.txt").toString(), "UTF-8");
+			String url = this.getClass().getResource("/name_without_space.txt").toString();
 			is = transporter.getAsStream(url);
 			while(is.read() != -1) {
 				read++;
