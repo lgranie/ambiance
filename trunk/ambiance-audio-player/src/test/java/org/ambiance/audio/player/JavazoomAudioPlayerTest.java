@@ -1,7 +1,5 @@
 package org.ambiance.audio.player;
 
-import java.net.URL;
-
 import org.codehaus.plexus.PlexusTestCase;
 
 public class JavazoomAudioPlayerTest extends PlexusTestCase {
