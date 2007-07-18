@@ -11,7 +11,7 @@ public class JavazoomAudioPlayerTest extends PlexusTestCase {
 	public void setUp() {
 		try {
 			super.setUp();
-			aap = (AmbianceAudioPlayer) lookup("org.ambiance.audio.player.AmbianceAudioPlayer","javazoom");
+			aap = (AmbianceAudioPlayer) lookup("org.ambiance.audio.player.AmbianceAudioPlayer", "javazoom");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
