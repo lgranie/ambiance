@@ -53,15 +53,17 @@ public class DefaultTransportTest extends PlexusTestCase {
 		
 		try {
 			
-			if (FileUtils.fileExists(tmpdir+"test1.html")) {
-				FileUtils.forceDelete(tmpdir+"test1.html");
+			if (FileUtils.fileExists(tmpdir+"test 1.html")) {
+				FileUtils.forceDelete(tmpdir+"test 1.html");
 			}
 			
 			tmp = FileUtils.createTempFile("ambiance-transporter-", ".test", null);
 			
 			transporter.get("http://laurent.granie.free.fr/", tmp);
 			
-			transporter.put(tmp, "file://"+tmpdir+"test1.html");
+			transporter.put(tmp, "file://"+tmpdir+"test 1.html");
+			
+			transporter.get("file://"+tmpdir+"test 1.html", tmp);
 			
 		} catch (Exception e1) {
 			
@@ -71,7 +73,7 @@ public class DefaultTransportTest extends PlexusTestCase {
 		
 		assertNull(e);
 		assertNotNull(tmp);
-		assertTrue(FileUtils.fileExists(tmpdir+"test1.html"));
+		assertTrue(FileUtils.fileExists(tmpdir+"test 1.html"));
 	}
 	
 	
