@@ -3,6 +3,7 @@ package org.ambiance.transport;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.net.URLDecoder;
 import java.util.Map;
 
 import org.apache.maven.wagon.InputData;
@@ -63,21 +64,28 @@ public class DefaultTransporter extends AbstractLogEnabled implements Transporte
 	 * @see org.ambiance.transport.Transporter#getAsStream(java.lang.String, int)
 	 */
 	public InputStream getAsStream(String url, int bufferSize) throws TransporterException {
-		StreamWagon wagon = wagons.get(PathUtils.protocol(url));
-		Repository repo = getRepository(url);
-
-		InputData input = new InputData();
-		input.setResource(new Resource(PathUtils.filename(url)));
+		String protocol = PathUtils.protocol(url);
+		
 		try {
+			if("file".equals(protocol))
+				url = URLDecoder.decode(url, "UTF-8");
+			
+			StreamWagon wagon = wagons.get(protocol);
+			Repository repo = getRepository(url);
+
+			InputData input = new InputData();
+			input.setResource(new Resource(PathUtils.filename(url)));
+			
 			wagon.connect(repo, getAuthentificationInfo(url), proxyInfo);
 			wagon.fillInputData(input);
 			wagon.disconnect();
+			
+			return new BufferedInputStream(input.getInputStream(), bufferSize);
 		} catch (Throwable t) {
 			getLogger().error("Error while getting file", t);
 			throw new TransporterException("Error while getting file", t);
 		}
 
-		return new BufferedInputStream(input.getInputStream(), bufferSize);
 	}
 
 	/**
