@@ -1,5 +1,6 @@
 package org.ambiance.transport;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Map;
@@ -72,7 +73,7 @@ public class DefaultTransporter extends AbstractLogEnabled implements Transporte
 			throw new TransporterException("Error while getting file", t);
 		}
 
-		return input.getInputStream();
+		return new BufferedInputStream(input.getInputStream());
 	}
 
 	/**
