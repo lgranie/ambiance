@@ -86,10 +86,11 @@ public class DefaultTransportTest extends PlexusTestCase {
 	public void testFileWagonAsStream() {
 		
 		Exception e = null;
+		InputStream is = null;
 		int read = 0;
 		try {
 			String url = URLDecoder.decode(this.getClass().getResource("/avec espace.txt").toString(), "UTF-8");
-			InputStream is = transporter.getAsStream(url);
+			is = transporter.getAsStream(url);
 			while(is.read() != -1) {
 				read++;
 			}
@@ -98,6 +99,7 @@ public class DefaultTransportTest extends PlexusTestCase {
 		}
 		
 		assertNull(e);
+		assertNotNull(is);
 		assertEquals(read, 34);
 	}
 	

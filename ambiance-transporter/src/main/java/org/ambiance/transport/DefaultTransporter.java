@@ -55,10 +55,14 @@ public class DefaultTransporter extends AbstractLogEnabled implements Transporte
 		}
 	}
 
-	/**
-	 * @see org.ambiance.transport.Transporter#getAsStream(java.lang.String)
-	 */
 	public InputStream getAsStream(String url) throws TransporterException {
+		return getAsStream(url, 8192);
+	}
+	
+	/**
+	 * @see org.ambiance.transport.Transporter#getAsStream(java.lang.String, int)
+	 */
+	public InputStream getAsStream(String url, int bufferSize) throws TransporterException {
 		StreamWagon wagon = wagons.get(PathUtils.protocol(url));
 		Repository repo = getRepository(url);
 
@@ -73,7 +77,7 @@ public class DefaultTransporter extends AbstractLogEnabled implements Transporte
 			throw new TransporterException("Error while getting file", t);
 		}
 
-		return new BufferedInputStream(input.getInputStream());
+		return new BufferedInputStream(input.getInputStream(), bufferSize);
 	}
 
 	/**

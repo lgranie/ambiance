@@ -20,6 +20,8 @@ public interface Transporter {
 
 	public InputStream getAsStream(String url) throws TransporterException;
 	
+	public InputStream getAsStream(String url, int bufferSize) throws TransporterException;
+	
 	/**
 	 * 
 	 * @param file
