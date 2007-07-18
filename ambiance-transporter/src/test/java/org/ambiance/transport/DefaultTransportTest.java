@@ -40,7 +40,7 @@ public class DefaultTransportTest extends PlexusTestCase {
 			tmp = FileUtils.createTempFile("ambiance-transporter-", ".test", null);
 			FileUtils.forceDelete(tmp);
 			
-			transporter.get("http://laurent.granie.free.fr/", tmp);
+			transporter.get("http://yakz1337.free.fr/Mp3/News%20!/Daft%20Punk%20-%20Digital%20Love.mp3", tmp);
 			
 		} catch (Exception e1) {
 			
