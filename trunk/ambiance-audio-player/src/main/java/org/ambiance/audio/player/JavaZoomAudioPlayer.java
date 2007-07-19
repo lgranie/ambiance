@@ -1,7 +1,6 @@
 package org.ambiance.audio.player;
 
 import java.io.InputStream;
-import java.net.URLDecoder;
 
 import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
