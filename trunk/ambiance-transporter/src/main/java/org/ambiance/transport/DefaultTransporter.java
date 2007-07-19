@@ -3,7 +3,6 @@ package org.ambiance.transport;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URLDecoder;
 import java.util.Map;
 
@@ -44,7 +43,7 @@ public class DefaultTransporter extends AbstractLogEnabled implements Transporte
 	 * @see org.ambiance.transport.Transporter#get(java.lang.String, java.io.File)
 	 */
 	public void get(String url, File file) throws TransporterException {
-		url = encode(url);
+		url = url.replaceAll(" ", "%20");
 		
 		String protocol = PathUtils.protocol(url);
 		
@@ -73,7 +72,8 @@ public class DefaultTransporter extends AbstractLogEnabled implements Transporte
 	 * @see org.ambiance.transport.Transporter#getAsStream(java.lang.String, int)
 	 */
 	public InputStream getAsStream(String url, int bufferSize) throws TransporterException {
-		url = encode(url);
+		url = url.replaceAll(" ", "%20");
+		
 		String protocol = PathUtils.protocol(url);
 		
 		try {
@@ -160,15 +160,5 @@ public class DefaultTransporter extends AbstractLogEnabled implements Transporte
 			proxyInfo.setPort(PathUtils.port(proxyUrl));
 		}
 	}
-	
-	private String encode(String url) {
-		try {
-			url = url.replaceAll(" ", "%20");
-			return new URI(url).toASCIIString();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
+
 }
