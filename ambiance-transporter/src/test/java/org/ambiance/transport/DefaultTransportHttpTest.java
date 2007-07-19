@@ -49,7 +49,7 @@ public class DefaultTransportHttpTest extends PlexusTestCase {
 		
 		try {
 			tmp = FileUtils.createTempFile("ambiance-transporter-", ".test", null);
-			transporter.get("http://laurent.granie.free.fr/ambiance/test/ambiance-transporter/name%20with%20space.txt", tmp);
+			transporter.get("http://laurent.granie.free.fr/ambiance/test/ambiance-transporter/name with space.txt", tmp);
 		} catch (Exception e1) {
 			e = e1;
 			e1.printStackTrace();
@@ -86,7 +86,7 @@ public class DefaultTransportHttpTest extends PlexusTestCase {
 		InputStream is = null;
 		int read = 0;
 		try {
-			String url = "http://laurent.granie.free.fr/ambiance/test/ambiance-transporter/name%20with%20space.txt";
+			String url = "http://laurent.granie.free.fr/ambiance/test/ambiance-transporter/name with space.txt";
 			is = transporter.getAsStream(url);
 			while(is.read() != -1) {
 				read++;
