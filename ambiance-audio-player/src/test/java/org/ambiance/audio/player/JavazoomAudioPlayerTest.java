@@ -14,6 +14,22 @@ public class JavazoomAudioPlayerTest extends PlexusTestCase {
 			e.printStackTrace();
 		}
 	}
+
+	public void testPlayOgg() {
+		System.out.println("Are you listening 10 secondes music?");
+		Exception e = null;
+		try {
+			aap.open(this.getClass().getResource("/I Like to Move it.ogg").toString());
+			aap.play();
+			Thread.sleep(10000);
+			aap.stop();
+		} catch (Exception e1) {
+			e = e1;
+			e.printStackTrace();
+		}
+		
+		assertNull(e);
+	}
 	
 	public void testPlayMp3() {
 		System.out.println("Are you listening 10 secondes music?");
@@ -47,27 +63,11 @@ public class JavazoomAudioPlayerTest extends PlexusTestCase {
 		assertNull(e);
 	}
 	
-	public void testPlayOgg() {
-		System.out.println("Are you listening 10 secondes music?");
-		Exception e = null;
-		try {
-			aap.open(this.getClass().getResource("/I Like to Move it.ogg").toString());
-			aap.play();
-			Thread.sleep(10000);
-			aap.stop();
-		} catch (Exception e1) {
-			e = e1;
-			e.printStackTrace();
-		}
-		
-		assertNull(e);
-	}
-	
 	public void testPlayMp3FromTheWeb() {
 		System.out.println("Are you listening 10 secondes music?");
 		Exception e = null;
 		try {
-			aap.open("http://yakz1337.free.fr/Mp3/News%20!/Daft%20Punk%20-%20Digital%20Love.mp3");
+			aap.open("http://yakz1337.free.fr/Mp3/News !/Daft Punk - Digital Love.mp3");
 			aap.play();
 			Thread.sleep(10000);
 			aap.stop();
