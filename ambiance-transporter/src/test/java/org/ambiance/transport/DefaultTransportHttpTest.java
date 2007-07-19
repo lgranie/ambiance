@@ -1,6 +1,7 @@
 package org.ambiance.transport;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 
 import org.codehaus.plexus.PlexusTestCase;
@@ -29,10 +30,15 @@ public class DefaultTransportHttpTest extends PlexusTestCase {
 		
 		Exception e = null;
 		File tmp = null;
+		int read = 0;
 		
 		try {
 			tmp = FileUtils.createTempFile("ambiance-transporter-", ".test", null);
 			transporter.get("http://laurent.granie.free.fr/ambiance/test/ambiance-transporter/name_without_space.txt", tmp);
+			FileInputStream fis = new FileInputStream(tmp);
+			while(fis.read() != -1) {
+				read++;
+			}
 		} catch (Exception e1) {
 			e = e1;
 			e1.printStackTrace();
@@ -40,16 +46,22 @@ public class DefaultTransportHttpTest extends PlexusTestCase {
 		
 		assertNull(e);
 		assertNotNull(tmp);
+		assertEquals(read, 37);
 	}
 	
 	public void testURLWithSpace() {
 		
 		Exception e = null;
 		File tmp = null;
+		int read = 0;
 		
 		try {
 			tmp = FileUtils.createTempFile("ambiance-transporter-", ".test", null);
 			transporter.get("http://laurent.granie.free.fr/ambiance/test/ambiance-transporter/name with space.txt", tmp);
+			FileInputStream fis = new FileInputStream(tmp);
+			while(fis.read() != -1) {
+				read++;
+			}
 		} catch (Exception e1) {
 			e = e1;
 			e1.printStackTrace();
@@ -57,6 +69,7 @@ public class DefaultTransportHttpTest extends PlexusTestCase {
 		
 		assertNull(e);
 		assertNotNull(tmp);
+		assertEquals(read, 31);
 	}
 	
 	public void testURLWithoutSpaceAsStream() {
