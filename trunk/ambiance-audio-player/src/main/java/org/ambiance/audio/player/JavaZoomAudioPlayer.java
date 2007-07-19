@@ -30,7 +30,7 @@ public class JavaZoomAudioPlayer extends AbstractLogEnabled implements AmbianceA
 
 	public void open(String url) throws BasicPlayerException {
 		try {
-			InputStream stream = transporter.getAsStream(url, 1024*32);
+			InputStream stream = transporter.getAsStream(url, 32768);
 			player.open(stream);
 		} catch(Exception e) {
 			throw new BasicPlayerException(e);
