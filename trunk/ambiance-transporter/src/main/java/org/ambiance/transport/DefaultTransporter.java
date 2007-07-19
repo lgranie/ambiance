@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import org.apache.maven.wagon.InputData;
@@ -18,6 +19,7 @@ import org.codehaus.plexus.logging.AbstractLogEnabled;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * The component is an implementation of org.ambiance.transport.Transporter. It uses <a
@@ -43,10 +45,12 @@ public class DefaultTransporter extends AbstractLogEnabled implements Transporte
 	 * @see org.ambiance.transport.Transporter#get(java.lang.String, java.io.File)
 	 */
 	public void get(String url, File file) throws TransporterException {
+		url = encode(url);
+		
 		String protocol = PathUtils.protocol(url);
 		
 		try {
-			// Wagon-file does not supprot url string format (with %20 for ex.)
+			// Wagon-file does not support url string format (with %20 for ex.)
 			if("file".equals(protocol))
 				url = URLDecoder.decode(url, "UTF-8");
 			
@@ -70,6 +74,7 @@ public class DefaultTransporter extends AbstractLogEnabled implements Transporte
 	 * @see org.ambiance.transport.Transporter#getAsStream(java.lang.String, int)
 	 */
 	public InputStream getAsStream(String url, int bufferSize) throws TransporterException {
+		url = encode(url);
 		String protocol = PathUtils.protocol(url);
 		
 		try {
@@ -156,5 +161,38 @@ public class DefaultTransporter extends AbstractLogEnabled implements Transporte
 			proxyInfo.setPort(PathUtils.port(proxyUrl));
 		}
 	}
+	
+	private String encode(String url) {
+		try {
+			url = new String(URLDecoder.decode(url, "UTF-8"));
 
+			StringBuffer sb = new StringBuffer();
+			String protocol = PathUtils.protocol(url);
+			sb.append(protocol).append("://");
+
+			url = url.substring(sb.toString().length());
+			
+			if ("file".equals(protocol) && System.getProperty("os.name").toLowerCase().trim().startsWith("win")) {
+				int index = url.indexOf("/");
+				sb.append(url.substring(0, index));
+				url = url.substring(index);
+			}
+				
+			
+			while (url.indexOf("//") != -1)
+				url = url.replaceAll("//", "/");
+
+			String[] ss = url.split("/");
+			for (int i = 0; i < ss.length; i++ ) {
+				ss[i] = URLEncoder.encode(ss[i], "UTF-8");
+			}
+			sb.append(StringUtils.join(ss, "/"));
+
+			return sb.toString().replaceAll("\\+", "%20");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
