@@ -16,6 +16,8 @@ import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationExce
 public class JavaZoomAudioPlayer extends AbstractLogEnabled implements AmbianceAudioPlayer, Initializable {
 
 	private BasicPlayer player;
+	
+	private static final int BUFFER_SIZE = 65536;
 
 	/**
 	 * @plexus.requirement role="org.ambiance.transport.Transporter" role-hint="default"
@@ -30,7 +32,7 @@ public class JavaZoomAudioPlayer extends AbstractLogEnabled implements AmbianceA
 
 	public void open(String url) throws BasicPlayerException {
 		try {
-			InputStream stream = transporter.getAsStream(url, 32768);
+			InputStream stream = transporter.getAsStream(url, BUFFER_SIZE);
 			player.open(stream);
 		} catch(Exception e) {
 			throw new BasicPlayerException(e);
