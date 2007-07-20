@@ -52,17 +52,6 @@
 
   <repositories>
     <repository>
-      <id>Ambiance Snapshots</id>
-      <url>http://laurent.granie.free.fr/ambiance/ambiance-snapshot-repository</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-    
-    <repository>
       <id>maven2-repository.dev.java.net</id>
       <name>Java.net Maven 2 Repository</name>
       <url>https://maven2-repository.dev.java.net/nonav/repository</url>
