@@ -102,6 +102,14 @@
         <version>1.0</version>
       </plugin>
 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <tagBase>https://ambiance.googlecode.com/svn/tags/</tagBase>
+        </configuration>
+      </plugin>
+
       <!-- All Ambiance components are compiled with 1.5 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
