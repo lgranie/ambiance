@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>ambiance</groupId>
+    <artifactId>ambiance-components</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>ambiance</groupId>
+  <artifactId>ambiance-webcam-imagegrabber</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <description></description>
+
+  <repositories>
+    <repository>
+      <id>Ambiance Snapshots</id>
+      <url>http://laurent.granie.free.fr/ambiance/ambiance-snapshot-repository</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.apple</groupId>
+      <artifactId>quicktime</artifactId>
+      <version>7.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.media</groupId>
+      <artifactId>jmf</artifactId>
+      <version>2.1.1e</version>
+    </dependency>
+  </dependencies>
+</project>
