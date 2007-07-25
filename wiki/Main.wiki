@@ -1,5 +1,7 @@
-#summary In this page, you will find a entry for all the sub projects.
+#summary There is no more doc but there is code for now. Take a look at the *Source* tab entrie. Use it and if you had something to talk, add a issue.
 #labels Featured
+
+Good luke.
 
 = Introduction =
 
@@ -8,7 +10,5 @@
 
 = Sub projects =
 
-  * [components ambiance-components]  : 
-the parent project for ambiance componant.
-  ** [transporter ambiance-transporter] : 
-this component provides file transfert service in four methods.
+  * [components ambiance-components]  : the parent project for ambiance componant.
+  * [transporter ambiance-transporter] : this component provides file transfert service in four methods.
