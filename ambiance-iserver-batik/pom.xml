@@ -126,7 +126,6 @@
       <version>1.6R6-candidate2</version>
     </dependency>
     
-
     <dependency>
       <groupId>xerces</groupId>
       <artifactId>xerces</artifactId>
