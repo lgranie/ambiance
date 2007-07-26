@@ -1,0 +1,10 @@
+<component-set>
+  <components>
+    <component>
+      <role>org.ambiance.iserver.AmbianceIserver</role>
+      <role-hint>batik</role-hint>
+      <implementation>org.ambiance.iserver.batik.AmbianceIserverBatik</implementation>
+      <description></description>
+    </component>
+  </components>
+</component-set>
