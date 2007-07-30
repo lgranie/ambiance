@@ -24,8 +24,7 @@ import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationExce
  * @plexus.component role="org.ambiance.iserver.AmbianceIserver"
  *                   role-hint="batik"
  */
-public class AmbianceIserverBatik extends AbstractLogEnabled implements
-		Initializable, AmbianceIserver {
+public class AmbianceIserverBatik extends AbstractLogEnabled implements Initializable, AmbianceIserver {
 
 	/**
 	 * @plexus.requirement role="org.ambiance.transport.Transporter" role-hint="default"
@@ -45,8 +44,7 @@ public class AmbianceIserverBatik extends AbstractLogEnabled implements
 
 	public void initialize() throws InitializationException {
 		// LGE - Init device and frame
-		device = GraphicsEnvironment.getLocalGraphicsEnvironment()
-				.getDefaultScreenDevice();
+		device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		frame = new JFrame("Ambiance", device.getDefaultConfiguration());
 		//frame.getContentPane().setLayout(null);
 
