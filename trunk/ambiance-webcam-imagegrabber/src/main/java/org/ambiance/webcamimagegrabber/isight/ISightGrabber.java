@@ -21,13 +21,23 @@ import quicktime.std.sg.SGVideoChannel;
 import quicktime.std.sg.SequenceGrabber;
 import quicktime.util.RawEncodedImage;
 
+/**
+ * @plexus.component role="org.ambiance.webcamimagegrabber.WebCamImageGrabber" role-hint="isight"
+ */
 public class ISightGrabber extends AbstractLogEnabled implements WebCamImageGrabber, Initializable {
 	private SequenceGrabber grabber;
     private SGVideoChannel channel;
     private RawEncodedImage rowEncodedImage;
 
-    private int width;
-    private int height;
+    /**
+	 * @plexus.configuration default-value="640"
+	 */
+	private int width;
+	
+	/**
+	 * @plexus.configuration default-value="480"
+	 */
+	private int height;
     private int videoWidth;
 
     private int[] pixels;
@@ -52,8 +62,7 @@ public class ISightGrabber extends AbstractLogEnabled implements WebCamImageGrab
 
             videoWidth = width + (rowEncodedImage.getRowBytes() - width * 4) / 4;
             pixels = new int[videoWidth * height];
-            image = new BufferedImage(
-                videoWidth, height, BufferedImage.TYPE_INT_RGB);
+            image = new BufferedImage(videoWidth, height, BufferedImage.TYPE_INT_RGB);
             raster = WritableRaster.createPackedRaster(DataBuffer.TYPE_INT,
                 videoWidth, height,
                 new int[] { 0x00ff0000, 0x0000ff00, 0x000000ff }, null);
@@ -63,7 +72,7 @@ public class ISightGrabber extends AbstractLogEnabled implements WebCamImageGrab
                 public void exceptionOccurred(
                         QTRuntimeException e, Object eGenerator,
                         String methodNameIfKnown, boolean unrecoverableFlag) {
-                    System.out.println("what should i do?");
+                    	getLogger().debug("what should i do?");
                 }
             });
         } catch (Exception e) {
@@ -84,11 +93,6 @@ public class ISightGrabber extends AbstractLogEnabled implements WebCamImageGrab
         } finally {
             QTSession.close();
         }
-    }
-	
-	public void getNextPixels(int[] pixels) throws Exception {
-        grabber.idle();
-        rowEncodedImage.copyToArray(0, pixels, 0, pixels.length);
     }
 
     public Image grab() throws Exception {
