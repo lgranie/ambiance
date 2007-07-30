@@ -28,7 +28,7 @@ public class AmbianceIserverBatikTest extends PlexusTestCase {
 		try {
 			iserver.setScreen(this.getClass().getResource("/svgtetris.svg").toString());
 			
-			Thread.sleep(30000);
+			Thread.sleep(60000);
 		} catch (Exception e1) {
 			System.out.println(e1.getMessage());
 			e = e1;
@@ -41,6 +41,20 @@ public class AmbianceIserverBatikTest extends PlexusTestCase {
 		Exception e = null;
 		try {
 			iserver.setScreen(this.getClass().getResource("/tiger.svg").toString());
+			
+			Thread.sleep(30000);
+		} catch (Exception e1) {
+			System.out.println(e1.getMessage());
+			e = e1;
+		}   
+		
+		assertNull(e);
+	}
+	
+	public void testCroix() {
+		Exception e = null;
+		try {
+			iserver.setScreen(this.getClass().getResource("/croix.svg").toString());
 			
 			Thread.sleep(10000);
 		} catch (Exception e1) {

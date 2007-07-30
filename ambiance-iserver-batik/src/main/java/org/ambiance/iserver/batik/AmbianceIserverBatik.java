@@ -2,16 +2,20 @@ package org.ambiance.iserver.batik;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.io.IOException;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import org.ambiance.iserver.AmbianceIserver;
+import org.ambiance.transport.Transporter;
+import org.ambiance.transport.TransporterException;
+import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.batik.swing.gvt.GVTTreeRendererAdapter;
 import org.apache.batik.swing.gvt.GVTTreeRendererEvent;
 import org.apache.batik.swing.svg.GVTTreeBuilderAdapter;
 import org.apache.batik.swing.svg.GVTTreeBuilderEvent;
+import org.apache.batik.util.XMLResourceDescriptor;
 import org.codehaus.plexus.logging.AbstractLogEnabled;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
@@ -23,7 +27,14 @@ import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationExce
 public class AmbianceIserverBatik extends AbstractLogEnabled implements
 		Initializable, AmbianceIserver {
 
+	/**
+	 * @plexus.requirement role="org.ambiance.transport.Transporter" role-hint="default"
+	 */
+	private Transporter transporter;
+	
 	private GraphicsDevice device = null;
+	
+	private SAXSVGDocumentFactory documentFactory;
 
 	private JFrame frame = null;
 
@@ -39,26 +50,34 @@ public class AmbianceIserverBatik extends AbstractLogEnabled implements
 		frame = new JFrame("Ambiance", device.getDefaultConfiguration());
 		//frame.getContentPane().setLayout(null);
 
+	    String parser = XMLResourceDescriptor.getXMLParserClassName();
+		documentFactory = new SAXSVGDocumentFactory(parser);
+		
 		// LGE - Initialize SVG container
 		svgCanvas = new JSVGCanvas();
+		
+		// Forces the canvas to always be dynamic even if the current
+        // document does not contain scripting or animation.
+		svgCanvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
+		
 		svgCanvas.addGVTTreeBuilderListener(new GVTTreeBuilderAdapter() {
 
 			public void gvtBuildStarted(GVTTreeBuilderEvent e) {
-				getLogger().info("Build Started...");
+				getLogger().debug("Build Started...");
 			}
 
 			public void gvtBuildCompleted(GVTTreeBuilderEvent e) {
-				getLogger().info("Build Done.");
+				getLogger().debug("Build Done.");
 				refreshScreen();
 			}
 		});
 		
 		svgCanvas.addGVTTreeRendererListener(new GVTTreeRendererAdapter() {
             public void gvtRenderingPrepare(GVTTreeRendererEvent e) {
-            	getLogger().info("Rendering Started...");
+            	getLogger().debug("Rendering Started...");
             }
             public void gvtRenderingCompleted(GVTTreeRendererEvent e) {
-            	getLogger().info("Rendering completed.");
+            	getLogger().debug("Rendering completed.");
             }
         });
 
@@ -90,7 +109,15 @@ public class AmbianceIserverBatik extends AbstractLogEnabled implements
 	}
 
 	public void setScreen(String uri) {
-		svgCanvas.setURI(uri);
+		try {
+			svgCanvas.setDocument(documentFactory.createDocument(uri, transporter.getAsStream(uri)));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransporterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
