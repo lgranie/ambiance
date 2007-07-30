@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.0"
+   width="128"
+   height="128"
+   id="croix">
+  <defs
+     id="defs2246" />
+  <g
+     style="opacity:0.5;display:inline"
+     id="layer1">
+    <path
+       d="M 91.42857 85.333336 A 45.37566 41.989418 0 1 1  0.67724991,85.333336 A 45.37566 41.989418 0 1 1  91.42857 85.333336 z"
+       transform="matrix(1.4104478,0,0,1.5241935,-0.9552256,-66.06452)"
+       style="fill:#000000;fill-opacity:1"
+       id="path2215" />
+    <path
+       d="M 98.201057 70.603172 A 36.402115 37.756615 0 1 1  25.396828,70.603172 A 36.402115 37.756615 0 1 1  98.201057 70.603172 z"
+       transform="matrix(1.3186047,0,0,1.2713004,-17.488376,-25.757841)"
+       style="fill:#dcdcdc;fill-opacity:1"
+       id="path2217" />
+  </g>
+  <g
+     style="opacity:0.5;display:inline"
+     id="layer2">
+    <rect
+       width="24"
+       height="80"
+       ry="16"
+       x="-102.50967"
+       y="-40"
+       transform="matrix(-0.7071068,-0.7071068,0.7071068,-0.7071068,0,0)"
+       style="fill:#000000;fill-opacity:1"
+       id="rect2222" />
+    <rect
+       width="24"
+       height="80"
+       ry="16"
+       x="-12"
+       y="50.509666"
+       transform="matrix(0.7071068,-0.7071068,0.7071068,0.7071068,0,0)"
+       style="opacity:1;fill:#000000;fill-opacity:1"
+       id="rect2230" />
+  </g>
+</svg>
