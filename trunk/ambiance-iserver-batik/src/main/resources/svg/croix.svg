@@ -14,16 +14,18 @@
         rx="50%" ry="10%" 
         width="20" height="80" 
         fill="black"
-        fill-opacity=".8"/> 
+        /> 
         
-	  <g id="cross">
-	    <use xlink:href="#cross-elt" transform="rotate(-45, 10, 40)" />
-	    <use xlink:href="#cross-elt" transform="rotate(45, 10, 40)"  />
+	  <g id="cross" opacity=".8" >
+	    <use xlink:href="#cross-elt" transform="rotate(90, 10, 40)" />
+	    <use xlink:href="#cross-elt" />
 	  </g>    
     </defs>
 	
 	<g id="cross-button">
 	 <use xlink:href="#cercle" />
-	 <use xlink:href="#cross" />
+	 <use xlink:href="#cross" 
+	   x="54" y="24" 
+	   transform="rotate(45, 64, 64)" />
 	</g>
 </svg>
