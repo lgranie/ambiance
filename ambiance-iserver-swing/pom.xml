@@ -29,6 +29,11 @@
         <enabled>false</enabled>
       </releases>
     </repository>
+    
+    <repository>
+      <id>Ambiance Thirdpart</id>
+      <url>http://laurent.granie.free.fr/ambiance/ambiance-thirdpart-repository</url>
+    </repository>
   </repositories>
   
   <dependencies>
@@ -36,6 +41,12 @@
       <groupId>ambiance</groupId>
       <artifactId>ambiance-iserver-api</artifactId>
       <version>1.0-SNAPSHOT</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>jogl</groupId>
+      <artifactId>jogl-natives-windows-i586</artifactId>
+      <version>1.0</version>
     </dependency>
     
     <dependency>
