@@ -2,7 +2,19 @@
 <svg width="128" height="64" 
 	xmlns="http://www.w3.org/2000/svg"
 	xmlns:xlink="http://www.w3.org/1999/xlink">
+    <script type="text/ecmascript"><![CDATA[
 
+    var svgdoc;
+
+    function load(evt) {
+      var texte     = document.getElementById("menu-text");
+      var rectangle = document.getElementById("menu-rect");
+      var textWidth = texte.getComputedTextLength() + parseInt(rectangle.getAttribute("rx"));
+      rectangle.setAttribute("width", textWidth );
+      texte.setAttribute("x", textWidth / 2 );
+    }
+
+    ]]></script>
   <defs>
     <linearGradient
        x1="64"
@@ -13,22 +25,22 @@
        gradientUnits="userSpaceOnUse" >
       <stop
         style="stop-color:#000000;stop-opacity:1"
-        offset="0"
-        id="stop5345" />
+        offset="0" />
       <stop
         style="stop-color:#000000;stop-opacity:0"
-        offset="1"
-        id="stop5347" />
+        offset="1"/>
     </linearGradient>
   </defs>
   
-  <g>
-    <rect
+  <g id="menu-item" onload="load(evt)">
+    <rect 
        width="128"
        height="64"
        rx="32"
        ry="32"
        style="fill:url(#rect-gradient);"
-       id="menu-item" />
+       id="menu-rect" >
+    </rect>
+    <text id="menu-text" y="50%" text-anchor="middle" fill="white" font-size="18">button one</text>
   </g>
 </svg>
