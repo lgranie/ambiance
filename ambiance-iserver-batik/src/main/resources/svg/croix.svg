@@ -4,9 +4,10 @@
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 	
   <script type="text/ecmascript">
-    function test(evt) {
-    	var opacity = evt.target.getAttribute('id');
-    	alert(opacity);
+    function over(evt) {
+    	var opacity = evt.target.getAttribute('opacity');
+    	opacity = opacity + 0.1;
+    	evt.target.setAttribute('opacity', opacity);
     }
   </script>
   
@@ -24,14 +25,14 @@
       fill="black"
     />
         
-	<g id="cross" opacity=".8" >
+	<symbol id="cross" opacity=".8" >
 	  <use xlink:href="#cross-elt" transform="rotate(90, 10, 40)" />
 	  <use xlink:href="#cross-elt" />
       
-	</g>    
+	</symbol>    
   </defs>
 	
-  <g id="cross-button" onmouseover="test(evt)" opacity="0">
+  <g id="cross-button" onmouseover="over(evt)" >
 	<use xlink:href="#cercle" />
 	<use xlink:href="#cross" 
 	  x="54" y="24" 
