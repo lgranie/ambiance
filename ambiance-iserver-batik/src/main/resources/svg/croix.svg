@@ -3,6 +3,13 @@
 	xmlns="http://www.w3.org/2000/svg"
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 	
+  <script type="text/ecmascript">
+    function test(evt) {
+    	var opacity = evt.target.getAttribute('id');
+    	alert(opacity);
+    }
+  </script>
+  
   <defs>
     <circle id="cercle"
       cx="50%" cy="50%" r="44%" 
@@ -24,13 +31,12 @@
 	</g>    
   </defs>
 	
-  <g id="cross-button">
+  <g id="cross-button" onmouseover="test(evt)" opacity="0">
 	<use xlink:href="#cercle" />
 	<use xlink:href="#cross" 
 	  x="54" y="24" 
 	  transform="rotate(45, 64, 64)" 
     />
-    <set attributeName="opacity" from="0" to="1" dur="2s"
-            begin="mouseover" end="mouseout" />
   </g>
+  
 </svg>
