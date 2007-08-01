@@ -3,14 +3,6 @@
 	xmlns="http://www.w3.org/2000/svg"
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 	
-  <script type="text/ecmascript">
-    function over(evt) {
-    	var opacity = evt.target.getAttribute('opacity');
-    	opacity = opacity + 0.1;
-    	evt.target.setAttribute('opacity', opacity);
-    }
-  </script>
-  
   <defs>
     <circle id="cercle"
       cx="50%" cy="50%" r="44%" 
@@ -25,14 +17,13 @@
       fill="black"
     />
         
-	<symbol id="cross" opacity=".8" >
+	<g id="cross" opacity=".8" >
 	  <use xlink:href="#cross-elt" transform="rotate(90, 10, 40)" />
 	  <use xlink:href="#cross-elt" />
-      
-	</symbol>    
+	</g>    
   </defs>
 	
-  <g id="cross-button" onmouseover="over(evt)" >
+  <g id="cross-button" >
 	<use xlink:href="#cercle" />
 	<use xlink:href="#cross" 
 	  x="54" y="24" 
