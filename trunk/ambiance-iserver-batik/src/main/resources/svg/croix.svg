@@ -23,12 +23,14 @@
 	</g>    
   </defs>
 	
-  <g id="cross-button" >
+  <g id="cross-button" opacity=".2" >
 	<use xlink:href="#cercle" />
 	<use xlink:href="#cross" 
 	  x="54" y="24" 
 	  transform="rotate(45, 64, 64)" 
     />
+    <animate attributeName="opacity" from="1"   to="0.2" begin="onmouseout"  dur="2s" fill="freeze" />
+    <animate attributeName="opacity" from="0.2" to="1"   begin="onmouseover" dur="2s" fill="freeze" />
   </g>
   
 </svg>
