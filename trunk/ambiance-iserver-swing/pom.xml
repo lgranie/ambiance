@@ -36,6 +36,71 @@
     </repository>
   </repositories>
   
+  <profiles>
+    <profile>
+      <id>windows</id>
+      <activation>
+        <os>
+          <family>Windows</family>
+        </os>
+      </activation>
+      <properties>
+        <family>windows</family>
+        <jogl.version>1.1.0</jogl.version>
+      </properties>
+    </profile>
+    <profile>
+      <id>mac</id>
+      <activation>
+        <os>
+          <family>Mac</family>
+        </os>
+      </activation>
+      <properties>
+        <family>mac</family>
+        <jogl.version>1.1.0</jogl.version>
+        <os.arch>universal</os.arch>
+      </properties>
+    </profile>
+  </profiles>
+  
+  <build>
+   <plugins>
+     <plugin>
+        <!-- Unpack the jogl and glutgen -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>jogl</groupId>
+                  <artifactId>jogl-native-${family}-${os.arch}</artifactId>
+                  <type>zip</type>
+                  <version>${jogl.version}</version>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>jogl</groupId>
+                  <artifactId>gluegen-rt-native-${family}-${os.arch}</artifactId>
+                  <type>zip</type>
+                  <version>${jogl.version}</version>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>
+                ${project.build.directory}/lib/ext/
+              </outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  
   <dependencies>
     <dependency>
       <groupId>ambiance</groupId>
@@ -45,8 +110,14 @@
     
     <dependency>
       <groupId>jogl</groupId>
-      <artifactId>jogl-natives-windows-i586</artifactId>
-      <version>1.0</version>
+      <artifactId>jogl</artifactId>
+      <version>${jogl.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.jdesktop</groupId>
+      <artifactId>TimingFramework</artifactId>
+      <version>0.56</version>
     </dependency>
     
     <dependency>
