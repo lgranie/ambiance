@@ -55,7 +55,6 @@ public class AmbianceIserverBatikTest extends PlexusTestCase {
 		Exception e = null;
 		try {
 			iserver.setScreen(this.getClass().getResource("/svg/croix.svg").toString());
-			
 			Thread.sleep(10000);
 		} catch (Exception e1) {
 			System.out.println(e1.getMessage());
