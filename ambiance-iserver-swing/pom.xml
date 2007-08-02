@@ -46,6 +46,7 @@
       </activation>
       <properties>
         <family>windows</family>
+        <os-arch>x86</os-arch>
         <jogl.version>1.1.0</jogl.version>
       </properties>
     </profile>
@@ -57,7 +58,8 @@
         </os>
       </activation>
       <properties>
-        <family>mac</family>
+        <family>macosx</family>
+        <os-arch>universal</os-arch>
         <jogl.version>1.1.0</jogl.version>
         <os.arch>universal</os.arch>
       </properties>
@@ -80,13 +82,13 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>jogl</groupId>
-                  <artifactId>jogl-native-${family}-${os.arch}</artifactId>
+                  <artifactId>jogl-native-${family}-${os-arch}</artifactId>
                   <type>zip</type>
                   <version>${jogl.version}</version>
                 </artifactItem>
                 <artifactItem>
                   <groupId>jogl</groupId>
-                  <artifactId>gluegen-rt-native-${family}-${os.arch}</artifactId>
+                  <artifactId>gluegen-rt-native-${family}-${os-arch}</artifactId>
                   <type>zip</type>
                   <version>${jogl.version}</version>
                 </artifactItem>
