@@ -91,7 +91,7 @@ public class AmbianceIserverBatik extends AbstractLogEnabled implements Initiali
 			frame.setResizable(!isFullScreen);
 			device.setFullScreenWindow(frame);
 		} else {
-	        frame.setSize(400, 400);
+	        frame.setSize(640, 480);
 		}
 	}
 
