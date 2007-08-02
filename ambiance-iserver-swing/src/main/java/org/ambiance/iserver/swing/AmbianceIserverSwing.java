@@ -3,6 +3,8 @@ package org.ambiance.iserver.swing;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
+import javax.media.opengl.GLCanvas;
+import javax.media.opengl.GLCapabilities;
 import javax.swing.JFrame;
 
 import org.ambiance.iserver.AmbianceIserver;
@@ -29,17 +31,27 @@ public class AmbianceIserverSwing extends AbstractLogEnabled implements Initiali
 		// LGE - Init device and frame
 		device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		frame = new JFrame("Ambiance", device.getDefaultConfiguration());
-		//frame.getContentPane().setLayout(null);
 
+		// LGE - Init 3D Canvas
+        GLCapabilities caps = new GLCapabilities();
+        caps.setSampleBuffers(true);
+        caps.setNumSamples(4);
+        GLCanvas canvas = new GLCanvas(caps);
+        frame.add(canvas);
+		
 		// LGE - set fullscreen
-		if (isFullScreen && device.isFullScreenSupported()) {
+        isFullScreen = isFullScreen && device.isFullScreenSupported();  
+		if (isFullScreen) {
 			// Full-screen mode
 			frame.setUndecorated(isFullScreen);
 			frame.setResizable(!isFullScreen);
 			device.setFullScreenWindow(frame);
 		} else {
 	        frame.setSize(640, 480);
+	        frame.setLocationRelativeTo(null);
 		}
+		
+		
 	}
 
 }
