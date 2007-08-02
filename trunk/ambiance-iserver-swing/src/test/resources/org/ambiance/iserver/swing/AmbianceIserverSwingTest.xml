@@ -1,0 +1,13 @@
+<component-set>
+  <components>
+    <component>
+      <role>org.ambiance.iserver.AmbianceIserver</role>
+      <role-hint>swing</role-hint>
+      <implementation>org.ambiance.iserver.swing.AmbianceIserverSwing</implementation>
+      <description></description>
+      <configuration>
+        <is-full-screen>false</is-full-screen>
+      </configuration>
+    </component>
+  </components>
+</component-set>

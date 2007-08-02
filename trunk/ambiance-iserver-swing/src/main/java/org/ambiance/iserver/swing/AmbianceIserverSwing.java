@@ -20,7 +20,10 @@ public class AmbianceIserverSwing extends AbstractLogEnabled implements Initiali
 
 	private JFrame frame = null;
 
-	private boolean isFullScreen = false;
+	/**
+	 * @plexus.configuration default-value="true"
+	 */
+	private boolean isFullScreen;
 
 	public void initialize() throws InitializationException {
 		// LGE - Init device and frame
@@ -29,10 +32,7 @@ public class AmbianceIserverSwing extends AbstractLogEnabled implements Initiali
 		//frame.getContentPane().setLayout(null);
 
 		// LGE - set fullscreen
-		isFullScreen = device.isFullScreenSupported();
-		getLogger().info("Is fullscreen supported : " + isFullScreen);
-
-		if (isFullScreen) {
+		if (isFullScreen && device.isFullScreenSupported()) {
 			// Full-screen mode
 			frame.setUndecorated(isFullScreen);
 			frame.setResizable(!isFullScreen);
