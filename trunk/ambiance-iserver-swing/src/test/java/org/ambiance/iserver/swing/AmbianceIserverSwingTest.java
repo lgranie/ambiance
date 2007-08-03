@@ -10,6 +10,7 @@ public class AmbianceIserverSwingTest extends PlexusTestCase {
 		Exception e = null;
 		
 		try {
+			super.setUp();
 			ais = (AmbianceIserverSwing) lookup("org.ambiance.iserver.AmbianceIserver", "swing");
 		} catch (Exception e1) {
 			e = e1;
@@ -17,6 +18,16 @@ public class AmbianceIserverSwingTest extends PlexusTestCase {
 		}
 		assertNull(e);
 		assertNotNull(ais);
+	}
+	
+	public void testFirst() {
+		try {
+			ais.start();
+			Thread.sleep(10000);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }
