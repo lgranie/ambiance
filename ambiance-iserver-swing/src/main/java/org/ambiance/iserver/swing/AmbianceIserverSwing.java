@@ -1,5 +1,6 @@
 package org.ambiance.iserver.swing;
 
+import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
@@ -8,6 +9,7 @@ import javax.media.opengl.GLCapabilities;
 import javax.swing.JFrame;
 
 import org.ambiance.iserver.AmbianceIserver;
+import org.ambiance.iserver.AmbianceIserverException;
 import org.codehaus.plexus.logging.AbstractLogEnabled;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
@@ -48,10 +50,20 @@ public class AmbianceIserverSwing extends AbstractLogEnabled implements Initiali
 			device.setFullScreenWindow(frame);
 		} else {
 	        frame.setSize(640, 480);
+	        canvas.setPreferredSize(new Dimension(640, 480));
 	        frame.setLocationRelativeTo(null);
 		}
 		
 		
+	}
+
+	public void start() throws AmbianceIserverException {
+		if (isFullScreen) {
+            frame.validate();
+        } else {
+        	frame.pack();
+        	frame.setVisible(true);
+        }
 	}
 
 }
