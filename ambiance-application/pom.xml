@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>ambiance</groupId>
+    <artifactId>ambiance-components</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  
+  <groupId>ambiance</groupId>
+  <artifactId>ambiance-application</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <description></description>
+
+  <scm>
+    <connection>scm:svn:http://ambiance.googlecode.com/svn/trunk/ambiance-application</connection>
+    <url>http://ambiance.googlecode.com/svn/trunk/ambiance-application/</url>
+  </scm>
+
+  <properties>
+    <batik.version>1.6</batik.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>Ambiance Snapshots</id>
+      <url>http://laurent.granie.free.fr/ambiance/ambiance-snapshot-repository</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
+  
+  <pluginRepositories>
+    <pluginRepository>
+      <id>Codehaus Snapshots</id>
+      <url>http://snapshots.repository.codehaus.org/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </pluginRepository>
+  </pluginRepositories>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-appserver-maven-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <configurationDirectory>src/conf</configurationDirectory>
+          <applicationName>Ambiance</applicationName>
+          <applicationConfiguration>src/conf/application.xml</applicationConfiguration>
+          <configurationProperties>src/plexus.properties</configurationProperties>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
+  <dependencies>
+    <dependency>
+      <groupId>com.jhlabs</groupId>
+      <artifactId>filters</artifactId>
+      <version>2.0.235</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>ambiance</groupId>
+      <artifactId>ambiance-transporter</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+</project>
