@@ -1,0 +1,45 @@
+<component-set>
+  <components>
+    <component>
+      <role>org.ambiance.desktop.AmbianceDesktop</role>
+      <role-hint>default</role-hint>
+      <implementation>org.ambiance.desktop.DefaultAmbianceDesktop</implementation>
+      <description></description>
+      <requirements>
+        <requirement>
+          <role>org.ambiance.desktop.view.AmbianceView</role>
+          <role-hints>
+            <role-hint>antique</role-hint>
+          </role-hints>
+          <field-name>views</field-name>
+        </requirement>
+      </requirements>
+      <configuration>
+        <title>Ambiance Desktop</title>
+        <is-full-screen>false</is-full-screen>
+        <dimension>
+          <width>1024</width>
+          <height>768</height>
+        </dimension>
+      </configuration>
+    </component>
+    
+    <component>
+      <role>org.ambiance.desktop.view.AmbianceView</role>
+      <role-hint>antique</role-hint>
+      <implementation>org.ambiance.desktop.antique.AmbianceAntique</implementation>
+      <description></description>
+      <requirements>
+        <requirement>
+          <role>org.ambiance.transport.Transporter</role>
+          <role-hint>default</role-hint>
+          <field-name>transporter</field-name>
+        </requirement>
+      </requirements>
+      <configuration>
+        <svgUri>antique.svg</svgUri>
+      </configuration>
+    </component>
+       
+  </components>
+</component-set>

@@ -1,0 +1,5 @@
+<load-on-start>
+  <component>
+    <role>mygroup.HelloWorld</role>
+  </component>
+</load-on-start>
