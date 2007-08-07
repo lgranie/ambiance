@@ -9,14 +9,14 @@
         <requirement>
           <role>org.ambiance.desktop.view.AmbianceView</role>
           <role-hints>
-            <role-hint>antique</role-hint>
+            <role-hint>music</role-hint>
           </role-hints>
           <field-name>views</field-name>
         </requirement>
       </requirements>
       <configuration>
         <title>Ambiance Desktop</title>
-        <is-full-screen>false</is-full-screen>
+        <is-full-screen>true</is-full-screen>
         <dimension>
           <width>1024</width>
           <height>768</height>
@@ -26,20 +26,15 @@
     
     <component>
       <role>org.ambiance.desktop.view.AmbianceView</role>
-      <role-hint>antique</role-hint>
-      <implementation>org.ambiance.desktop.antique.AmbianceAntique</implementation>
+      <role-hint>game</role-hint>
+      <implementation>org.ambiance.desktop.view.AmbianceViewGame</implementation>
       <description></description>
-      <requirements>
-        <requirement>
-          <role>org.ambiance.transport.Transporter</role>
-          <role-hint>default</role-hint>
-          <field-name>transporter</field-name>
-        </requirement>
-      </requirements>
-      <configuration>
-        <svgUri>antique.svg</svgUri>
-      </configuration>
     </component>
-       
+    <component>
+      <role>org.ambiance.desktop.view.AmbianceView</role>
+      <role-hint>music</role-hint>
+      <implementation>org.ambiance.desktop.view.AmbianceViewMusic</implementation>
+      <description></description>
+    </component>       
   </components>
 </component-set>
