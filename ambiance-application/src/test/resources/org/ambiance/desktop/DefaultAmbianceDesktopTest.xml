@@ -10,6 +10,7 @@
           <role>org.ambiance.desktop.view.AmbianceView</role>
           <role-hints>
             <role-hint>music</role-hint>
+            <role-hint>game</role-hint>
           </role-hints>
           <field-name>views</field-name>
         </requirement>
