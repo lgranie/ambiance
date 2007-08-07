@@ -37,6 +37,20 @@ public class AmbianceIserverBatikTest extends PlexusTestCase {
 		assertNull(e);
 	}
 
+	public void testAntike() {
+		Exception e = null;
+		try {
+			iserver.setScreen(this.getClass().getResource("/antike-alexander.svg").toString());
+			
+			Thread.sleep(60000);
+		} catch (Exception e1) {
+			System.out.println(e1.getMessage());
+			e = e1;
+		}   
+		
+		assertNull(e);
+	}
+	
 	public void testTiger() {
 		Exception e = null;
 		try {

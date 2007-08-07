@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.swing.JFrame;
 
 import org.ambiance.iserver.AmbianceIserver;
+import org.ambiance.iserver.AmbianceIserverException;
 import org.ambiance.transport.Transporter;
 import org.ambiance.transport.TransporterException;
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
@@ -116,6 +117,11 @@ public class AmbianceIserverBatik extends AbstractLogEnabled implements Initiali
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void start() throws AmbianceIserverException {
+		refreshScreen();
+		
 	}
 
 }
