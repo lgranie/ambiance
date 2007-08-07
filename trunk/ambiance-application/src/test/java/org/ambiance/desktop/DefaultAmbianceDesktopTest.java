@@ -15,8 +15,8 @@ public class DefaultAmbianceDesktopTest extends PlexusTestCase {
 		
 		try {
 			super.setUp();
-			
 			dad = (DefaultAmbianceDesktop) lookup("org.ambiance.desktop.AmbianceDesktop", "default");
+			Thread.sleep(10000);
 		} catch (Exception e1) {
 			e = e1;
 			e.printStackTrace();

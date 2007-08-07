@@ -248,13 +248,15 @@ public class JCarosel extends GradientPanel implements  MouseListener,
     public void mouseClicked(final MouseEvent mouseEvent) {
     	if (hoverDelayTimer != null && hoverDelayTimer.isRunning()) { hoverDelayTimer.stop(); }//System.out.println("hover stop - mouse click" + mouseEvent.getSource().getClass().getName() + "/" + ((Component)mouseEvent.getSource()).getName()); }
         if (mouseEvent.getClickCount()==1){
-        	if (iDoubleClickDelayTimer != null && iDoubleClickDelayTimer.isRunning()) { iDoubleClickDelayTimer.stop(); System.out.println("click stop"); }
+        	if (iDoubleClickDelayTimer != null && iDoubleClickDelayTimer.isRunning()) { 
+        		iDoubleClickDelayTimer.stop(); System.out.println("click stop"); 
+        	}
         	iDoubleClickDelayTimer = SwingBugUtilities.invokeAfter(new Runnable() {
                 public void run() {
                 	System.out.println("click run");
                     bringToFront((Component) mouseEvent.getSource());
                 }
-            },doubleClickDelay);
+            }, doubleClickDelay);
         	System.out.println("click start");
         }
     }
