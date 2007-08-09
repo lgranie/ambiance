@@ -33,6 +33,19 @@
         <enabled>false</enabled>
       </releases>
     </repository>
+    
+     <repository>
+      <id>Ambiance Third Part</id>
+      <url>
+        http://laurent.granie.free.fr/ambiance/ambiance-thirdpart-repository
+      </url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
   </repositories>
   
   <pluginRepositories>
