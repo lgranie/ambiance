@@ -9,7 +9,7 @@ import java.util.List;
 
 import javax.media.opengl.GLDrawable;
 
-import org.ambiance.desktop.gl.util.Renderable;
+import org.ambiance.desktop.gl.Renderable;
 
 public class GLCarousel implements Renderable, MouseListener, MouseWheelListener {
 

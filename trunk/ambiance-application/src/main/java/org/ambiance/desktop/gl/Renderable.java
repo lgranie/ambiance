@@ -1,4 +1,4 @@
-package org.ambiance.desktop.gl.util;
+package org.ambiance.desktop.gl;
 
 import javax.media.opengl.GLDrawable;
 
