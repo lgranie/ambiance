@@ -2,10 +2,9 @@ package org.ambiance.desktop;
 
 import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
-import static javax.media.opengl.GL.GL_DEPTH_TEST;
 import static javax.media.opengl.GL.GL_MODELVIEW;
-import static javax.media.opengl.GL.GL_PROJECTION;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -35,7 +34,10 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 
 	private static final Point3f cameraStart = new Point3f(0f, 0f, 70f);
     private static final GLU glu = new GLU();
-	
+
+    private float rquad = 0.0f;
+    private float rtri = 0.0f;
+    
 	private GraphicsDevice device = null;
 
 	private JFrame frame = null;
@@ -60,7 +62,7 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
     /**
 	 * @plexus.configuration default-value="false"
 	 */
-    private boolean displayFPS;
+    private boolean displayFps;
     private FPSText fpsText;
 	
 	public void start() throws StartingException {
@@ -72,13 +74,13 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         
         // LGE - init 3D
         GLCapabilities caps = new GLCapabilities();
-        caps.setSampleBuffers(true);
-        caps.setNumSamples(4);
+       
           
         GLCanvas canvas = new GLCanvas(caps);
-        final com.sun.opengl.util.Animator animator =
-            new com.sun.opengl.util.Animator(canvas);
-        frame.add(canvas);
+        final com.sun.opengl.util.Animator animator = new com.sun.opengl.util.Animator(canvas);
+
+        frame.getContentPane().setLayout( new BorderLayout() );
+        frame.getContentPane().add(canvas, BorderLayout.CENTER );
 		
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -112,7 +114,7 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 			frame.setVisible(true);
 		}
 
-		if(displayFPS)
+		if(displayFps)
 			fpsText = new FPSText();
 		
         animator.start();
@@ -125,8 +127,13 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 	public void init(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
         gl.setSwapInterval(1);
-        gl.glEnable(GL_DEPTH_TEST);
-        gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);		
+        
+        gl.glShadeModel(GL.GL_SMOOTH);              // Enable Smooth Shading
+        gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);    // Black Background
+        gl.glClearDepth(1.0f);                      // Depth Buffer Setup
+        gl.glEnable(GL.GL_DEPTH_TEST);							// Enables Depth Testing
+        gl.glDepthFunc(GL.GL_LEQUAL);								// The Type Of Depth Testing To Do
+        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);	// Really Nice Perspective Calculations
 	}
 
 	public void display(GLAutoDrawable drawable) {        
@@ -137,21 +144,58 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 
         camera.setup(gl, glu);
         
-        if(displayFPS) {
+        if(displayFps) {
         	fpsText.render(drawable);
         }
+        
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+        gl.glLoadIdentity();
+        gl.glTranslatef(-1.5f, 0.0f, -6.0f);
+        gl.glRotatef(rtri, 0.0f, 1.0f, 0.0f);
+        gl.glBegin(GL.GL_TRIANGLES);		    // Drawing Using Triangles
+        gl.glColor3f(1.0f, 0.0f, 0.0f);   // Set the current drawing color to red
+        gl.glVertex3f(0.0f, 1.0f, 0.0f);	// Top
+        gl.glColor3f(0.0f, 1.0f, 0.0f);   // Set the current drawing color to green
+        gl.glVertex3f(-1.0f, -1.0f, 0.0f);	// Bottom Left
+        gl.glColor3f(0.0f, 0.0f, 1.0f);   // Set the current drawing color to blue
+        gl.glVertex3f(1.0f, -1.0f, 0.0f);	// Bottom Right
+        gl.glEnd();				// Finished Drawing The Triangle
+        gl.glLoadIdentity();
+        gl.glTranslatef(1.5f, 0.0f, -6.0f);
+        gl.glRotatef(rquad, 1.0f, 0.0f, 0.0f);
+        gl.glBegin(GL.GL_QUADS);           	// Draw A Quad
+        gl.glColor3f(0.5f, 0.5f, 1.0f);   // Set the current drawing color to light blue
+        gl.glVertex3f(-1.0f, 1.0f, 0.0f);	// Top Left
+        gl.glVertex3f(1.0f, 1.0f, 0.0f);	// Top Right
+        gl.glVertex3f(1.0f, -1.0f, 0.0f);	// Bottom Right
+        gl.glVertex3f(-1.0f, -1.0f, 0.0f);	// Bottom Left
+        gl.glEnd();				// Done Drawing The Quad
+        gl.glFlush();
+        rtri += 0.2f;
+        rquad += 0.15f;
 	}
 
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
         GL gl = drawable.getGL();
 
-        gl.glViewport(0, 0, width, height);
-        gl.glMatrixMode(GL_PROJECTION);
-        gl.glLoadIdentity();
-        double aspectRatio = (double)width / (double)height;
-        glu.gluPerspective(45.0, aspectRatio, 1.0, 400.0);
+//        gl.glViewport(0, 0, width, height);
+//        gl.glMatrixMode(GL_PROJECTION);
+//        gl.glLoadIdentity();
+//        double aspectRatio = (double)width / (double)height;
+//        glu.gluPerspective(45.0, aspectRatio, 1.0, 400.0);
+//        
+//        gl.glMatrixMode(GL_MODELVIEW);
+//        gl.glLoadIdentity();
         
-        gl.glMatrixMode(GL_MODELVIEW);
+        
+        if (height <= 0) // avoid a divide by zero error!
+            height = 1;
+        final float h = (float) width / (float) height;
+
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glLoadIdentity();
+        glu.gluPerspective(45.0f, h, 1.0, 20.0);
+        gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
 	}
 
