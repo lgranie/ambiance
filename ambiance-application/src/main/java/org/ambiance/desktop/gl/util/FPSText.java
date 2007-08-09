@@ -5,6 +5,8 @@ import java.text.DecimalFormat;
 
 import javax.media.opengl.GLDrawable;
 
+import org.ambiance.desktop.gl.Renderable;
+
 import com.sun.opengl.util.j2d.TextRenderer;
 
 public class FPSText implements Renderable{

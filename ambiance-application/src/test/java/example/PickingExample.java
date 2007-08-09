@@ -122,9 +122,7 @@ public class PickingExample extends JFrame implements GLEventListener, MouseList
         
         gl.glLoadIdentity();
         glu.gluLookAt(5,5,10, 3,3,0, 0,0,1);
-        
-        fpsText.render(arg0);
-        
+                
         if (mode == GL.GL_RENDER) {
             
             // only clear the buffers when in GL_RENDER mode. Avoids flickering
@@ -135,6 +133,8 @@ public class PickingExample extends JFrame implements GLEventListener, MouseList
             drawCube();
             
         } else displaySelection();
+
+        fpsText.render(arg0);
         
     }
 
