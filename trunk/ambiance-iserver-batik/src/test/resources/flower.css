@@ -14,11 +14,6 @@ svg {
   font-size: 12px;
   }
 
-/* flower */
-#flower:hover {
-  cursor: crosshair;
-  }
-
 /* gradient */
 #fade-stop-1 { 
   stop-color: blue;
@@ -45,14 +40,7 @@ svg {
   stroke-width: 3;
   }
 
-#outer-petals .segment:hover > .segment-fill {
-  fill: plum;
-  stroke: none;
-  }
 
-#outer-petals .segment:hover > .segment-edge {
-  stroke: slateblue;
-  }
 
 /* inner petals */
 #inner-petals .segment-fill {
@@ -67,11 +55,3 @@ svg {
   stroke-width: 9;
   }
 
-#inner-petals .segment:hover > .segment-fill {
-  fill: darkseagreen;
-  stroke: none;
-  }
-
-#inner-petals .segment:hover > .segment-edge {
-  stroke: green;
-  }
