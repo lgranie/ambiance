@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 
 import org.ambiance.desktop.gl.Camera;
 import org.ambiance.desktop.gl.Point3f;
+import org.ambiance.desktop.gl.util.FPSText;
 import org.codehaus.plexus.logging.AbstractLogEnabled;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Startable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StartingException;
@@ -53,10 +54,14 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 	 * @plexus.configuration
 	 */
 	private Dimension dimension;
-
-    private long startTime;
     
     private Camera camera;
+    
+    /**
+	 * @plexus.configuration default-value="false"
+	 */
+    private boolean displayFPS;
+    private FPSText fpsText;
 	
 	public void start() throws StartingException {
 		// LGE - Init device and frame
@@ -108,6 +113,9 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 			frame.setVisible(true);
 		}
 
+		if(displayFPS)
+			fpsText = new FPSText();
+		
         animator.start();
 	}
 
@@ -117,22 +125,22 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 
 	public void init(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
-        gl.setSwapInterval(0);
+        gl.setSwapInterval(1);
         gl.glEnable(GL_DEPTH_TEST);
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);		
 	}
 
-	public void display(GLAutoDrawable drawable) {
-		if (startTime == 0) {
-            startTime = System.currentTimeMillis();
-        }
-        
+	public void display(GLAutoDrawable drawable) {        
         GL gl = drawable.getGL();
         gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         gl.glMatrixMode(GL_MODELVIEW);
         gl.glLoadIdentity();
 
-        camera.setup(gl, glu);		
+        camera.setup(gl, glu);
+        
+        if(displayFPS) {
+        	fpsText.displayFPSText(drawable);
+        }
 	}
 
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
