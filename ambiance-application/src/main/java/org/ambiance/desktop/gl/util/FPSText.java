@@ -7,13 +7,13 @@ import javax.media.opengl.GLDrawable;
 
 import com.sun.opengl.util.j2d.TextRenderer;
 
-public class FPSText {
+public class FPSText implements Renderable{
 
 	private String fpsText;
 
 	private int fpsWidth;
 
-	private long startTime;
+	private long startTime = 0;
 
 	private int frameCount;
 
@@ -30,7 +30,7 @@ public class FPSText {
 		this.textRenderer = textRenderer;
 	}
 
-	public void displayFPSText(GLDrawable drawable) {
+	public void render(GLDrawable drawable) {
 
         if (startTime == 0) {
             startTime = System.currentTimeMillis();
