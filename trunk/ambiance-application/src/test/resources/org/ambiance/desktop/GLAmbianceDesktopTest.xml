@@ -1,0 +1,20 @@
+<component-set>
+  <components>
+    
+    <component>
+      <role>org.ambiance.desktop.AmbianceDesktop</role>
+      <role-hint>gl</role-hint>
+      <implementation>org.ambiance.desktop.GLAmbianceDesktop</implementation>
+      <description></description>
+      <configuration>
+        <title>Ambiance 3D Desktop</title>
+        <is-full-screen>false</is-full-screen>
+        <dimension>
+          <width>1024</width>
+          <height>768</height>
+        </dimension>
+      </configuration>
+    </component>
+    
+  </components>
+</component-set>
