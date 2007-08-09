@@ -48,8 +48,70 @@
     </pluginRepository>
   </pluginRepositories>
   
+  <profiles>
+    <profile>
+      <id>windows</id>
+      <activation>
+        <os>
+          <family>Windows</family>
+        </os>
+      </activation>
+      <properties>
+        <family>windows</family>
+        <os-arch>${os.arch}</os-arch>
+        <jogl.version>1.1.0</jogl.version>
+      </properties>
+    </profile>
+    <profile>
+      <id>mac</id>
+      <activation>
+        <os>
+          <family>Mac</family>
+        </os>
+      </activation>
+      <properties>
+        <family>macosx</family>
+        <os-arch>universal</os-arch>
+        <jogl.version>1.1.0</jogl.version>
+      </properties>
+    </profile>
+  </profiles>
+  
   <build>
     <plugins>
+      <plugin>
+        <!-- Unpack the jogl and glutgen -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>jogl</groupId>
+                  <artifactId>jogl-native-${family}-${os-arch}</artifactId>
+                  <type>zip</type>
+                  <version>${jogl.version}</version>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>jogl</groupId>
+                  <artifactId>gluegen-rt-native-${family}-${os-arch}</artifactId>
+                  <type>zip</type>
+                  <version>${jogl.version}</version>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>
+                ${project.build.directory}/lib/ext/
+              </outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    
       <plugin>
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-appserver-maven-plugin</artifactId>
@@ -91,9 +153,15 @@
   
   <dependencies>
     <dependency>
-      <groupId>com.jhlabs</groupId>
-      <artifactId>filters</artifactId>
-      <version>2.0.235</version>
+      <groupId>jogl</groupId>
+      <artifactId>jogl</artifactId>
+      <version>${jogl.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.jdesktop</groupId>
+      <artifactId>TimingFramework</artifactId>
+      <version>0.56</version>
     </dependency>
     
     <dependency>
