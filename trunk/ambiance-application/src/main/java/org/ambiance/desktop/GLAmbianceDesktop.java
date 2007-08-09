@@ -108,7 +108,6 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 			frame.validate();
 		} else {
 	        frame.setSize(dimension.width, dimension.height);
-	        frame.setLocationRelativeTo(null);
 			frame.pack();
 			frame.setVisible(true);
 		}
@@ -139,7 +138,7 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         camera.setup(gl, glu);
         
         if(displayFPS) {
-        	fpsText.displayFPSText(drawable);
+        	fpsText.render(drawable);
         }
 	}
 
