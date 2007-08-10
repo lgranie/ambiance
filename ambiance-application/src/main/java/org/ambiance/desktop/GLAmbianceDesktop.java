@@ -23,14 +23,16 @@ import javax.swing.JFrame;
 
 import org.ambiance.desktop.gl.Camera;
 import org.ambiance.desktop.gl.Point3f;
+import org.ambiance.desktop.gl.util.Carre;
 import org.ambiance.desktop.gl.util.FPSText;
+import org.ambiance.desktop.gl.util.Triangle;
 import org.codehaus.plexus.logging.AbstractLogEnabled;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Startable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StartingException;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StoppingException;
+import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.interpolation.PropertySetter;
 
-import com.sun.opengl.util.Animator;
-import com.sun.opengl.util.FPSAnimator;
 
 /**
  * @plexus.component role="org.ambiance.desktop.AmbianceDesktop" role-hint="gl"
@@ -39,9 +41,6 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 
 	private static final Point3f cameraStart = new Point3f(0f, 0f, 70f);
     private static final GLU glu = new GLU();
-
-    private float rquad = 0.0f;
-    private float rtri = 0.0f;
     
 	private GraphicsDevice device = null;
 
@@ -63,14 +62,19 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 	private Dimension dimension;
     
     private Camera camera;
-    
-    private Animator animator;
+    private com.sun.opengl.util.Animator animator;
     
     /**
 	 * @plexus.configuration default-value="false"
 	 */
     private boolean displayFps;
     private FPSText fpsText;
+    
+    private Triangle triangle; 
+    private Animator triangleRotator;
+   
+    private Carre carre;
+    private Animator carreRotator;
 	
 	public void start() throws StartingException {
 		// LGE - Init device and frame
@@ -134,9 +138,25 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 		if(displayFps)
 			fpsText = new FPSText();
 		
-		canvas.requestFocus();
+		triangle = new Triangle();
+//	    triangleRotator = PropertySetter.createAnimator(10000, triangle, "angle", 0f, 360f*8f);
+//        triangleRotator.setAcceleration(0.4f);
+//        triangleRotator.setDeceleration(0.3f);
+//        triangleRotator.start();
+        
+        PropertySetter modifier = new PropertySetter(triangle, "angle", 0f, 360f*8f);
+        Animator timer = new Animator(2000, modifier);
+        timer.start();
+//		
+//		carre = new Carre();
+//		PropertySetter psc = new PropertySetter(carre, "angle", 0f, 360f*8f);
+//		carreRotator = new Animator(10000, Animator.INFINITE, null, psc);
+//		carreRotator.setAcceleration(0.4f);
+//		carreRotator.setDeceleration(0.3f);
+//		carreRotator.start();
 		
-		animator = new FPSAnimator( canvas, 60 );
+		canvas.requestFocus();
+		animator = new com.sun.opengl.util.Animator(canvas);
         animator.setRunAsFastAsPossible(false);
         animator.start();
 	}
@@ -159,6 +179,7 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);  // Really Nice Perspective Calculations
         gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE);                  // Set The Blending Function For Translucency
         gl.glEnable(GL.GL_BLEND);
+        
 	}
 
 	public void display(GLAutoDrawable drawable) {        
@@ -173,31 +194,10 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         	fpsText.render(drawable);
         }
         
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-        gl.glLoadIdentity();
-        gl.glTranslatef(-1.5f, 0.0f, -6.0f);
-        gl.glRotatef(rtri, 0.0f, 1.0f, 0.0f);
-        gl.glBegin(GL.GL_TRIANGLES);		    // Drawing Using Triangles
-        gl.glColor3f(1.0f, 0.0f, 0.0f);   // Set the current drawing color to red
-        gl.glVertex3f(0.0f, 1.0f, 0.0f);	// Top
-        gl.glColor3f(0.0f, 1.0f, 0.0f);   // Set the current drawing color to green
-        gl.glVertex3f(-1.0f, -1.0f, 0.0f);	// Bottom Left
-        gl.glColor3f(0.0f, 0.0f, 1.0f);   // Set the current drawing color to blue
-        gl.glVertex3f(1.0f, -1.0f, 0.0f);	// Bottom Right
-        gl.glEnd();				// Finished Drawing The Triangle
-        gl.glLoadIdentity();
-        gl.glTranslatef(1.5f, 0.0f, -6.0f);
-        gl.glRotatef(rquad, 1.0f, 0.0f, 0.0f);
-        gl.glBegin(GL.GL_QUADS);           	// Draw A Quad
-        gl.glColor3f(0.5f, 0.5f, 1.0f);   // Set the current drawing color to light blue
-        gl.glVertex3f(-1.0f, 1.0f, 0.0f);	// Top Left
-        gl.glVertex3f(1.0f, 1.0f, 0.0f);	// Top Right
-        gl.glVertex3f(1.0f, -1.0f, 0.0f);	// Bottom Right
-        gl.glVertex3f(-1.0f, -1.0f, 0.0f);	// Bottom Left
-        gl.glEnd();				// Done Drawing The Quad
+        triangle.render(drawable);
+       // carre.render(drawable);
+        
         gl.glFlush();
-        rtri += 0.2f;
-        rquad += 0.15f;
 	}
 
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
@@ -252,7 +252,7 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         }
         else
         {
-            System.out.println("Perfect DisplayMode Found !!!");
+            getLogger().info("Perfect DisplayMode Found !!!");
         }
        
         return displayMode;
