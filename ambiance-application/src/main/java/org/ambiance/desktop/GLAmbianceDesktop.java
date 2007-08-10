@@ -6,8 +6,10 @@ import static javax.media.opengl.GL.GL_MODELVIEW;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -26,6 +28,9 @@ import org.codehaus.plexus.logging.AbstractLogEnabled;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Startable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StartingException;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StoppingException;
+
+import com.sun.opengl.util.Animator;
+import com.sun.opengl.util.FPSAnimator;
 
 /**
  * @plexus.component role="org.ambiance.desktop.AmbianceDesktop" role-hint="gl"
@@ -59,6 +64,8 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
     
     private Camera camera;
     
+    private Animator animator;
+    
     /**
 	 * @plexus.configuration default-value="false"
 	 */
@@ -77,8 +84,7 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
        
           
         GLCanvas canvas = new GLCanvas(caps);
-        final com.sun.opengl.util.Animator animator = new com.sun.opengl.util.Animator(canvas);
-
+        canvas.addGLEventListener(this);
         frame.getContentPane().setLayout( new BorderLayout() );
         frame.getContentPane().add(canvas, BorderLayout.CENTER );
 		
@@ -107,33 +113,52 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 			frame.setUndecorated(isFullScreen);
 			frame.setResizable(!isFullScreen);
 			device.setFullScreenWindow(frame);
+			DisplayMode dm = catchDisplayMode(device.getDisplayModes(), 1024, 768, 32, 60);
+			device.setDisplayMode(dm);
+			canvas.setSize(dm.getWidth(), dm.getHeight());
 			frame.validate();
 		} else {
+	        canvas.setSize(dimension.width, dimension.height);
 	        frame.setSize(dimension.width, dimension.height);
+	        
+	        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	        frame.setLocation(
+                    ( screenSize.width  - frame.getWidth() ) / 2,
+                    ( screenSize.height - frame.getHeight() ) / 2
+            );
 			frame.pack();
 			frame.setVisible(true);
+			System.out.println(device.getDisplayMode().toString());
 		}
 
 		if(displayFps)
 			fpsText = new FPSText();
 		
+		canvas.requestFocus();
+		
+		animator = new FPSAnimator( canvas, 60 );
+        animator.setRunAsFastAsPossible(false);
         animator.start();
 	}
 
 	public void stop() throws StoppingException {
-		// TODO Auto-generated method stub		
+		if(isFullScreen) {
+            GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+            graphicsDevice.setFullScreenWindow(null);
+            graphicsDevice = null;
+        }		
 	}
 
 	public void init(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
-        gl.setSwapInterval(1);
         
-        gl.glShadeModel(GL.GL_SMOOTH);              // Enable Smooth Shading
-        gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);    // Black Background
-        gl.glClearDepth(1.0f);                      // Depth Buffer Setup
-        gl.glEnable(GL.GL_DEPTH_TEST);							// Enables Depth Testing
-        gl.glDepthFunc(GL.GL_LEQUAL);								// The Type Of Depth Testing To Do
-        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);	// Really Nice Perspective Calculations
+        gl.glEnable(GL.GL_TEXTURE_2D);                              // Enable Texture Mapping
+        gl.glShadeModel(GL.GL_SMOOTH);                              // Enable Smooth Shading
+        gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);                    // Black Background
+        gl.glClearDepth(1.0f);                                      // Depth Buffer Setup
+        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);  // Really Nice Perspective Calculations
+        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE);                  // Set The Blending Function For Translucency
+        gl.glEnable(GL.GL_BLEND);
 	}
 
 	public void display(GLAutoDrawable drawable) {        
@@ -176,25 +201,15 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 	}
 
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-        GL gl = drawable.getGL();
+		GL gl = drawable.getGL();
 
-//        gl.glViewport(0, 0, width, height);
-//        gl.glMatrixMode(GL_PROJECTION);
-//        gl.glLoadIdentity();
-//        double aspectRatio = (double)width / (double)height;
-//        glu.gluPerspective(45.0, aspectRatio, 1.0, 400.0);
-//        
-//        gl.glMatrixMode(GL_MODELVIEW);
-//        gl.glLoadIdentity();
-        
-        
-        if (height <= 0) // avoid a divide by zero error!
-            height = 1;
-        final float h = (float) width / (float) height;
+        height = (height == 0) ? 1 : height;
 
+        gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(45.0f, h, 1.0, 20.0);
+
+        glu.gluPerspective(45, (float) width / height, 1, 1000);
         gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
 	}
@@ -203,4 +218,74 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 		// TODO Auto-generated method stub
 	}
 	
+	/**
+     * Catch the display mode in the displayModes array corresponding to the parameter of the method
+     *
+     * If zero displayMode match with the parameter, we take the first display mode in the array
+     *
+     * @author Pepijn Van Eeckhoudt
+     */
+    private DisplayMode catchDisplayMode(DisplayMode[] displayModes, int requestedWidth, int requestedHeight,
+            int requestedDepth, int requestedRefreshRate)
+    {
+        //Try to find the exact match
+        DisplayMode displayMode = searchDisplayMode(displayModes, requestedWidth, requestedHeight,
+                                                    requestedDepth, requestedRefreshRate);
+       
+        //If the previous trial has failled, try again ignoring the requested bit depth and refresh rate
+        if(displayMode == null)
+        {
+            displayMode = searchDisplayMode(displayModes, requestedWidth, requestedHeight,
+                                            -1, -1);
+           
+            //Try again, and again ignoring the requested bit depth and height
+            if(displayMode == null)
+            {
+                displayMode = searchDisplayMode(displayModes, requestedWidth,
+                                                -1, -1, -1);
+               
+                //If all else fails try to get any display mode
+                if(displayMode == null)
+                    displayMode = searchDisplayMode(displayModes, -1,
+                                                    -1, -1, -1);
+            }
+        }
+        else
+        {
+            System.out.println("Perfect DisplayMode Found !!!");
+        }
+       
+        return displayMode;
+    }
+   
+    /**
+     * Search the DisplayMode in the displayModes array corresponding to the parameter of the method
+     *
+     * @author Pepijn Van Eeckhoudt
+     */
+    private DisplayMode searchDisplayMode(DisplayMode[] displayModes, int requestedWidth, int requestedHeight,
+            int requestedDepth, int requestedRefreshRate)
+    {
+        //the display mode to use
+        DisplayMode displayModeToUse = null;
+       
+        /*
+         * Search the display mode to use in the displayMode array
+         *
+         * If this methods is called with -1 for all parameters, we take the first displayMode
+         */
+        for(int i = 0; i < displayModes.length; i++)
+        {
+            DisplayMode displayMode = displayModes[i];
+           
+            if((requestedWidth == -1 || displayMode.getWidth() == requestedWidth) &&
+                (requestedHeight == -1 || displayMode.getHeight() == requestedHeight) &&
+                (requestedHeight == -1 || displayMode.getRefreshRate() == requestedRefreshRate) &&
+                (requestedDepth == -1 || displayMode.getBitDepth() == requestedDepth))
+                    displayModeToUse = displayMode;
+        }
+       
+        return displayModeToUse;
+    }
 }
+	
