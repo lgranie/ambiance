@@ -3,7 +3,7 @@ package org.ambiance.desktop.gl.util;
 import java.awt.Font;
 import java.text.DecimalFormat;
 
-import javax.media.opengl.GLDrawable;
+import javax.media.opengl.GLAutoDrawable;
 
 import org.ambiance.desktop.gl.Renderable;
 
@@ -32,7 +32,7 @@ public class FPSText implements Renderable{
 		this.textRenderer = textRenderer;
 	}
 
-	public void render(GLDrawable drawable) {
+	public void render(GLAutoDrawable drawable) {
 
         if (startTime == 0) {
             startTime = System.currentTimeMillis();

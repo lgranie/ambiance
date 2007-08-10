@@ -7,6 +7,7 @@ import java.awt.event.MouseWheelListener;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLDrawable;
 
 import org.ambiance.desktop.gl.Renderable;
@@ -51,7 +52,10 @@ public class GLCarousel implements Renderable, MouseListener, MouseWheelListener
 
 	public void mouseWheelMoved(MouseWheelEvent arg0) {
 		// TODO Auto-generated method stub
-		
+	}
+
+	public void render(GLAutoDrawable drawable) {
+		// TODO Auto-generated method stub
 	}
 	
 }
