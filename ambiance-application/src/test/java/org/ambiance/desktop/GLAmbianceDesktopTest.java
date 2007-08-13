@@ -7,7 +7,7 @@ import org.codehaus.plexus.PlexusTestCase;
  */
 public class GLAmbianceDesktopTest extends PlexusTestCase {
 
-	public void setUp() {
+	public void test1() {
 		Exception e = null;
 		
 		GLAmbianceDesktop dad = null;

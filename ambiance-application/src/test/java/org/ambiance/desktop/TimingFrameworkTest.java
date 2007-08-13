@@ -19,4 +19,12 @@ public class TimingFrameworkTest extends TestCase {
 		Animator timer = PropertySetter.createAnimator(4000, this, "f", 0f, 360f*8f);
 		timer.start();
 	}
+
+	public float getF() {
+		return f;
+	}
+
+	public void setF(float f) {
+		this.f = f;
+	}
 }
