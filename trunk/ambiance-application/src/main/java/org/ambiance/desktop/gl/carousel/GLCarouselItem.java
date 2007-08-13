@@ -43,7 +43,7 @@ public class GLCarouselItem implements Renderable {
         gl.glTranslatef(position.getX(), position.getY(), position.getZ());
         
         gl.glBegin(GL.GL_QUADS);           	// Draw A Quad
-        gl.glColor4f(0.5f, 0.5f, 1.0f, 1.0f);     // Set the current drawing color to light blue
+        gl.glColor4f(1.0f, 0.5f, 1.0f, 1.0f);     // Set the current drawing color
         gl.glVertex3f(-1.0f, 1.0f, 0.0f);	// Top Left
         gl.glVertex3f(1.0f, 1.0f, 0.0f);	// Top Right
         gl.glVertex3f(1.0f, -1.0f, 0.0f);	// Bottom Right
