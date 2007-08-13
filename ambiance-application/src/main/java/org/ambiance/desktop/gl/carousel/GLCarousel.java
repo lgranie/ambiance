@@ -1,20 +1,19 @@
 package org.ambiance.desktop.gl.carousel;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.LinkedList;
-import java.util.List;
 
 import javax.media.opengl.GLAutoDrawable;
 
 import org.ambiance.desktop.gl.Point3f;
 import org.ambiance.desktop.gl.Renderable;
+import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.TimingTarget;
+import org.jdesktop.animation.timing.TimingTargetAdapter;
+import org.jdesktop.animation.timing.interpolation.PropertySetter;
 
-public class GLCarousel implements Renderable, MouseListener, MouseWheelListener {
-
-	private MouseEvent mouse;
+public class GLCarousel implements Renderable, KeyListener {
 	
 	private Point3f position;
 	
@@ -22,52 +21,95 @@ public class GLCarousel implements Renderable, MouseListener, MouseWheelListener
 	
 	private LinkedList<GLCarouselItem> items;
 	
+	private Animator animator;
+	
+	private double angle;
+	
 	public GLCarousel(Point3f position, Point3f dimension) {
 		items = new LinkedList<GLCarouselItem>();
 		this.position = position;
 		this.dimension = dimension;
+		
+		angle = 0.0;
 	}
 
 	public void render(GLAutoDrawable drawable) {
-		double r = 360f / items.size();
+		double r = Math.PI * 2 / items.size();
 		
 		int i = 0;
 		for (GLCarouselItem item : items) {
 			//item.setPosition(new Point3f(r*Math.cos(i*r)f, 0.0f, r*Math.sin(i*r)f));
-			double x = dimension.getX() * Math.cos(i*r);
-			double z = dimension.getZ() * Math.sin(i*r);
-			item.setPosition(new Point3f((float) x, 0.0f,(float) z));
+			double x = dimension.getX() * Math.cos(i*r + angle);
+			double z = dimension.getZ() * Math.sin(i*r + angle);
+			item.setPosition(new Point3f((float) x + position.getX(), 
+										      0.0f + position.getY(),
+					                     (float) z + position.getZ()));
 			item.render(drawable);
 			i++;
 		}
 	}
 	
-	public void mouseClicked(MouseEvent e) {
-		mouse = e;
-	}
-
-	public void mousePressed(MouseEvent e) {
-		mouse = e;
-	}
-
-	public void mouseReleased(MouseEvent e) {
-		mouse = e;
-	}
-
-	public void mouseEntered(MouseEvent e) {
-		mouse = e;
-	}
-
-	public void mouseExited(MouseEvent e) {
-		mouse = e;
-	}
-
 	public void addItem(GLCarouselItem item) {
 		items.add(item);
 	}
 
-	public void mouseWheelMoved(MouseWheelEvent arg0) {
+	public void keyPressed(KeyEvent e) {
+		System.out.println(items.get(0).getLabel());	
+	}
+
+	public void keyReleased(KeyEvent e) {
+		switch(e.getKeyCode()) {
+		case KeyEvent.VK_RIGHT :
+			if(animator != null && animator.isRunning()) break;
+			
+			animator = PropertySetter.createAnimator(1500, this, "angle", angle, angle + Math.PI * 2 / items.size());
+			animator.setAcceleration(0.3f);
+			animator.setDeceleration(0.5f);
+			
+			animator.start();
+			
+			animator.addTarget(new TimingTargetAdapter() {
+				public void end() {
+					//GLCarouselItem item = items.poll();
+			    	//items.add(item);					
+				}				
+			});
+				        
+			break;
+			
+		case KeyEvent.VK_LEFT :
+			if(animator != null && animator.isRunning()) break;
+		
+			animator = PropertySetter.createAnimator(1500, this, "angle", angle, angle - Math.PI * 2 / items.size());
+			animator.setAcceleration(0.3f);
+			animator.setDeceleration(0.5f);
+		
+			animator.start();
+		
+			animator.addTarget(new TimingTargetAdapter() {
+				public void end() {
+					//GLCarouselItem item = items.removeLast();
+					//items.addFirst(item);					
+				}				
+			});
+			break;
+			
+		default:
+			break;
+		}
+		
+	}
+
+	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
+	}
+
+	public double getAngle() {
+		return angle;
+	}
+
+	public void setAngle(double angle) {
+		this.angle = angle;
 	}
 	
 }

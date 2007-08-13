@@ -41,7 +41,7 @@ import org.codehaus.plexus.personality.plexus.lifecycle.phase.StoppingException;
  */
 public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, AmbianceDesktop, GLEventListener  {
 
-	private static final Point3f cameraStart = new Point3f(0f, 0f, 700f);
+	private static final Point3f cameraStart = new Point3f(70f, 0f, 70f);
     private static final GLU glu = new GLU();
     
 	private GraphicsDevice device = null;
@@ -136,16 +136,13 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 		if(displayFps)
 			renderables.add(new FPSText());
 		
-		GLCarousel carousel = new GLCarousel(new Point3f(0.0f, 0.0f, 0.0f), new Point3f(1.0f, 0.0f, 1.0f));
-		try {
-			BufferedImage image = ImageIO.read(this.getClass().getResource("carousel/Game.png"));
-			carousel.addItem(new GLCarouselItem(image, "Game"));
-			BufferedImage image2 = ImageIO.read(this.getClass().getResource("carousel/Music.png"));
-			carousel.addItem(new GLCarouselItem(image2, "Music"));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		GLCarousel carousel = new GLCarousel(new Point3f(0.0f, 0.0f, -30.0f), new Point3f(10.0f, 0.0f, 8.0f));
+		carousel.addItem(new GLCarouselItem("Game"));
+		carousel.addItem(new GLCarouselItem("Music"));
+		carousel.addItem(new GLCarouselItem("Movie"));
+		carousel.addItem(new GLCarouselItem("Web"));
+		carousel.addItem(new GLCarouselItem("Quit"));
+	    canvas.addKeyListener(carousel);
 		renderables.add(carousel);
 		
 		canvas.requestFocus();
@@ -188,7 +185,7 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         for (Renderable renderable : renderables) {
 			renderable.render(drawable);
 		}
-        
+   
         gl.glFlush();
 	}
 
