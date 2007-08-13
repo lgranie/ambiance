@@ -1,5 +1,6 @@
-package org.ambiance.desktop;
+package org.ambiance.desktop.gl;
 
+import org.ambiance.desktop.gl.GLAmbianceDesktop;
 import org.codehaus.plexus.PlexusTestCase;
 
 /**
@@ -15,7 +16,7 @@ public class GLAmbianceDesktopTest extends PlexusTestCase {
 		try {
 			super.setUp();
 			dad = (GLAmbianceDesktop) lookup("org.ambiance.desktop.AmbianceDesktop", "gl");
-			Thread.sleep(10000);
+			Thread.sleep(30000);
 		} catch (Exception e1) {
 			e = e1;
 			e.printStackTrace();
