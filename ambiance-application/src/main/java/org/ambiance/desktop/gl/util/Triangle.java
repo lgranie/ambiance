@@ -19,7 +19,7 @@ public class Triangle implements Renderable {
 		
 		gl.glLoadIdentity();
         gl.glTranslatef(-1.5f, 0.0f, -6.0f);
-        gl.glRotatef(angle, 0.0f, 1.0f, 0.0f);
+        gl.glRotatef(angle, 1.0f, 1.0f, 1.0f);
         gl.glBegin(GL.GL_TRIANGLES);		    // Drawing Using Triangles
         gl.glColor3f(1.0f, 0.0f, 0.0f);   // Set the current drawing color to red
         gl.glVertex3f(0.0f, 1.0f, 0.0f);	// Top

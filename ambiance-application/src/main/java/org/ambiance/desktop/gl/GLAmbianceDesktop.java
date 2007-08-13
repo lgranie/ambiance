@@ -1,4 +1,4 @@
-package org.ambiance.desktop;
+package org.ambiance.desktop.gl;
 
 import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
@@ -12,7 +12,12 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
@@ -21,17 +26,14 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import javax.swing.JFrame;
 
-import org.ambiance.desktop.gl.Camera;
-import org.ambiance.desktop.gl.Point3f;
-import org.ambiance.desktop.gl.util.Carre;
+import org.ambiance.desktop.AmbianceDesktop;
+import org.ambiance.desktop.gl.carousel.GLCarousel;
+import org.ambiance.desktop.gl.carousel.GLCarouselItem;
 import org.ambiance.desktop.gl.util.FPSText;
-import org.ambiance.desktop.gl.util.Triangle;
 import org.codehaus.plexus.logging.AbstractLogEnabled;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Startable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StartingException;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StoppingException;
-import org.jdesktop.animation.timing.Animator;
-import org.jdesktop.animation.timing.interpolation.PropertySetter;
 
 
 /**
@@ -39,7 +41,7 @@ import org.jdesktop.animation.timing.interpolation.PropertySetter;
  */
 public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, AmbianceDesktop, GLEventListener  {
 
-	private static final Point3f cameraStart = new Point3f(0f, 0f, 70f);
+	private static final Point3f cameraStart = new Point3f(0f, 0f, 700f);
     private static final GLU glu = new GLU();
     
 	private GraphicsDevice device = null;
@@ -68,14 +70,9 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 	 * @plexus.configuration default-value="false"
 	 */
     private boolean displayFps;
-    private FPSText fpsText;
     
-    private Triangle triangle; 
-    private Animator triangleRotator;
-   
-    private Carre carre;
-    private Animator carreRotator;
-	
+    private List<Renderable> renderables;
+    
 	public void start() throws StartingException {
 		// LGE - Init device and frame
 		device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -85,7 +82,6 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         
         // LGE - init 3D
         GLCapabilities caps = new GLCapabilities();
-       
           
         GLCanvas canvas = new GLCanvas(caps);
         canvas.addGLEventListener(this);
@@ -135,25 +131,22 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 			System.out.println(device.getDisplayMode().toString());
 		}
 
-		if(displayFps)
-			fpsText = new FPSText();
+		renderables = new LinkedList<Renderable>();
 		
-		triangle = new Triangle();
-//	    triangleRotator = PropertySetter.createAnimator(10000, triangle, "angle", 0f, 360f*8f);
-//        triangleRotator.setAcceleration(0.4f);
-//        triangleRotator.setDeceleration(0.3f);
-//        triangleRotator.start();
-        
-        PropertySetter modifier = new PropertySetter(triangle, "angle", 0f, 360f*8f);
-        Animator timer = new Animator(2000, modifier);
-        timer.start();
-//		
-//		carre = new Carre();
-//		PropertySetter psc = new PropertySetter(carre, "angle", 0f, 360f*8f);
-//		carreRotator = new Animator(10000, Animator.INFINITE, null, psc);
-//		carreRotator.setAcceleration(0.4f);
-//		carreRotator.setDeceleration(0.3f);
-//		carreRotator.start();
+		if(displayFps)
+			renderables.add(new FPSText());
+		
+		GLCarousel carousel = new GLCarousel(new Point3f(0.0f, 0.0f, 0.0f), new Point3f(1.0f, 0.0f, 1.0f));
+		try {
+			BufferedImage image = ImageIO.read(this.getClass().getResource("carousel/Game.png"));
+			carousel.addItem(new GLCarouselItem(image, "Game"));
+			BufferedImage image2 = ImageIO.read(this.getClass().getResource("carousel/Music.png"));
+			carousel.addItem(new GLCarouselItem(image2, "Music"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		renderables.add(carousel);
 		
 		canvas.requestFocus();
 		animator = new com.sun.opengl.util.Animator(canvas);
@@ -162,11 +155,13 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 	}
 
 	public void stop() throws StoppingException {
+        animator.stop();
+		
 		if(isFullScreen) {
             GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
             graphicsDevice.setFullScreenWindow(null);
             graphicsDevice = null;
-        }		
+        }
 	}
 
 	public void init(GLAutoDrawable drawable) {
@@ -176,8 +171,8 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         gl.glShadeModel(GL.GL_SMOOTH);                              // Enable Smooth Shading
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);                    // Black Background
         gl.glClearDepth(1.0f);                                      // Depth Buffer Setup
-        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);  // Really Nice Perspective Calculations
-        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE);                  // Set The Blending Function For Translucency
+        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST); // Really Nice Perspective Calculations
+        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE);                 // Set The Blending Function For Translucency
         gl.glEnable(GL.GL_BLEND);
         
 	}
@@ -190,12 +185,9 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 
         camera.setup(gl, glu);
         
-        if(displayFps) {
-        	fpsText.render(drawable);
-        }
-        
-        triangle.render(drawable);
-       // carre.render(drawable);
+        for (Renderable renderable : renderables) {
+			renderable.render(drawable);
+		}
         
         gl.glFlush();
 	}
