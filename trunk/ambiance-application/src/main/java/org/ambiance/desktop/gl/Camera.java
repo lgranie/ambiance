@@ -48,7 +48,7 @@ public class Camera {
     
     public Camera() {
         location = new Point3f();
-        target = new Point3f();
+        target = new Point3f(0.0f, 0.0f, 0.0f);
     }
     
     public void setup(GL gl, GLU glu) {
