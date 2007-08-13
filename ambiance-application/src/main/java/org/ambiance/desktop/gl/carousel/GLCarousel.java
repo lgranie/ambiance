@@ -25,6 +25,8 @@ public class GLCarousel implements Renderable, KeyListener {
 	
 	private double angle;
 	
+	private GLCarouselItem currentItem;
+	
 	public GLCarousel(Point3f position, Point3f dimension) {
 		items = new LinkedList<GLCarouselItem>();
 		this.position = position;
@@ -51,10 +53,11 @@ public class GLCarousel implements Renderable, KeyListener {
 	
 	public void addItem(GLCarouselItem item) {
 		items.add(item);
+		currentItem = item;
 	}
 
 	public void keyPressed(KeyEvent e) {
-		System.out.println(items.get(0).getLabel());	
+		System.out.println(currentItem.getLabel());	
 	}
 
 	public void keyReleased(KeyEvent e) {
@@ -70,8 +73,7 @@ public class GLCarousel implements Renderable, KeyListener {
 			
 			animator.addTarget(new TimingTargetAdapter() {
 				public void end() {
-					//GLCarouselItem item = items.poll();
-			    	//items.add(item);					
+					currentItem = items.getFirst();	
 				}				
 			});
 				        
@@ -88,8 +90,7 @@ public class GLCarousel implements Renderable, KeyListener {
 		
 			animator.addTarget(new TimingTargetAdapter() {
 				public void end() {
-					//GLCarouselItem item = items.removeLast();
-					//items.addFirst(item);					
+					currentItem = items.getLast();					
 				}				
 			});
 			break;
