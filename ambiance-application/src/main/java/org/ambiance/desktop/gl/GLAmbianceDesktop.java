@@ -41,7 +41,7 @@ import org.codehaus.plexus.personality.plexus.lifecycle.phase.StoppingException;
  */
 public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, AmbianceDesktop, GLEventListener  {
 
-	private static final Point3f cameraStart = new Point3f(70f, 0f, 70f);
+	private static final Point3f cameraStart = new Point3f(0f, 0f, 0f);
     private static final GLU glu = new GLU();
     
 	private GraphicsDevice device = null;

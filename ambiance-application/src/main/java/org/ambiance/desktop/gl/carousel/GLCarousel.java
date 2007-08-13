@@ -40,7 +40,6 @@ public class GLCarousel implements Renderable, KeyListener {
 		
 		int i = 0;
 		for (GLCarouselItem item : items) {
-			//item.setPosition(new Point3f(r*Math.cos(i*r)f, 0.0f, r*Math.sin(i*r)f));
 			double x = dimension.getX() * Math.cos(i*r + angle);
 			double z = dimension.getZ() * Math.sin(i*r + angle);
 			item.setPosition(new Point3f((float) x + position.getX(), 
