@@ -4,12 +4,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.LinkedList;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 
 import org.ambiance.desktop.gl.Point3f;
 import org.ambiance.desktop.gl.Renderable;
 import org.jdesktop.animation.timing.Animator;
-import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 import org.jdesktop.animation.timing.interpolation.PropertySetter;
 
@@ -25,29 +25,38 @@ public class GLCarousel implements Renderable, KeyListener {
 	
 	private double angle;
 	
+	private double pente;
+	
 	private GLCarouselItem currentItem;
 	
-	public GLCarousel(Point3f position, Point3f dimension) {
+	public GLCarousel(Point3f position, Point3f dimension, double pente) {
 		items = new LinkedList<GLCarouselItem>();
 		this.position = position;
 		this.dimension = dimension;
+		this.pente = pente;
 		
-		angle = 0.0;
+		angle = 0.0d;
 	}
 
 	public void render(GLAutoDrawable drawable) {
 		double r = Math.PI * 2 / items.size();
 		
 		int i = 0;
+		GL gl = drawable.getGL();
+		gl.glPushMatrix(); //Save current translation
+		gl.glLoadIdentity();
+
 		for (GLCarouselItem item : items) {
 			double x = dimension.getX() * Math.cos(i*r + angle);
 			double z = dimension.getZ() * Math.sin(i*r + angle);
-			item.setPosition(new Point3f((float) x + position.getX(), 
-										      0.0f + position.getY(),
-					                     (float) z + position.getZ()));
+			item.setPosition(new Point3f((float)     x + position.getX(), 
+					                     (float) pente * position.getZ(),
+					                     (float)     z + position.getZ()));
 			item.render(drawable);
 			i++;
 		}
+
+		gl.glPopMatrix(); //Restore last position
 	}
 	
 	public void addItem(GLCarouselItem item) {

@@ -9,7 +9,7 @@
       <configuration>
         <title>Ambiance 3D Desktop</title>
         <is-full-screen>false</is-full-screen>
-        <display-fps>true</display-fps>
+        <debug>true</debug>
         <dimension>
           <width>1024</width>
           <height>768</height>

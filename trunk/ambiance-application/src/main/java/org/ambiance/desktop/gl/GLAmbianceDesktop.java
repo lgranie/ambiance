@@ -12,12 +12,9 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
@@ -29,6 +26,7 @@ import javax.swing.JFrame;
 import org.ambiance.desktop.AmbianceDesktop;
 import org.ambiance.desktop.gl.carousel.GLCarousel;
 import org.ambiance.desktop.gl.carousel.GLCarouselItem;
+import org.ambiance.desktop.gl.util.DrawAxis;
 import org.ambiance.desktop.gl.util.FPSText;
 import org.codehaus.plexus.logging.AbstractLogEnabled;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Startable;
@@ -41,7 +39,7 @@ import org.codehaus.plexus.personality.plexus.lifecycle.phase.StoppingException;
  */
 public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, AmbianceDesktop, GLEventListener  {
 
-	private static final Point3f cameraStart = new Point3f(0f, 0f, 0f);
+	private static final Point3f cameraStart = new Point3f(0f, 5f, 40f);
     private static final GLU glu = new GLU();
     
 	private GraphicsDevice device = null;
@@ -69,7 +67,7 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
     /**
 	 * @plexus.configuration default-value="false"
 	 */
-    private boolean displayFps;
+    private boolean debug;
     
     private List<Renderable> renderables;
     
@@ -133,15 +131,17 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 
 		renderables = new LinkedList<Renderable>();
 		
-		if(displayFps)
+		if(debug) {
 			renderables.add(new FPSText());
+			renderables.add(new DrawAxis());
+		}
 		
-		GLCarousel carousel = new GLCarousel(new Point3f(0.0f, 0.0f, -30.0f), new Point3f(10.0f, 0.0f, 8.0f));
-		carousel.addItem(new GLCarouselItem("Game"));
-		carousel.addItem(new GLCarouselItem("Music"));
-		carousel.addItem(new GLCarouselItem("Movie"));
-		carousel.addItem(new GLCarouselItem("Web"));
+		GLCarousel carousel = new GLCarousel(new Point3f(0.0f, 0.0f, 0.0f), new Point3f(10.0f, 0.0f, 20.0f), 10.0f);
 		carousel.addItem(new GLCarouselItem("Quit"));
+		carousel.addItem(new GLCarouselItem("Game"));
+		carousel.addItem(new GLCarouselItem("Movie"));
+		carousel.addItem(new GLCarouselItem("Music"));
+		carousel.addItem(new GLCarouselItem("Web"));
 	    canvas.addKeyListener(carousel);
 		renderables.add(carousel);
 		
@@ -176,16 +176,20 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 
 	public void display(GLAutoDrawable drawable) {        
         GL gl = drawable.getGL();
+        
+        // clear screen
         gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        gl.glMatrixMode(GL_MODELVIEW);
+        
+        // load identity matrix
         gl.glLoadIdentity();
-
-        camera.setup(gl, glu);
         
         for (Renderable renderable : renderables) {
-			renderable.render(drawable);
+    		gl.glPushMatrix(); //Save current translation
+            gl.glLoadIdentity();
+            renderable.render(drawable);
+			gl.glPopMatrix(); //Restore last position
 		}
-   
+
         gl.glFlush();
 	}
 
@@ -199,6 +203,9 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         gl.glLoadIdentity();
 
         glu.gluPerspective(45, (float) width / height, 1, 1000);
+
+        camera.setup(gl, glu);
+
         gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
 	}
