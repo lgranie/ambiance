@@ -24,11 +24,10 @@ public class GLCarouselItem implements Renderable {
 	private TextRenderer textRenderer;
    
 	public GLCarouselItem(String label) {
-		position = new Point3f(1.0f, 1.0f, 1.0f);
 		this.label = label;
 		
-		 Font font = new Font("SansSerif", Font.BOLD, 24);
-		 textRenderer = new TextRenderer(font, true, false);
+		Font font = new Font("SansSerif", Font.BOLD, 16);
+		textRenderer = new TextRenderer(font, true, false);
 	}
 	
 	public GLCarouselItem(BufferedImage image, String label) {
@@ -38,23 +37,24 @@ public class GLCarouselItem implements Renderable {
 	
 	public void render(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
-		gl.glLoadIdentity();
-		
-        gl.glTranslatef(position.getX(), position.getY(), position.getZ());
+
+        gl.glTranslated(position.getX(), position.getY(), position.getZ());
+        System.out.println(label + " : " + position.getX()+", "+position.getY()+", "+position.getZ());
+        gl.glBegin(GL.GL_QUADS);           	  // Draw A Quad
+        gl.glColor4f(1.0f, 0.5f, 1.0f, 1.0f); // Set the current drawing color
+        gl.glVertex3f(-1.0f, 1.0f, 0.0f);	  // Top Left
+        gl.glVertex3f(1.0f, 1.0f, 0.0f);	  // Top Right
+        gl.glVertex3f(1.0f, -1.0f, 0.0f);	  // Bottom Right
+        gl.glVertex3f(-1.0f, -1.0f, 0.0f);	  // Bottom Left
+        gl.glEnd();				              // Done Drawing The Quad
         
-        gl.glBegin(GL.GL_QUADS);           	// Draw A Quad
-        gl.glColor4f(1.0f, 0.5f, 1.0f, 1.0f);     // Set the current drawing color
-        gl.glVertex3f(-1.0f, 1.0f, 0.0f);	// Top Left
-        gl.glVertex3f(1.0f, 1.0f, 0.0f);	// Top Right
-        gl.glVertex3f(1.0f, -1.0f, 0.0f);	// Bottom Right
-        gl.glVertex3f(-1.0f, -1.0f, 0.0f);	// Bottom Left
-        gl.glEnd();				            // Done Drawing The Quad
+        double labelWidth = textRenderer.getBounds(label).getWidth();
         
         textRenderer.begin3DRendering();
         textRenderer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-        textRenderer.draw3D(label, position.getX(), position.getY()-4.0f, position.getZ()-1.0f, 0.1f);
-        textRenderer.end3DRendering();
-        
+        textRenderer.draw3D(label, position.getX(), position.getY()-4.0f, position.getZ(), 0.1f);
+        textRenderer.end3DRendering(); 
+
 	}
 	
 	public void setPosition(Point3f p3f) {
