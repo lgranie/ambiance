@@ -2,7 +2,6 @@ package org.ambiance.desktop.gl;
 
 import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
-import static javax.media.opengl.GL.GL_MODELVIEW;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
