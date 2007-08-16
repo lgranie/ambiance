@@ -11,7 +11,6 @@ import org.ambiance.desktop.gl.Point3f;
 import org.ambiance.desktop.gl.Renderable;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
-import org.jdesktop.animation.timing.Animator.EndBehavior;
 import org.jdesktop.animation.timing.interpolation.PropertySetter;
 
 public class GLCarousel implements Renderable, KeyListener {
