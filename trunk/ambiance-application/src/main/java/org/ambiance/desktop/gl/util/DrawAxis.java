@@ -9,7 +9,8 @@ public class DrawAxis implements Renderable {
 
 	public void render(GLAutoDrawable drawable) {
 		GL gl = drawable.getGL();
-		
+
+        gl.glLoadIdentity();
         gl.glBegin(GL.GL_LINES);		    // Drawing Axes
 
         gl.glColor3f(1.0f, 0.0f, 0.0f);

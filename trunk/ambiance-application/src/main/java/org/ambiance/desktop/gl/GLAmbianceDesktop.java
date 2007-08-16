@@ -136,11 +136,13 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 			renderables.add(new DrawAxis());
 		}
 		
-		GLCarousel carousel = new GLCarousel(new Point3f(0.0f, 0.0f, 0.0f), new Point3f(10.0f, 0.0f, 20.0f), 10.0f);
-		carousel.addItem(new GLCarouselItem("Quit"));
+		GLCarousel carousel = new GLCarousel(new Point3f(0.0f, 0.0f, -40.0f), 
+				                             new Point3f(20.0f, 0.0f, 20.0f), 
+				                             4.0f, -.3f);
 		carousel.addItem(new GLCarouselItem("Game"));
 		carousel.addItem(new GLCarouselItem("Movie"));
 		carousel.addItem(new GLCarouselItem("Music"));
+		carousel.addItem(new GLCarouselItem("Quit"));
 		carousel.addItem(new GLCarouselItem("Web"));
 	    canvas.addKeyListener(carousel);
 		renderables.add(carousel);
@@ -182,10 +184,10 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         
         // load identity matrix
         gl.glLoadIdentity();
+        camera.setup(gl, glu);
         
         for (Renderable renderable : renderables) {
     		gl.glPushMatrix(); //Save current translation
-            gl.glLoadIdentity();
             renderable.render(drawable);
 			gl.glPopMatrix(); //Restore last position
 		}
@@ -207,7 +209,6 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         camera.setup(gl, glu);
 
         gl.glMatrixMode(GL.GL_MODELVIEW);
-        gl.glLoadIdentity();
 	}
 
 	public void displayChanged(GLAutoDrawable arg0, boolean arg1, boolean arg2) {
