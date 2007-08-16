@@ -3,14 +3,18 @@ package org.ambiance.desktop.gl;
 import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -61,7 +65,7 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 	private Dimension dimension;
     
     private Camera camera;
-    private com.sun.opengl.util.Animator animator;
+    private com.sun.opengl.util.FPSAnimator animator;
     
     /**
 	 * @plexus.configuration default-value="false"
@@ -70,21 +74,35 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
     
     private List<Renderable> renderables;
     
+    private BufferedImage screenshot;
+    
 	public void start() throws StartingException {
 		// LGE - Init device and frame
 		device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		frame = new JFrame(title, device.getDefaultConfiguration());
 
+		Robot robot;
+		try {
+			robot = new Robot();
+		} catch (AWTException ae) {
+			throw new StartingException("Unable to build robot", ae);
+		}
+				
         frame.setLocationRelativeTo(null);
         
         // LGE - init 3D
         GLCapabilities caps = new GLCapabilities();
+        caps.setSampleBuffers(true);
+        caps.setNumSamples(4);
           
         GLCanvas canvas = new GLCanvas(caps);
         canvas.addGLEventListener(this);
         frame.getContentPane().setLayout( new BorderLayout() );
         frame.getContentPane().add(canvas, BorderLayout.CENTER );
 		
+
+		screenshot = robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+        
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 // Run this on another thread than the AWT event queue to
@@ -113,6 +131,7 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 			DisplayMode dm = catchDisplayMode(device.getDisplayModes(), 1024, 768, 32, 60);
 			device.setDisplayMode(dm);
 			canvas.setSize(dm.getWidth(), dm.getHeight());
+					
 			frame.validate();
 		} else {
 	        canvas.setSize(dimension.width, dimension.height);
@@ -135,20 +154,21 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 			renderables.add(new DrawAxis());
 		}
 		
-		GLCarousel carousel = new GLCarousel(new Point3f(0.0f, 0.0f, -40.0f), 
-				                             new Point3f(20.0f, 0.0f, 20.0f), 
-				                             4.0f, -.3f);
+		GLCarousel carousel = new GLCarousel(new Point3f(0.0f,   0.0f, -60.0f), 
+				                             new Point3f(35.0f, 15.0f,  40.0f), 
+				                             4.0f);
 		carousel.addItem(new GLCarouselItem("Game"));
 		carousel.addItem(new GLCarouselItem("Movie"));
 		carousel.addItem(new GLCarouselItem("Music"));
-		carousel.addItem(new GLCarouselItem("Quit"));
 		carousel.addItem(new GLCarouselItem("Web"));
+		carousel.addItem(new GLCarouselItem(screenshot, "Quit"));
+				
 	    canvas.addKeyListener(carousel);
 		renderables.add(carousel);
 		
 		canvas.requestFocus();
-		animator = new com.sun.opengl.util.Animator(canvas);
-        animator.setRunAsFastAsPossible(false);
+		animator = new com.sun.opengl.util.FPSAnimator(canvas, 100);
+        //animator.setRunAsFastAsPossible(true);
         animator.start();
 	}
 
@@ -170,6 +190,9 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);                    // Black Background
         gl.glClearDepth(1.0f);                                      // Depth Buffer Setup
         gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST); // Really Nice Perspective Calculations
+        gl.glHint(GL.GL_POINT_SMOOTH_HINT, GL.GL_NICEST);
+        gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
+        gl.glHint(GL.GL_POLYGON_SMOOTH_HINT, GL.GL_NICEST);
         gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE);                 // Set The Blending Function For Translucency
         gl.glEnable(GL.GL_BLEND);
         
