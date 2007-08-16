@@ -11,9 +11,13 @@ import org.ambiance.desktop.gl.Point3f;
 import org.ambiance.desktop.gl.Renderable;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
+import org.jdesktop.animation.timing.Animator.EndBehavior;
 import org.jdesktop.animation.timing.interpolation.PropertySetter;
 
 public class GLCarousel implements Renderable, KeyListener {
+	
+	public static final int TURN_RIGHT =  1;
+	public static final int TURN_LEFT  = -1;
 	
 	private Point3f position;
 	
@@ -25,90 +29,91 @@ public class GLCarousel implements Renderable, KeyListener {
 	
 	private double angle;
 	
-	private double pente;
+	private float pente;
 	
 	private GLCarouselItem currentItem;
 	
-	public GLCarousel(Point3f position, Point3f dimension, double pente) {
+	private float iconSize;
+	
+	public GLCarousel(Point3f position, Point3f dimension, float iconSize, float pente) {
 		items = new LinkedList<GLCarouselItem>();
 		this.position = position;
 		this.dimension = dimension;
 		this.pente = pente;
 		
-		angle = 0.0d;
-	}
+		this.iconSize = iconSize;
+		
+		angle = Math.PI / 2;
+    }
 
 	public void render(GLAutoDrawable drawable) {
 		double r = Math.PI * 2 / items.size();
 		
-		int i = 0;
+		int i = 1;
 		GL gl = drawable.getGL();
-		gl.glPushMatrix(); //Save current translation
-		gl.glLoadIdentity();
 
-		for (GLCarouselItem item : items) {
+		for (GLCarouselItem item : items) {			
 			double x = dimension.getX() * Math.cos(i*r + angle);
 			double z = dimension.getZ() * Math.sin(i*r + angle);
 			item.setPosition(new Point3f((float)     x + position.getX(), 
-					                     (float) pente * position.getZ(),
-					                     (float)     z + position.getZ()));
+					                                ((float) z * pente) + position.getY(),
+			     	                     (float)     z + position.getZ()));
+
+    		gl.glPushMatrix();
 			item.render(drawable);
+    		gl.glPopMatrix();
 			i++;
 		}
 
-		gl.glPopMatrix(); //Restore last position
 	}
 	
 	public void addItem(GLCarouselItem item) {
 		items.add(item);
+		item.setSize(iconSize);
 		currentItem = item;
 	}
 
-	public void keyPressed(KeyEvent e) {
-		System.out.println(currentItem.getLabel());	
+	public void keyReleased(KeyEvent e) {
 	}
 
-	public void keyReleased(KeyEvent e) {
+	public void keyPressed(KeyEvent e) {
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_RIGHT :
-			if(animator != null && animator.isRunning()) break;
-			
-			animator = PropertySetter.createAnimator(1500, this, "angle", angle, angle + Math.PI * 2 / items.size());
-			animator.setAcceleration(0.3f);
-			animator.setDeceleration(0.5f);
-			
-			animator.start();
-			
-			animator.addTarget(new TimingTargetAdapter() {
-				public void end() {
-					currentItem = items.getFirst();	
-				}				
-			});
-				        
+			turn(TURN_RIGHT);
 			break;
-			
 		case KeyEvent.VK_LEFT :
-			if(animator != null && animator.isRunning()) break;
-		
-			animator = PropertySetter.createAnimator(1500, this, "angle", angle, angle - Math.PI * 2 / items.size());
-			animator.setAcceleration(0.3f);
-			animator.setDeceleration(0.5f);
-		
-			animator.start();
-		
-			animator.addTarget(new TimingTargetAdapter() {
-				public void end() {
-					currentItem = items.getLast();					
-				}				
-			});
+			turn(TURN_LEFT);
 			break;
-			
+		case KeyEvent.VK_ENTER :
+			System.out.println(currentItem.getLabel());
+			break;
 		default:
 			break;
 		}
 		
 	}
 
+	private void turn(int direction) {
+		int currentIndex = items.indexOf(currentItem);
+		final int index  = (items.size() + (currentIndex - direction)) % items.size();
+		
+		if(animator != null && animator.isRunning()) {
+			return;
+		}
+		
+		animator = PropertySetter.createAnimator(1500, this, "angle", angle, angle + (direction * Math.PI * 2 / items.size()));
+		animator.setAcceleration(0.5f);
+		animator.setDeceleration(0.3f);
+		
+		animator.start();
+	
+		animator.addTarget(new TimingTargetAdapter() {
+			public void end() {
+				currentItem = items.get(index);		
+			}				
+		});
+	}
+	
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 	}
