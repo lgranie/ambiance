@@ -122,5 +122,9 @@ public class GLCarousel implements Renderable, KeyListener {
 	public void setAngle(double angle) {
 		this.angle = angle;
 	}
+
+	public GLCarouselItem getCurrentItem() {
+		return currentItem;
+	}
 	
 }
