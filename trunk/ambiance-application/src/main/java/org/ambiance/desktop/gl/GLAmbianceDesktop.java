@@ -14,6 +14,8 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,6 +37,13 @@ import org.codehaus.plexus.logging.AbstractLogEnabled;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Startable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StartingException;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StoppingException;
+import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.TimingTargetAdapter;
+import org.jdesktop.animation.timing.interpolation.PropertySetter;
+
+import com.sun.opengl.util.texture.Texture;
+import com.sun.opengl.util.texture.TextureCoords;
+import com.sun.opengl.util.texture.TextureIO;
 
 
 /**
@@ -65,13 +74,18 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 	private Dimension dimension;
     
     private Camera camera;
-    private com.sun.opengl.util.FPSAnimator animator;
+    private com.sun.opengl.util.Animator animator;
     
     /**
 	 * @plexus.configuration default-value="false"
 	 */
     private boolean debug;
     
+    private boolean starting;
+    private float position;
+    private Animator ssAnimator;
+    
+    private GLCarousel carousel;
     private List<Renderable> renderables;
     
     private BufferedImage screenshot;
@@ -80,29 +94,36 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 		// LGE - Init device and frame
 		device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		frame = new JFrame(title, device.getDefaultConfiguration());
-
-		Robot robot;
-		try {
-			robot = new Robot();
-		} catch (AWTException ae) {
-			throw new StartingException("Unable to build robot", ae);
-		}
-				
         frame.setLocationRelativeTo(null);
         
-        // LGE - init 3D
+        // LGE - Init 3D
         GLCapabilities caps = new GLCapabilities();
         caps.setSampleBuffers(true);
         caps.setNumSamples(4);
-          
+        
+        // LGE - Init GLCanvas
         GLCanvas canvas = new GLCanvas(caps);
         canvas.addGLEventListener(this);
+        
+        // LGE - Attach GLCanvas to Frame
         frame.getContentPane().setLayout( new BorderLayout() );
         frame.getContentPane().add(canvas, BorderLayout.CENTER );
 		
-
-		screenshot = robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+        // Take a screenshot
+		try {
+			Robot robot = new Robot();
+			screenshot = robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+			
+    		AffineTransform tx = new AffineTransform();
+    	    tx.scale(dimension.getWidth()/ 4 / screenshot.getWidth(), dimension.getHeight() / 4 / screenshot.getHeight());
+    	    AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+    	    screenshot = op.filter(screenshot, null);
+			starting = true;
+		} catch (AWTException ae) {
+			throw new StartingException("Unable to build robot", ae);
+		}
         
+		// LGE - Closing window
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 // Run this on another thread than the AWT event queue to
@@ -117,11 +138,11 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
             }
         });
         
-        // LGE - init camera
+        // LGE - Init camera
         camera = new Camera();
         camera.setLocation(cameraStart);
         
-		// LGE - set fullscreen
+		// LGE - Set fullscreen
         isFullScreen = isFullScreen && device.isFullScreenSupported();  
 		if (isFullScreen) {
 			// Full-screen mode
@@ -139,22 +160,23 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 	        
 	        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	        frame.setLocation(
-                    ( screenSize.width  - frame.getWidth() ) / 2,
-                    ( screenSize.height - frame.getHeight() ) / 2
+                ( screenSize.width  - frame.getWidth() ) / 2,
+                ( screenSize.height - frame.getHeight() ) / 2
             );
 			frame.pack();
 			frame.setVisible(true);
 			System.out.println(device.getDisplayMode().toString());
 		}
 
+		// LGE - Init renderables and attach debug renderables if necessary
 		renderables = new LinkedList<Renderable>();
-		
 		if(debug) {
 			renderables.add(new FPSText());
 			renderables.add(new DrawAxis());
 		}
 		
-		GLCarousel carousel = new GLCarousel(new Point3f(0.0f,   0.0f, -60.0f), 
+		// LGE - Init Carousel
+		carousel = new GLCarousel(new Point3f(0.0f,   0.0f, -60.0f), 
 				                             new Point3f(35.0f, 15.0f,  40.0f), 
 				                             4.0f);
 		carousel.addItem(new GLCarouselItem("Game"));
@@ -162,13 +184,15 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 		carousel.addItem(new GLCarouselItem("Music"));
 		carousel.addItem(new GLCarouselItem("Web"));
 		carousel.addItem(new GLCarouselItem(screenshot, "Quit"));
-				
+		
 	    canvas.addKeyListener(carousel);
 		renderables.add(carousel);
 		
 		canvas.requestFocus();
-		animator = new com.sun.opengl.util.FPSAnimator(canvas, 100);
-        //animator.setRunAsFastAsPossible(true);
+		
+		// LGE - Init and start Animator
+		animator = new com.sun.opengl.util.Animator(canvas);
+        animator.setRunAsFastAsPossible(true);
         animator.start();
 	}
 
@@ -207,12 +231,47 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         // load identity matrix
         gl.glLoadIdentity();
         camera.setup(gl, glu);
-        
+
         for (Renderable renderable : renderables) {
+    		gl.glMatrixMode(GL.GL_MODELVIEW);
     		gl.glPushMatrix(); //Save current translation
             renderable.render(drawable);
 			gl.glPopMatrix(); //Restore last position
 		}
+        
+        if (starting) {
+        	if(ssAnimator == null) {
+        		ssAnimator = PropertySetter.createAnimator(6000, this, "position", 20.0f, 0.0f);
+    			ssAnimator.addTarget(new TimingTargetAdapter() {
+    				public void end() {
+    					starting = false;
+    				}
+    			});
+    			ssAnimator.start();
+        	}
+
+    		gl.glMatrixMode(GL.GL_MODELVIEW);
+            gl.glLoadIdentity();
+    		gl.glOrtho(-1.0, 1.0, -1.0, 1.0, 1.0, 1.0);
+        	Texture t = TextureIO.newTexture(screenshot, false);
+        	
+            TextureCoords tc = t.getImageTexCoords();
+            float tx1 = tc.left();
+            float ty1 = tc.top();
+            float tx2 = tc.right();
+            float ty2 = tc.bottom();
+        	
+        	t.enable();
+            t.bind();  
+
+            gl.glBegin(GL.GL_QUADS);           	  // Draw A Quad
+            gl.glTexCoord2f(tx1, ty1); gl.glVertex2f(-position, position);
+            gl.glTexCoord2f(tx2, ty1); gl.glVertex2f(position, position);
+            gl.glTexCoord2f(tx2, ty2); gl.glVertex2f(position, -position);
+            gl.glTexCoord2f(tx1, ty2); gl.glVertex2f(-position, -position);
+            gl.glEnd();
+        }
+        
 
         gl.glFlush();
 	}
@@ -306,5 +365,15 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
        
         return displayModeToUse;
     }
+
+	public float getPosition() {
+		return position;
+	}
+
+	public void setPosition(float position) {
+		this.position = position;
+	}
+    
+    
 }
 	
