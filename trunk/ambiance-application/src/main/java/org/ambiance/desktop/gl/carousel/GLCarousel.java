@@ -34,11 +34,11 @@ public class GLCarousel implements Renderable, KeyListener {
 	
 	private float iconSize;
 	
-	public GLCarousel(Point3f position, Point3f dimension, float iconSize, float pente) {
+	public GLCarousel(Point3f position, Point3f dimension, float iconSize) {
 		items = new LinkedList<GLCarouselItem>();
 		this.position = position;
 		this.dimension = dimension;
-		this.pente = pente;
+		this.pente = - dimension.getY() / dimension.getZ();
 		
 		this.iconSize = iconSize;
 		
@@ -96,20 +96,18 @@ public class GLCarousel implements Renderable, KeyListener {
 		int currentIndex = items.indexOf(currentItem);
 		final int index  = (items.size() + (currentIndex - direction)) % items.size();
 		
-		if(animator != null && animator.isRunning()) {
-			return;
-		}
+		if(animator != null && animator.isRunning()) return;
 		
 		animator = PropertySetter.createAnimator(1500, this, "angle", angle, angle + (direction * Math.PI * 2 / items.size()));
 		animator.setAcceleration(0.5f);
 		animator.setDeceleration(0.3f);
 		
 		animator.start();
-	
+		
 		animator.addTarget(new TimingTargetAdapter() {
 			public void end() {
-				currentItem = items.get(index);		
-			}				
+				currentItem = items.get(index);
+			}
 		});
 	}
 	
