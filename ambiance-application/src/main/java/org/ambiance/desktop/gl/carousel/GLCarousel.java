@@ -58,9 +58,7 @@ public class GLCarousel implements Renderable, KeyListener {
 					                                ((float) z * pente) + position.getY(),
 			     	                     (float)     z + position.getZ()));
 
-    		gl.glPushMatrix();
 			item.render(drawable);
-    		gl.glPopMatrix();
 			i++;
 		}
 

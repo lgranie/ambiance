@@ -84,13 +84,13 @@ public class GLCarouselItem implements Renderable, ActionListener {
 	    	gl.glEnd();				              // Done Drawing The Quad
         }
         
-        double labelWidth = textRenderer.getBounds(label).getWidth();
-        double labelHeigth = textRenderer.getBounds(label).getHeight();
+        float x = position.getX() - (float) textRenderer.getBounds(label).getWidth()  / 20;
+        float y = position.getY() - (float) textRenderer.getBounds(label).getHeight() / 20 - size - 1.0f;
         
         gl.glLoadIdentity();
         textRenderer.begin3DRendering();
         textRenderer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-        textRenderer.draw3D(label, position.getX() - ((float) labelWidth / 20), position.getY() - (float) labelHeigth / 20 - size - 1.0f, position.getZ(), 0.1f);
+        textRenderer.draw3D(label, x, y, position.getZ(), 0.1f);
         textRenderer.end3DRendering(); 
 
 	}

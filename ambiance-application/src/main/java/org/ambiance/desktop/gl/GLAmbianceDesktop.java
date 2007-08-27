@@ -3,20 +3,14 @@ package org.ambiance.desktop.gl;
 import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
 
-import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
-import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,12 +35,6 @@ import org.codehaus.plexus.personality.plexus.lifecycle.phase.Startable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StartingException;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StoppingException;
 import org.jdesktop.animation.timing.Animator;
-import org.jdesktop.animation.timing.TimingTargetAdapter;
-import org.jdesktop.animation.timing.interpolation.PropertySetter;
-
-import com.sun.opengl.util.texture.Texture;
-import com.sun.opengl.util.texture.TextureCoords;
-import com.sun.opengl.util.texture.TextureIO;
 
 
 /**
@@ -162,7 +150,7 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 		}
 		
 		// LGE - Init Carousel
-		carousel = new GLCarousel(new Point3f(0.0f,  15.0f, -60.0f), 
+		carousel = new GLCarousel(new Point3f(0.0f,  20.0f, -60.0f), 
 				                  new Point3f(35.0f, 25.0f,  60.0f), 
 				                  4.0f);
 		carousel.addItem(new GLCarouselItem("Game"));
@@ -219,10 +207,7 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         camera.setup(gl, glu);
 
         for (Renderable renderable : renderables) {
-    		gl.glMatrixMode(GL.GL_MODELVIEW);
-    		gl.glPushMatrix(); //Save current translation
             renderable.render(drawable);
-			gl.glPopMatrix(); //Restore last position
 		}
         
         gl.glFlush();
