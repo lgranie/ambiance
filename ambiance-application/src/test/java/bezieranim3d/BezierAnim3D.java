@@ -58,9 +58,9 @@ import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 
-import org.ambiance.desktop.gl.Camera;
 import org.ambiance.desktop.gl.EvaluatorPoint3f;
-import org.ambiance.desktop.gl.Point3f;
+import org.ambiance.desktop.gl.util.Camera;
+import org.ambiance.desktop.gl.util.Point3f;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 import org.jdesktop.animation.timing.interpolation.KeyFrames;

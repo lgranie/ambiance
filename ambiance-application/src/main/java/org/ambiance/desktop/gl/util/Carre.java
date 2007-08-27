@@ -3,7 +3,7 @@ package org.ambiance.desktop.gl.util;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 
-import org.ambiance.desktop.gl.Renderable;
+import org.ambiance.desktop.gl.renderable.Renderable;
 
 public class Carre implements Renderable {
 

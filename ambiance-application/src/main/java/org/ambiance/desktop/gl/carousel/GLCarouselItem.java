@@ -10,8 +10,8 @@ import java.awt.image.BufferedImage;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 
-import org.ambiance.desktop.gl.Point3f;
-import org.ambiance.desktop.gl.Renderable;
+import org.ambiance.desktop.gl.renderable.Renderable;
+import org.ambiance.desktop.gl.util.Point3f;
 
 import com.sun.opengl.util.j2d.TextRenderer;
 import com.sun.opengl.util.texture.Texture;
@@ -68,6 +68,7 @@ public class GLCarouselItem implements Renderable, ActionListener {
             t.bind();  
             
             gl.glBegin(GL.GL_QUADS);           	  // Draw A Quad
+	        gl.glColor4f(1.0f, 1.0f, 1.0f, 1.0f); // Set the current drawing color
             gl.glTexCoord2f(tx1, ty1); gl.glVertex3f(-size, size, 0.0f);
             gl.glTexCoord2f(tx2, ty1); gl.glVertex3f(size, size, 0.0f);
             gl.glTexCoord2f(tx2, ty2); gl.glVertex3f(size, -size, 0.0f);
@@ -75,7 +76,7 @@ public class GLCarouselItem implements Renderable, ActionListener {
             gl.glEnd();
         } else {    
 	        gl.glBegin(GL.GL_QUADS);           	  // Draw A Quad
-	        gl.glColor4f(1.0f, 0.5f, 1.0f, 1.0f); // Set the current drawing color
+	        gl.glColor4f(1.0f, 1.0f, 1.0f, 1.0f); // Set the current drawing color
 	    	gl.glVertex3f(-size, size, 0.0f);	  // Top Left
 	    	gl.glVertex3f(size, size, 0.0f);	  // Top Right
 	    	gl.glVertex3f(size, -size, 0.0f);	  // Bottom Right

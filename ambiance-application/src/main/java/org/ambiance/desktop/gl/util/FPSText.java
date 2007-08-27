@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 
 import javax.media.opengl.GLAutoDrawable;
 
-import org.ambiance.desktop.gl.Renderable;
+import org.ambiance.desktop.gl.renderable.Renderable;
 
 import com.sun.opengl.util.j2d.TextRenderer;
 

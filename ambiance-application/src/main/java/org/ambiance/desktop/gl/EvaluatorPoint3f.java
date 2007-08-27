@@ -31,6 +31,7 @@
 
 package org.ambiance.desktop.gl;
 
+import org.ambiance.desktop.gl.util.Point3f;
 import org.jdesktop.animation.timing.interpolation.Evaluator;
 
 public class EvaluatorPoint3f extends Evaluator<Point3f> {

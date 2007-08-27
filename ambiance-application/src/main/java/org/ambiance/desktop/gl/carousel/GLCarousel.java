@@ -7,8 +7,8 @@ import java.util.LinkedList;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 
-import org.ambiance.desktop.gl.Point3f;
-import org.ambiance.desktop.gl.Renderable;
+import org.ambiance.desktop.gl.renderable.Renderable;
+import org.ambiance.desktop.gl.util.Point3f;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 import org.jdesktop.animation.timing.interpolation.PropertySetter;

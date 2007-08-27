@@ -31,8 +31,11 @@ import javax.swing.JFrame;
 import org.ambiance.desktop.AmbianceDesktop;
 import org.ambiance.desktop.gl.carousel.GLCarousel;
 import org.ambiance.desktop.gl.carousel.GLCarouselItem;
+import org.ambiance.desktop.gl.renderable.Renderable;
+import org.ambiance.desktop.gl.util.Camera;
 import org.ambiance.desktop.gl.util.DrawAxis;
 import org.ambiance.desktop.gl.util.FPSText;
+import org.ambiance.desktop.gl.util.Point3f;
 import org.codehaus.plexus.logging.AbstractLogEnabled;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Startable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StartingException;
@@ -51,7 +54,7 @@ import com.sun.opengl.util.texture.TextureIO;
  */
 public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, AmbianceDesktop, GLEventListener  {
 
-	private static final Point3f cameraStart = new Point3f(0f, 5f, 40f);
+	private static final Point3f cameraStart = new Point3f(0f, 0f, 40f);
     private static final GLU glu = new GLU();
     
 	private GraphicsDevice device = null;
@@ -71,7 +74,7 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 	/**
 	 * @plexus.configuration
 	 */
-	private Dimension dimension;
+	private Dimension resolution;
     
     private Camera camera;
     private com.sun.opengl.util.Animator animator;
@@ -81,14 +84,11 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 	 */
     private boolean debug;
     
-    private boolean starting;
     private float position;
     private Animator ssAnimator;
     
     private GLCarousel carousel;
     private List<Renderable> renderables;
-    
-    private BufferedImage screenshot;
     
 	public void start() throws StartingException {
 		// LGE - Init device and frame
@@ -108,20 +108,6 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         // LGE - Attach GLCanvas to Frame
         frame.getContentPane().setLayout( new BorderLayout() );
         frame.getContentPane().add(canvas, BorderLayout.CENTER );
-		
-        // Take a screenshot
-		try {
-			Robot robot = new Robot();
-			screenshot = robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-			
-    		AffineTransform tx = new AffineTransform();
-    	    tx.scale(dimension.getWidth()/ 4 / screenshot.getWidth(), dimension.getHeight() / 4 / screenshot.getHeight());
-    	    AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-    	    screenshot = op.filter(screenshot, null);
-			starting = true;
-		} catch (AWTException ae) {
-			throw new StartingException("Unable to build robot", ae);
-		}
         
 		// LGE - Closing window
         frame.addWindowListener(new WindowAdapter() {
@@ -149,14 +135,14 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 			frame.setUndecorated(isFullScreen);
 			frame.setResizable(!isFullScreen);
 			device.setFullScreenWindow(frame);
-			DisplayMode dm = catchDisplayMode(device.getDisplayModes(), 1024, 768, 32, 60);
+			DisplayMode dm = catchDisplayMode(device.getDisplayModes(), (int) resolution.getWidth(), (int) resolution.getHeight(), 32, 60);
 			device.setDisplayMode(dm);
 			canvas.setSize(dm.getWidth(), dm.getHeight());
 					
 			frame.validate();
 		} else {
-	        canvas.setSize(dimension.width, dimension.height);
-	        frame.setSize(dimension.width, dimension.height);
+	        canvas.setSize(resolution.width, resolution.height);
+	        frame.setSize(resolution.width, resolution.height);
 	        
 	        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	        frame.setLocation(
@@ -165,7 +151,7 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
             );
 			frame.pack();
 			frame.setVisible(true);
-			System.out.println(device.getDisplayMode().toString());
+			getLogger().debug(device.getDisplayMode().toString());
 		}
 
 		// LGE - Init renderables and attach debug renderables if necessary
@@ -176,14 +162,14 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 		}
 		
 		// LGE - Init Carousel
-		carousel = new GLCarousel(new Point3f(0.0f,   0.0f, -60.0f), 
-				                             new Point3f(35.0f, 15.0f,  40.0f), 
-				                             4.0f);
+		carousel = new GLCarousel(new Point3f(0.0f,  15.0f, -60.0f), 
+				                  new Point3f(35.0f, 25.0f,  60.0f), 
+				                  4.0f);
 		carousel.addItem(new GLCarouselItem("Game"));
 		carousel.addItem(new GLCarouselItem("Movie"));
 		carousel.addItem(new GLCarouselItem("Music"));
 		carousel.addItem(new GLCarouselItem("Web"));
-		carousel.addItem(new GLCarouselItem(screenshot, "Quit"));
+		carousel.addItem(new GLCarouselItem("Quit"));
 		
 	    canvas.addKeyListener(carousel);
 		renderables.add(carousel);
@@ -239,40 +225,6 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 			gl.glPopMatrix(); //Restore last position
 		}
         
-        if (starting) {
-        	if(ssAnimator == null) {
-        		ssAnimator = PropertySetter.createAnimator(6000, this, "position", 20.0f, 0.0f);
-    			ssAnimator.addTarget(new TimingTargetAdapter() {
-    				public void end() {
-    					starting = false;
-    				}
-    			});
-    			ssAnimator.start();
-        	}
-
-    		gl.glMatrixMode(GL.GL_MODELVIEW);
-            gl.glLoadIdentity();
-    		gl.glOrtho(-1.0, 1.0, -1.0, 1.0, 1.0, 1.0);
-        	Texture t = TextureIO.newTexture(screenshot, false);
-        	
-            TextureCoords tc = t.getImageTexCoords();
-            float tx1 = tc.left();
-            float ty1 = tc.top();
-            float tx2 = tc.right();
-            float ty2 = tc.bottom();
-        	
-        	t.enable();
-            t.bind();  
-
-            gl.glBegin(GL.GL_QUADS);           	  // Draw A Quad
-            gl.glTexCoord2f(tx1, ty1); gl.glVertex2f(-position, position);
-            gl.glTexCoord2f(tx2, ty1); gl.glVertex2f(position, position);
-            gl.glTexCoord2f(tx2, ty2); gl.glVertex2f(position, -position);
-            gl.glTexCoord2f(tx1, ty2); gl.glVertex2f(-position, -position);
-            gl.glEnd();
-        }
-        
-
         gl.glFlush();
 	}
 

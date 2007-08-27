@@ -29,7 +29,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.ambiance.desktop.gl;
+package org.ambiance.desktop.gl.util;
 
 /**
  * Represents a very basic, immutable three-dimensional point.  (Since we

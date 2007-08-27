@@ -46,7 +46,7 @@ import java.io.IOException;
 
 import javax.media.opengl.GL;
 
-import org.ambiance.desktop.gl.Point3f;
+import org.ambiance.desktop.gl.util.Point3f;
 
 import com.sun.opengl.util.texture.Texture;
 import com.sun.opengl.util.texture.TextureCoords;
