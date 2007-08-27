@@ -29,10 +29,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.ambiance.desktop.gl;
+package org.ambiance.desktop.gl.util;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
+
 
 /**
  * A simple representation of a camera, which allows the user to easily

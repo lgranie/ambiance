@@ -8,12 +8,12 @@
       <description></description>
       <configuration>
         <title>Ambiance 3D Desktop</title>
-        <is-full-screen>false</is-full-screen>
+        <is-full-screen>true</is-full-screen>
         <debug>false</debug>
-        <dimension>
+        <resolution>
           <width>1024</width>
           <height>768</height>
-        </dimension>
+        </resolution>
       </configuration>
     </component>
     

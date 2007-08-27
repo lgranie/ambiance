@@ -1,4 +1,4 @@
-package org.ambiance.desktop.gl;
+package org.ambiance.desktop.gl.renderable;
 
 import javax.media.opengl.GLAutoDrawable;
 
