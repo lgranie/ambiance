@@ -1,0 +1,16 @@
+<application>
+
+  <load-on-start>
+    <component>
+      <role>org.ambiance.desktop.AmbianceDesktop</role>
+    </component>
+  </load-on-start>
+  
+  <resources>
+    <jar-repository>${plexus.home}/lib</jar-repository>
+  </resources>
+  
+  <services>
+  </services>
+  
+</application>
