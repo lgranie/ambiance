@@ -43,6 +43,8 @@ public class GLCarousel implements Renderable, KeyListener {
 		this.iconSize = iconSize;
 		
 		angle = Math.PI / 2;
+		
+		animator = new Animator(0);
     }
 
 	public void render(GLAutoDrawable drawable) {
@@ -69,8 +71,13 @@ public class GLCarousel implements Renderable, KeyListener {
 	}
 
 	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
 	}
 
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+	}
+	
 	public void keyPressed(KeyEvent e) {
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_RIGHT :
@@ -91,24 +98,25 @@ public class GLCarousel implements Renderable, KeyListener {
 	private void turn(int direction) {
 		int currentIndex = items.indexOf(currentItem);
 		final int index  = (items.size() + (currentIndex - direction)) % items.size();
-		
-		if(animator != null && animator.isRunning()) return;
-		
-		animator = PropertySetter.createAnimator(1500, this, "angle", angle, angle + (direction * Math.PI * 2 / items.size()));
-		animator.setAcceleration(0.5f);
-		animator.setDeceleration(0.3f);
-		
-		animator.start();
-		
-		animator.addTarget(new TimingTargetAdapter() {
-			public void end() {
-				currentItem = items.get(index);
-			}
-		});
-	}
-	
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+
+		if(animator.isRunning()) {
+			try {
+				wait();
+			} catch (InterruptedException e) {}
+		} else {
+			animator = PropertySetter.createAnimator(1500, this, "angle", angle, angle + (direction * Math.PI * 2 / items.size()));
+			animator.setAcceleration(0.5f);
+			animator.setDeceleration(0.3f);
+			
+			animator.start();
+			
+			animator.addTarget(new TimingTargetAdapter() {
+				public void end() {
+					currentItem = items.get(index);
+					notify();
+				}
+			});
+		}
 	}
 
 	public double getAngle() {
