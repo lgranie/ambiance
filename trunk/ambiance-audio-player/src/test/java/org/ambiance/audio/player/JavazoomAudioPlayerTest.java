@@ -67,7 +67,7 @@ public class JavazoomAudioPlayerTest extends PlexusTestCase {
 		System.out.println("Are you listening 10 secondes music?");
 		Exception e = null;
 		try {
-			aap.open("http://yakz1337.free.fr/Mp3/News !/Daft Punk - Digital Love.mp3");
+			aap.open("http://joelarsouille.free.fr/nico/Mp3/madona HUNG UP .mp3");
 			aap.play();
 			Thread.sleep(10000);
 			aap.stop();
