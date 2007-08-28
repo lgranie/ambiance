@@ -20,18 +20,17 @@ public class GLCarousel implements Renderable, KeyListener {
 	public static final int TURN_LEFT  = -1;
 	
 	private Point3f position;
-	
 	private Point3f dimension;
+	private float pente;
 	
 	private LinkedList<GLCarouselItem> items;
+	private GLCarouselItem currentItem;
 	
 	private Animator animator;
 	
 	private double angle;
 	
-	private float pente;
 	
-	private GLCarouselItem currentItem;
 	
 	private float iconSize;
 	
@@ -55,9 +54,9 @@ public class GLCarousel implements Renderable, KeyListener {
 		for (GLCarouselItem item : items) {			
 			double x = dimension.getX() * Math.cos(i*r + angle);
 			double z = dimension.getZ() * Math.sin(i*r + angle);
-			item.setPosition(new Point3f((float)     x + position.getX(), 
-					                                ((float) z * pente) + position.getY(),
-			     	                     (float)     z + position.getZ()));
+			item.setPosition(new Point3f((float)  x + position.getX(), 
+					                     ((float) z * pente) + position.getY(),
+			     	                     (float)  z + position.getZ()));
 
 			item.render(drawable);
 			i++;
