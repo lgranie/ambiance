@@ -10,6 +10,7 @@ import javax.media.opengl.GLAutoDrawable;
 import org.ambiance.desktop.gl.renderable.Renderable;
 import org.ambiance.desktop.gl.util.Point3f;
 import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 import org.jdesktop.animation.timing.interpolation.PropertySetter;
 
@@ -80,43 +81,37 @@ public class GLCarousel implements Renderable, KeyListener {
 	
 	public void keyPressed(KeyEvent e) {
 		switch(e.getKeyCode()) {
-		case KeyEvent.VK_RIGHT :
-			turn(TURN_RIGHT);
-			break;
-		case KeyEvent.VK_LEFT :
-			turn(TURN_LEFT);
-			break;
-		case KeyEvent.VK_ENTER :
-			currentItem.actionPerformed(new ActionEvent(this, KeyEvent.VK_ENTER, ""));
-			break;
-		default:
-			break;
-		}
-		
+			case KeyEvent.VK_RIGHT :
+				turn(TURN_RIGHT);
+				break;
+			case KeyEvent.VK_LEFT :
+				turn(TURN_LEFT);
+				break;
+			case KeyEvent.VK_ENTER :
+				currentItem.actionPerformed(new ActionEvent(this, KeyEvent.VK_ENTER, ""));
+				break;
+			default:
+				break;
+		}		
 	}
 
 	private void turn(int direction) {
 		int currentIndex = items.indexOf(currentItem);
 		final int index  = (items.size() + (currentIndex - direction)) % items.size();
 
-		if(animator.isRunning()) {
-			try {
-				wait();
-			} catch (InterruptedException e) {}
-		} else {
-			animator = PropertySetter.createAnimator(1500, this, "angle", angle, angle + (direction * Math.PI * 2 / items.size()));
-			animator.setAcceleration(0.5f);
-			animator.setDeceleration(0.3f);
-			
-			animator.start();
-			
-			animator.addTarget(new TimingTargetAdapter() {
-				public void end() {
-					currentItem = items.get(index);
-					notify();
-				}
-			});
-		}
+		if(animator.isRunning()) return;
+		
+		animator = PropertySetter.createAnimator(1500, this, "angle", angle, angle + (direction * Math.PI * 2 / items.size()));
+		animator.setAcceleration(0.5f);
+		animator.setDeceleration(0.3f);
+		
+		animator.start();
+		
+		animator.addTarget(new TimingTargetAdapter() {
+			public void end() {
+				currentItem = items.get(index);
+			}
+		});
 	}
 
 	public double getAngle() {
