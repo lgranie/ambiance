@@ -84,6 +84,7 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         
         // LGE - Init 3D
         GLCapabilities caps = new GLCapabilities();
+        caps.setDoubleBuffered(true);
         caps.setSampleBuffers(true);
         caps.setNumSamples(4);
         
