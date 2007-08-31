@@ -1,0 +1,18 @@
+<component-set>
+  <components>
+    <component>
+      <role>org.ambiance.transport.Transporter</role>
+      <role-hint>default</role-hint>
+      <implementation>
+        org.ambiance.transport.DefaultTransporter
+      </implementation>
+      <description></description>
+      <requirements>
+        <requirement>
+          <role>org.apache.maven.wagon.Wagon</role>
+          <field-name>wagons</field-name>
+        </requirement>
+      </requirements>
+    </component>
+  </components>
+</component-set>
