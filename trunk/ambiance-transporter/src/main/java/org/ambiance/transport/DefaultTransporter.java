@@ -11,6 +11,7 @@ import org.apache.maven.wagon.PathUtils;
 import org.apache.maven.wagon.StreamWagon;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.authentication.AuthenticationInfo;
+import org.apache.maven.wagon.providers.ssh.jsch.ScpWagon;
 import org.apache.maven.wagon.proxy.ProxyInfo;
 import org.apache.maven.wagon.repository.Repository;
 import org.apache.maven.wagon.resource.Resource;
@@ -52,8 +53,13 @@ public class DefaultTransporter extends AbstractLogEnabled implements Transporte
 			if("file".equals(protocol))
 				url = URLDecoder.decode(url, "UTF-8");
 			
-			StreamWagon wagon = wagons.get(protocol);
+			Wagon wagon = wagons.get(protocol);
 			Repository repo = getRepository(url);
+			
+//			if(wagon instanceof ScpWagon) {
+//				((ScpWagon) wagon).setInteractive(false);
+//				((ScpWagon) wagon).getKnownHostsProvider().storeKnownHosts(repo.getHost());
+//			}
 			
 			wagon.connect(repo, getAuthentificationInfo(url), proxyInfo);
 			wagon.get(PathUtils.filename(url), file);
