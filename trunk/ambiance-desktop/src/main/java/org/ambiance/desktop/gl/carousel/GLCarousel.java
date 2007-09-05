@@ -10,7 +10,6 @@ import javax.media.opengl.GLAutoDrawable;
 import org.ambiance.desktop.gl.renderable.Renderable;
 import org.ambiance.desktop.gl.util.Point3f;
 import org.jdesktop.animation.timing.Animator;
-import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 import org.jdesktop.animation.timing.interpolation.PropertySetter;
 
@@ -95,10 +94,10 @@ public class GLCarousel implements Renderable, KeyListener {
 	}
 
 	private void turn(int direction) {
+		if(animator.isRunning()) return;
+		
 		int currentIndex = items.indexOf(currentItem);
 		final int index  = (items.size() + (currentIndex - direction)) % items.size();
-
-		if(animator.isRunning()) return;
 		
 		animator = PropertySetter.createAnimator(1500, this, "angle", angle, angle + (direction * Math.PI * 2 / items.size()));
 		animator.setAcceleration(0.5f);
