@@ -29,8 +29,6 @@ public class GLCarousel implements Renderable, KeyListener {
 	
 	private double angle;
 	
-	
-	
 	private float iconSize;
 	
 	public GLCarousel(Point3f position, Point3f dimension, float iconSize) {
