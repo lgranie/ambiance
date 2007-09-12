@@ -96,7 +96,7 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         frame.getContentPane().setLayout( new BorderLayout() );
         frame.getContentPane().add(canvas, BorderLayout.CENTER );
         
-		// LGE - Closing window
+		// LGE - Closing window event
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 // Run this on another thread than the AWT event queue to
