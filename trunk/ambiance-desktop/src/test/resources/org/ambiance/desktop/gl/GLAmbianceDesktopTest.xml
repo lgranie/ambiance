@@ -11,8 +11,8 @@
         <is-full-screen>false</is-full-screen>
         <debug>false</debug>
         <resolution>
-          <width>1024</width>
-          <height>768</height>
+          <width>640</width>
+          <height>480</height>
         </resolution>
       </configuration>
     </component>

@@ -1,6 +1,5 @@
 package org.ambiance.desktop.gl.carousel;
 
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
@@ -13,7 +12,6 @@ import javax.media.opengl.GLAutoDrawable;
 import org.ambiance.desktop.gl.renderable.Renderable;
 import org.ambiance.desktop.gl.util.Point3f;
 
-import com.sun.opengl.util.j2d.TextRenderer;
 import com.sun.opengl.util.texture.Texture;
 import com.sun.opengl.util.texture.TextureCoords;
 import com.sun.opengl.util.texture.TextureData;
@@ -28,14 +26,9 @@ public class GLCarouselItem implements Renderable, ActionListener {
 	private Point3f position;
 	
 	private float size;
-
-	private TextRenderer textRenderer;
    
 	public GLCarouselItem(String label) {
 		this.label = label;
-		
-		Font font = new Font("SansSerif", Font.BOLD, 24);
-		textRenderer = new TextRenderer(font, true, false);
 	}
 	
 	public GLCarouselItem(BufferedImage image, String label) {
@@ -84,15 +77,6 @@ public class GLCarouselItem implements Renderable, ActionListener {
 	    	gl.glEnd();				              // Done Drawing The Quad
         }
         
-        float x = position.getX() - (float) textRenderer.getBounds(label).getWidth()  / 20;
-        float y = position.getY() - (float) textRenderer.getBounds(label).getHeight() / 20 - size - 1.0f;
-        
-        gl.glLoadIdentity();
-        textRenderer.begin3DRendering();
-        textRenderer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-        textRenderer.draw3D(label, x, y, position.getZ(), 0.1f);
-        textRenderer.end3DRendering(); 
-
 	}
 	
 	public void setPosition(Point3f p3f) {
