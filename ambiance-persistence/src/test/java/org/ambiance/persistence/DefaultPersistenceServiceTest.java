@@ -8,11 +8,12 @@ import org.codehaus.plexus.PlexusTestCase;
 public class DefaultPersistenceServiceTest extends PlexusTestCase {
 	private AmbiancePersistenceService service = null;
 	
-	public void setup() {
+	public void setUp() {
 		Exception e = null;
 		
 		try {
-			service = (AmbiancePersistenceService) lookup("org.ambiance.persistence.DefaultPersistenceService", "default");
+			super.setUp();
+			service = (AmbiancePersistenceService) lookup("org.ambiance.persistence.AmbiancePersistenceService", "default");
 		} catch (Exception e1) {
 			System.out.println(e1.getMessage());
 			e = e1;

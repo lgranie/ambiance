@@ -11,7 +11,7 @@ import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
 
 /**
- * @plexus.component role="org.ambiance.persistence.DefaultPersistenceService" role-hint="default"
+ * @plexus.component role="org.ambiance.persistence.AmbiancePersistenceService" role-hint="default"
  */
 public class DefaultPersistenceService extends AmbiancePersistenceService implements Initializable {
 
