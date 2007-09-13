@@ -7,13 +7,14 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import org.codehaus.plexus.logging.AbstractLogEnabled;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
 
 /**
  * @plexus.component role="org.ambiance.persistence.AmbiancePersistenceService" role-hint="default"
  */
-public class DefaultPersistenceService extends AmbiancePersistenceService implements Initializable {
+public class DefaultPersistenceService extends AbstractLogEnabled implements Initializable, AmbiancePersistenceService {
 
 	// EntityManagerFactory
     EntityManagerFactory emf = null;
@@ -24,7 +25,6 @@ public class DefaultPersistenceService extends AmbiancePersistenceService implem
 		
 	}
 
-	@Override
 	public List query(String query) throws AmbiancePersistenceException {
 		List result = null;
 		
@@ -46,7 +46,6 @@ public class DefaultPersistenceService extends AmbiancePersistenceService implem
 	    
 	}
 
-	@Override
 	public void persist(Object o) throws AmbiancePersistenceException {
 		EntityManager em = emf.createEntityManager();
 	    EntityTransaction tx = em.getTransaction();

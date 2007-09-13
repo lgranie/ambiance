@@ -5,12 +5,12 @@ import java.util.List;
 import org.codehaus.plexus.logging.AbstractLogEnabled;
 
 
-public abstract class AmbiancePersistenceService extends AbstractLogEnabled {
+public interface AmbiancePersistenceService {
 
 	/** The Plexus role identifier. */
 	String ROLE = AmbiancePersistenceService.class.getName();
 
-	public abstract List query(String query) throws AmbiancePersistenceException;
+	public List query(String query) throws AmbiancePersistenceException;
 	
-	public abstract void persist(Object o) throws AmbiancePersistenceException;
+	public void persist(Object o) throws AmbiancePersistenceException;
 }
