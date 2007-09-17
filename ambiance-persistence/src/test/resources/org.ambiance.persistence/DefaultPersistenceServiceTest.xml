@@ -5,6 +5,9 @@
       <role-hint>default</role-hint>
       <implementation>org.ambiance.persistence.DefaultPersistenceService</implementation>
       <description></description>
+      <configuration>
+        <persistence-unit-name>ambiance-db</persistence-unit-name>
+      </configuration>
     </component>
   </components>
 </component-set>
