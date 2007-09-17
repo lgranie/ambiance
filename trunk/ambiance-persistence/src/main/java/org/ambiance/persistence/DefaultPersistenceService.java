@@ -8,20 +8,32 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 import org.codehaus.plexus.logging.AbstractLogEnabled;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.Startable;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.StartingException;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.StoppingException;
 
 /**
  * @plexus.component role="org.ambiance.persistence.AmbiancePersistenceService" role-hint="default"
  */
-public class DefaultPersistenceService extends AbstractLogEnabled implements Initializable, AmbiancePersistenceService {
+public class DefaultPersistenceService extends AbstractLogEnabled implements Startable, AmbiancePersistenceService {
 
+	/**
+	 * @plexus.configuration default-value="ambiance-db"
+	 */
+	private String persistenceUnitName;
+	
 	// EntityManagerFactory
     EntityManagerFactory emf = null;
 	
-	public void initialize() throws InitializationException {
-		// Start EntityManagerFactory
-	    emf = Persistence.createEntityManagerFactory("ambiance");
+    public void start() throws StartingException {
+    	// Start EntityManagerFactory
+	    emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+		
+	}
+
+	public void stop() throws StoppingException {
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -62,7 +74,5 @@ public class DefaultPersistenceService extends AbstractLogEnabled implements Ini
 	    }
 		
 	}
-
-
-
+	
 }
