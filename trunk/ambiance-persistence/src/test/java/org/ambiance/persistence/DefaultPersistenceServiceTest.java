@@ -40,7 +40,7 @@ public class DefaultPersistenceServiceTest extends PlexusTestCase {
 	
 		List results = null;
 		try {
-			service.query("select m from Message m order by m.text asc");
+			results = service.query("select m from Message m order by m.text asc");
 		} catch (Exception e1) {
 			System.out.println(e1.getMessage());
 			e = e1;
