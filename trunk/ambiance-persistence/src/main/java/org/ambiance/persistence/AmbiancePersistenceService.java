@@ -2,9 +2,6 @@ package org.ambiance.persistence;
 
 import java.util.List;
 
-import org.codehaus.plexus.logging.AbstractLogEnabled;
-
-
 public interface AmbiancePersistenceService {
 
 	/** The Plexus role identifier. */
