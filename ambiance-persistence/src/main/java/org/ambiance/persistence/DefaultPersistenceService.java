@@ -33,8 +33,7 @@ public class DefaultPersistenceService extends AbstractLogEnabled implements Sta
 	}
 
 	public void stop() throws StoppingException {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 
 	public List query(String query) throws AmbiancePersistenceException {
