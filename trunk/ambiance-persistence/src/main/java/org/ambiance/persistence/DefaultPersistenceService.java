@@ -8,7 +8,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 import org.codehaus.plexus.logging.AbstractLogEnabled;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Startable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StartingException;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StoppingException;
@@ -28,12 +27,12 @@ public class DefaultPersistenceService extends AbstractLogEnabled implements Sta
 	
     public void start() throws StartingException {
     	// Start EntityManagerFactory
-	    emf = Persistence.createEntityManagerFactory(persistenceUnitName);
-		
+	    emf = Persistence.createEntityManagerFactory(persistenceUnitName);	
 	}
 
 	public void stop() throws StoppingException {
-		// TODO Auto-generated method stub		
+		// Closing EntityManagerFactory
+		emf.close();		
 	}
 
 	public List query(String query) throws AmbiancePersistenceException {
@@ -54,7 +53,6 @@ public class DefaultPersistenceService extends AbstractLogEnabled implements Sta
 	    }
 	    
 	    return result;
-	    
 	}
 
 	public void persist(Object o) throws AmbiancePersistenceException {

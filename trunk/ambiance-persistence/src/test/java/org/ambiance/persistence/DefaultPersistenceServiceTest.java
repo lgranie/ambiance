@@ -47,5 +47,6 @@ public class DefaultPersistenceServiceTest extends PlexusTestCase {
 		}
 		assertNull(e);
 		assertNotNull(results);
+		assertFalse(results.isEmpty());
 	}
 }
