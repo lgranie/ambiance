@@ -69,7 +69,6 @@ public class DefaultPersistenceService extends AbstractLogEnabled implements Sta
 	    } finally {
 	    	em.close();
 	    }
-		
 	}
 	
 }
