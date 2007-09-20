@@ -27,11 +27,13 @@ public class DefaultPersistenceService extends AbstractLogEnabled implements Sta
 	
     public void start() throws StartingException {
     	// Start EntityManagerFactory
+    	getLogger().info("Starting Entity Manager Factory for " + persistenceUnitName);
 	    emf = Persistence.createEntityManagerFactory(persistenceUnitName);	
 	}
 
 	public void stop() throws StoppingException {
 		// Closing EntityManagerFactory
+    	getLogger().info("Stoping Entity Manager Factory for " + persistenceUnitName);
 		emf.close();		
 	}
 
@@ -46,6 +48,7 @@ public class DefaultPersistenceService extends AbstractLogEnabled implements Sta
 	        result = em.createQuery(query).getResultList();
 	        tx.commit();
 	    } catch (Exception e) {
+	    	getLogger().info("Error while executing query " + query);
 	    	tx.rollback();
 	    	throw new AmbiancePersistenceException(e);
 	    } finally {
@@ -64,6 +67,7 @@ public class DefaultPersistenceService extends AbstractLogEnabled implements Sta
 	        em.persist(o);
 	        tx.commit();
 	    } catch (Exception e) {
+	    	getLogger().info("Error while persisting object " + o);
 	    	tx.rollback();
 	    	throw new AmbiancePersistenceException(e);
 	    } finally {
