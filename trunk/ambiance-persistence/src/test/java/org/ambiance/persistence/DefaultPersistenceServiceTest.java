@@ -35,12 +35,13 @@ public class DefaultPersistenceServiceTest extends PlexusTestCase {
 		assertNull(e);
 	}	
 	
+	@SuppressWarnings("unchecked")
 	public void testQuery() {
 		Exception e = null;
 	
-		List results = null;
+		List<Message> results = null;
 		try {
-			results = service.query("select m from Message m order by m.text asc");
+			results = (List<Message>) service.query("select m from Message m order by m.text asc");
 		} catch (Exception e1) {
 			System.out.println(e1.getMessage());
 			e = e1;
