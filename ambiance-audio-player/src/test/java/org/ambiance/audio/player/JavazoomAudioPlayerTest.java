@@ -19,7 +19,9 @@ public class JavazoomAudioPlayerTest extends PlexusTestCase {
 		System.out.println("Are you listening 10 secondes music?");
 		Exception e = null;
 		try {
-			aap.open(this.getClass().getResource("/I Like to Move it.ogg").toString());
+			String url = this.getClass().getResource("/I Like to Move it.ogg").toString();
+			System.out.println("Trying to play : " + url);
+			aap.open(url);
 			aap.play();
 			Thread.sleep(10000);
 			aap.stop();
@@ -35,7 +37,9 @@ public class JavazoomAudioPlayerTest extends PlexusTestCase {
 		System.out.println("Are you listening 10 secondes music?");
 		Exception e = null;
 		try {
-			aap.open(this.getClass().getResource("/01 Intro.mp3").toString());
+			String url = this.getClass().getResource("/01 Intro.mp3").toString();
+			System.out.println("Trying to play : " + url);
+			aap.open(url);
 			aap.play();
 			Thread.sleep(10000);
 			aap.stop();
@@ -51,7 +55,9 @@ public class JavazoomAudioPlayerTest extends PlexusTestCase {
 		System.out.println("Are you listening 10 secondes music?");
 		Exception e = null;
 		try {
-			aap.open("http://live.urn1350.net:8080/urn_high.ogg");
+			String url = "http://live.urn1350.net:8080/urn_high.ogg";
+			System.out.println("Trying to play : " + url);
+			aap.open(url);
 			aap.play();
 			Thread.sleep(10000);
 			aap.stop();
@@ -67,7 +73,9 @@ public class JavazoomAudioPlayerTest extends PlexusTestCase {
 		System.out.println("Are you listening 10 secondes music?");
 		Exception e = null;
 		try {
-			aap.open("http://joelarsouille.free.fr/nico/Mp3/madona HUNG UP .mp3");
+			String url = "http://joelarsouille.free.fr/nico/Mp3/madona HUNG UP .mp3";
+			System.out.println("Trying to play : " + url);
+			aap.open(url);
 			aap.play();
 			Thread.sleep(10000);
 			aap.stop();
