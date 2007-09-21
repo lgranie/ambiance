@@ -110,7 +110,7 @@
         </configuration>
       </plugin>
 
-      <!-- All Ambiance components are compiled with 1.5 -->
+      <!-- All Ambiance components are compiled with 1.6 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
