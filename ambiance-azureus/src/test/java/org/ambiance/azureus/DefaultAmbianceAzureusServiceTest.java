@@ -14,7 +14,6 @@ public class DefaultAmbianceAzureusServiceTest extends PlexusTestCase {
 			super.setUp();
 			aas = (AmbianceAzureusService) lookup("org.ambiance.azureus.AmbianceAzureusService", "default");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}  
 	}
