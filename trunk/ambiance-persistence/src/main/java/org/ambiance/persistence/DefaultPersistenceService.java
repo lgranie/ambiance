@@ -37,6 +37,7 @@ public class DefaultPersistenceService extends AbstractLogEnabled implements Sta
 		emf.close();		
 	}
 
+	@SuppressWarnings("unchecked")
 	public List query(String query) throws AmbiancePersistenceException {
 		List result = null;
 		
