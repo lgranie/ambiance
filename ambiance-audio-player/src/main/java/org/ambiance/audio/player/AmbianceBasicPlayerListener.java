@@ -8,10 +8,12 @@ import javazoom.jlgui.basicplayer.BasicPlayerListener;
 
 public class AmbianceBasicPlayerListener implements BasicPlayerListener {
 
+	@SuppressWarnings("unchecked")
 	public void opened(Object stream, Map properties) {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	public void progress(int bytesread, long microseconds, byte[] pcmdata, Map properties) {
 		
 	}
