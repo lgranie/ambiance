@@ -118,10 +118,11 @@ public class ICalCalendar extends AbstractLogEnabled implements AmbianceCalendar
 	 *            The VEvent to add
 	 * @throws CalendarException
 	 */
+	@SuppressWarnings("unchecked")
 	public void add(VEvent event) throws CalendarException {
 		boolean present = false;
-		for (Iterator i = calendar.getComponents().iterator(); i.hasNext();) {
-			Component component = (Component) i.next();
+		for (Iterator<Component> i = calendar.getComponents().iterator(); i.hasNext();) {
+			Component component = i.next();
 			if (component.getProperties().getProperty(Property.UID).equals(
 					event.getProperties().getProperty(Property.UID))) {
 				present = true;
