@@ -9,8 +9,13 @@ import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,11 +40,13 @@ import org.codehaus.plexus.personality.plexus.lifecycle.phase.Startable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StartingException;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.StoppingException;
 
+import com.sun.opengl.util.BufferUtil;
+
 
 /**
  * @plexus.component role="org.ambiance.desktop.AmbianceDesktop" role-hint="gl"
  */
-public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, AmbianceDesktop, GLEventListener  {
+public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, AmbianceDesktop, GLEventListener, MouseListener  {
 
 	private static final Point3f cameraStart = new Point3f(0f, 0f, 40f);
     private static final GLU glu = new GLU();
@@ -75,6 +82,13 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
     
     private GLCarousel carousel;
     private List<Renderable> renderables;
+	
+	private int mode;  // mode of operation (GL_RENDER, GL_SELECT)
+    
+    private double mouseX;  // mouse click position on the canvas
+	private double mouseY;
+	
+	private IntBuffer selectionBuffer;  // stores the picking result
     
 	public void start() throws StartingException {
 		// LGE - Init device and frame
@@ -110,6 +124,11 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
                 }).start();
             }
         });
+        
+        // LGE - Allocate fast memory. Necessary since glSelectBuffer takes IntBuffer
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(BufferUtil.SIZEOF_INT*10);
+        byteBuffer.order(ByteOrder.nativeOrder());
+        selectionBuffer  = byteBuffer.asIntBuffer();        
         
         // LGE - Init camera
         camera = new Camera();
@@ -205,11 +224,39 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
         gl.glLoadIdentity();
         camera.setup(gl, glu);
 
-        for (Renderable renderable : renderables) {
-            renderable.render(drawable);
-		}
+        if(mode == GL.GL_RENDER)
+        	for (Renderable renderable : renderables) {
+        		renderable.render(drawable);
+        	}
+        else
+        	displaySelection(drawable);
         
         gl.glFlush();
+	}
+	
+	private void displaySelection(GLAutoDrawable drawable) {
+		GL gl = drawable.getGL();
+		
+		int[] viewport = new int[4];
+        int hits = 0;
+        
+    	gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);;
+        
+        gl.glSelectBuffer(selectionBuffer.capacity(), selectionBuffer);
+
+        gl.glRenderMode(GL.GL_SELECT);
+        
+        gl.glInitNames();                       // clear name stack
+        
+        int i = 0;
+        for (Renderable renderable : renderables) {
+        	gl.glLoadName(i);
+    		renderable.render(drawable);
+    		i++;
+    	}
+        
+		mode = GL.GL_RENDER;  // next display() call produces
+                              // visible result again 
 	}
 
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
@@ -294,6 +341,18 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 	public void setPosition(float position) {
 		this.position = position;
 	}
+
+	// LGE - Mouse Event
+	public void mouseClicked(MouseEvent me) {
+        mouseX = me.getX();
+        mouseY = me.getY();
+        mode = GL.GL_SELECT;		
+	}
+
+	public void mouseEntered(MouseEvent me) {}
+	public void mouseExited (MouseEvent me) {}
+	public void mousePressed(MouseEvent me) {}
+	public void mouseReleased(MouseEvent me) {}
 
 }
 	
