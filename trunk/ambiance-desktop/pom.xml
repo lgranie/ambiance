@@ -34,7 +34,7 @@
       </releases>
     </repository>
     
-     <repository>
+    <repository>
       <id>Ambiance Third Part</id>
       <url>
         http://laurent.granie.free.fr/ambiance/ambiance-thirdpart-repository
