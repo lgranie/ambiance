@@ -48,7 +48,7 @@
     <dependency>
       <groupId>azureus</groupId>
       <artifactId>azureus</artifactId>
-      <version>3.0.1.6</version>
+      <version>3.0.3.0</version>
     </dependency>
     
     <dependency>
