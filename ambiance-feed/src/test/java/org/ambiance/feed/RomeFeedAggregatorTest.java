@@ -10,12 +10,17 @@ public class RomeFeedAggregatorTest extends PlexusTestCase {
 	AmbianceFeedAggregator afr = null;
 	
 	public void setUp() {
+		Exception e = null;
 		try {        
 			super.setUp();
 			afr = (AmbianceFeedAggregator) lookup("org.ambiance.feed.AmbianceFeedAggregator", "aggregator");
-		} catch (Exception e) {
+		} catch (Exception e1) {
+			e = e1;
 			e.printStackTrace();
 		}  
+		
+		assertNull(e);
+		assertNotNull(afr);
 	}
 	
 	public void testRetrieveRSS() {
