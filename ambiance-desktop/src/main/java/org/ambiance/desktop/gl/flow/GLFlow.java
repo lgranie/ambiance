@@ -16,7 +16,10 @@ public class GLFlow implements Renderable {
 	}
 
 	public void render(GLAutoDrawable drawable) {
-
+		int i = 0;
+		for (GLFlowItem item : items) {
+			
+		}
 	}
 
 }
