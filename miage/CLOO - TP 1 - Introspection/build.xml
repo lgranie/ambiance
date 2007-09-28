@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- REMARQUE :
+Il y a 3 cibles de compilation (compile[4-6]), en fonction de la version de
+Java installée sur votre machine. Vous la connaîtrez en tapant :
+  java -version
+Utilisez la cible adaptée, et MODIFIEZ LA CIBLE "run" EN CONSEQUENCE.
+-->
+
+<project name="TPReflect" default="all" basedir=".">
+  <property name="src" value="src"/>
+  <property name="classes" value="classes"/>
+
+  <target name="clean">
+    <delete verbose="false"
+            includeEmptyDirs="true">
+       <fileset dir="${classes}"/>
+    </delete>
+  </target>
+
+  <target name="init">
+    <mkdir dir="${classes}"/>
+    <mkdir dir="${classes}/1.4"/>
+    <mkdir dir="${classes}/1.5"/>
+    <mkdir dir="${classes}/1.6"/>
+  </target>
+
+  <target name="all" depends="init,compile4,compile5,compile6">
+  </target>
+
+  <target name="compile4" depends="init">
+    <javac srcdir="${src}"
+           destdir="${classes}/1.4"
+           debug="on"
+           source="1.4"
+           target="1.4"/>
+  </target>
+
+  <target name="compile5" depends="init">
+    <javac srcdir="${src}"
+           destdir="${classes}/1.5"
+           debug="on"
+           source="1.5"
+           target="1.5"/>
+  </target>
+
+  <target name="compile6" depends="init">
+    <javac srcdir="${src}"
+           destdir="${classes}/1.6"
+           debug="on"
+           source="1.6"
+           target="1.6"/>
+  </target>
+
+  <target name="run">
+    <java classname="tpreflect.correction.RunMe"
+      classpath="${classes}/1.4"/>
+  </target>
+
+
+</project>
