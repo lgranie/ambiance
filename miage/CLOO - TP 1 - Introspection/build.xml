@@ -53,8 +53,8 @@ Utilisez la cible adaptée, et MODIFIEZ LA CIBLE "run" EN CONSEQUENCE.
   </target>
 
   <target name="run">
-    <java classname="tpreflect.correction.RunMe"
-      classpath="${classes}/1.4"/>
+    <java classname="tpreflect.zetudiants.RunMe"
+      classpath="${classes}/1.5"/>
   </target>
 
 
