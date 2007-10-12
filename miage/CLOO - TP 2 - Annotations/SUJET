@@ -2,5 +2,5 @@ Déclarer une annotation @Marked avec un attribut de type int appelé level dont l
 paer défaut est 2
 
 Écrire une fonction printMarked(int level) qui affiche l'ensemble des champs et 
-méthodes (tous même les pas visibles et ceux hérités) annotés par une annotation @Marked
+méthodes (tous, même les non visibles et ceux hérités) annotés par une annotation @Marked
 dont l'attribut level est au moins level.
