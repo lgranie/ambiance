@@ -1,6 +1,3 @@
-Déclarer une annotation @Marked avec un attribut de type int appelé level 
-dont la valeur par défaut est 2
-
-Écrire une fonction printMarked(int level) qui affiche l'ensemble des champs 
-et méthodes (tous, même les non visibles et ceux hérités) annotés par une 
-annotation @Marked dont l'attribut level est au moins level.
+Ecrire un Persistence Manager capable de lire des annotations afin
+de déterminer les tables et les colonnes dans lesquelles "mapper" les 
+valeurs des attributs.
