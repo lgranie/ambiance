@@ -14,10 +14,12 @@ public class TestMarkedHandler extends TestCase {
 		mh= new MarkedHandler(new Personne("GRANIE", "Laurent", "Lolo"));
 	}
 
-	public void testPrintMarked() {
-		mh.printMarket(Marked.NORMAL);
+	public void testPrintMarkedNormal() {
+		mh.printMarked(Marked.NORMAL);
 	}
 	
-	
+	public void testPrintMarkedMineur() {
+		mh.printMarked(Marked.MINEUR);
+	}
 	
 }

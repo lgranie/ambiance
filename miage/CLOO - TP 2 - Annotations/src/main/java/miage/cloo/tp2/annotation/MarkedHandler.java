@@ -12,7 +12,7 @@ public class MarkedHandler {
 		this.o = o;
 	}
 	
-	public void printMarket(int level) {
+	public void printMarked(int level) {
 		Class<?> lClassInstance = o.getClass();
 		
 		// Pour tous les champs de l'objet : 
