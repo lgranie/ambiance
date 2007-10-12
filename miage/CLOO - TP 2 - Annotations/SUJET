@@ -1,6 +1,6 @@
-Déclarer une annotation @Marked avec un attribut de type int appelé level dont la valeur
-par défaut est 2
+Déclarer une annotation @Marked avec un attribut de type int appelé level 
+dont la valeur par défaut est 2
 
-Écrire une fonction printMarked(int level) qui affiche l'ensemble des champs et 
-méthodes (tous, même les non visibles et ceux hérités) annotés par une annotation @Marked
-dont l'attribut level est au moins level.
+Écrire une fonction printMarked(int level) qui affiche l'ensemble des champs 
+et méthodes (tous, même les non visibles et ceux hérités) annotés par une 
+annotation @Marked dont l'attribut level est au moins level.
