@@ -26,6 +26,17 @@
 
   <repositories>
     <repository>
+      <id>Ambiance Snapshots</id>
+      <url>http://laurent.granie.free.fr/ambiance/ambiance-snapshot-repository</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+    
+    <repository>
       <id>modularity-releases</id>
       <name>Modularity Releases Repository</name>
       <url>http://m2.modularity.net.au/releases</url>
@@ -42,7 +53,7 @@
     <dependency>
       <groupId>net.fortuna</groupId>
       <artifactId>ical4j</artifactId>
-      <version>1.0-beta1</version>
+      <version>1.0-beta4</version>
     </dependency>
 
     <dependency>
