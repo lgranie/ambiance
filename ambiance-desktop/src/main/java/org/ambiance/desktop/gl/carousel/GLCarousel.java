@@ -103,8 +103,13 @@ public class GLCarousel extends KeyAdapter implements Renderable  {
 	
 	public void addItem(GLCarouselItem item) {
 		items.add(0, item);
+		stepAngle = Math.PI * 2 / items.size();
+		
 		item.setSize(iconSize);
-		stepAngle = - Math.PI * 2 / items.size();
+		
+		for (int i = 0; i < items.size(); i++) {
+			items.get(i).setAngle(((Math.PI * 2) + Math.PI / 2 - i * stepAngle) % (Math.PI * 2));
+		}
 		setCurrentItem(item);
 	}
 	
@@ -133,18 +138,14 @@ public class GLCarousel extends KeyAdapter implements Renderable  {
 		return currentItem;
 	}
 
-	public void setCurrentItem(GLCarouselItem item) {
+	public void setCurrentItem(final GLCarouselItem item) {
 
 		if(turnAnimator.isRunning()) turnAnimator.cancel();
+		
+		double finalAngle = item.getAngle();
+		if (Math.abs(finalAngle - angle) > stepAngle)
+			finalAngle = Math.PI * 2;
 
-		int index = items.indexOf(item);
-		double finalAngle = Math.PI / 2 - index * stepAngle;
-		
-		if(finalAngle < angle)
-			finalAngle+= Math.PI * 2;
-			
-		System.out.println(index + " - finalAngle : " + finalAngle);
-		
 		turnAnimator = PropertySetter.createAnimator(1500, this, "angle", angle, finalAngle);
 		turnAnimator.setAcceleration(0.5f);
 		turnAnimator.setDeceleration(0.3f);
@@ -156,8 +157,8 @@ public class GLCarousel extends KeyAdapter implements Renderable  {
 		turnAnimator.addTarget(new TimingTargetAdapter() {
 			public void end() {
 				textAnimator.start();
-				setAngle((Math.PI * 2 + angle) % (Math.PI * 2));
-				System.out.println(getAngle());
+				setAngle(item.getAngle());
+				System.out.println("angle = " + getAngle());
 			}
 		});
 	}

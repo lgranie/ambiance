@@ -173,6 +173,10 @@ public class GLAmbianceDesktop extends AbstractLogEnabled implements Startable, 
 		carousel.addItem(new GLCarouselItem("Movie"));
 		carousel.addItem(new GLCarouselItem("Music"));
 		carousel.addItem(new GLCarouselItem("Web"));
+		carousel.addItem(new GLCarouselItem("Game2"));
+		carousel.addItem(new GLCarouselItem("Movie2"));
+		carousel.addItem(new GLCarouselItem("Music2"));
+		carousel.addItem(new GLCarouselItem("Web2"));
 		carousel.addItem(new GLCarouselItem("Quit"));
 		
 	    canvas.addKeyListener(carousel);

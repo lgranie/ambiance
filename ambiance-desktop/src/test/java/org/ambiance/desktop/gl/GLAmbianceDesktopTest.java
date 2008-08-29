@@ -33,7 +33,7 @@ public class GLAmbianceDesktopTest extends PlexusTestCase {
 		try {
 			super.setUp();
 			dad = (GLAmbianceDesktop) lookup("org.ambiance.desktop.AmbianceDesktop", "gl");
-			Thread.sleep(30000);
+			Thread.sleep(60000);
 		} catch (Exception e1) {
 			e = e1;
 			e.printStackTrace();
