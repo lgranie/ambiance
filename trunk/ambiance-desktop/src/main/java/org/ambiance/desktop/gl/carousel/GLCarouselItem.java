@@ -43,6 +43,8 @@ public class GLCarouselItem implements Renderable, ActionListener {
 	private Point3f position;
 	
 	private float size;
+	
+	private double angle;
    
 	public GLCarouselItem(String label) {
 		this.label = label;
@@ -112,6 +114,14 @@ public class GLCarouselItem implements Renderable, ActionListener {
 		this.size = size;		
 	}
 
+	public double getAngle() {
+		return angle;
+	}
+
+	public void setAngle(double angle) {
+		this.angle = angle;
+	}
+	
 	public void actionPerformed(ActionEvent ae) {
 		System.out.println(label);
 	}
