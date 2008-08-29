@@ -17,11 +17,18 @@
  */
 package org.ambiance.akai.pgm.model;
 
+
 public class Header {
+	/**
+	 * File size in bytes
+	 */
 	private int fileSize;
 
-	private String fileType;
-
+	/**
+	 * Filetype String
+	 */
+	private String fileType;	
+	
 	public int getFileSize() {
 		return fileSize;
 	}

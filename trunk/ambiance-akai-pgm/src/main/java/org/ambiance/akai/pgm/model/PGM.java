@@ -27,6 +27,10 @@ public class PGM {
 		pads = new Pad[nbPads];
 		sliders = new Slider[nbSliders];
 	}
+		
+	public Header getHeader() {
+		return header;
+	}
 
 	public Pad[] getPads() {
 		return pads;
