@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.codehaus.plexus</groupId>
     <artifactId>plexus-components</artifactId>
-    <version>1.1.16</version>
+    <version>1.1.19</version>
   </parent>
 
   <groupId>ambiance</groupId>
@@ -99,7 +99,17 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
-        <version>1.0</version>
+        <version>1.6</version>
+      </plugin>
+
+      <!-- Eclipse plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <version>2.8</version>
+        <configuration>
+          <useProjectReferences>true</useProjectReferences>
+        </configuration>
       </plugin>
 
       <plugin>
