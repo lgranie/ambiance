@@ -33,7 +33,7 @@
   </repositories>
   
   <properties>
-    <wagon.version>1.0-beta-2</wagon.version>
+    <wagon.version>2.1</wagon.version>
   </properties>
 
   <dependencies>
